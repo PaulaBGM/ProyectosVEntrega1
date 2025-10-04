@@ -13,7 +13,9 @@ public class LevelTile
 
     //Others
 
-    public int IsOccupied { get; set; }
+    public bool IsOccupied { get; set; }
 
-    public int IsWalkable { get; set; }
+    public bool IsWalkable { get; set; }
+
+    public int Height { get; set; }
 }

@@ -25,7 +25,11 @@ public class TestTile : MonoBehaviour
 
             if (_tiles.TryGetValue(worldPoint, out _levelTile))
             {
-                Debug.Log("Tile is Ocuppied: " + _levelTile.IsOccupied);
+                Debug.Log("Tile is Ocuppied: " + _levelTile.IsOccupied +
+                    "\nWorld pos: " + _levelTile.WorldPosition +
+                    "\nLocal pos: " + _levelTile.LocalPosition);
+
+
                 _levelTile.TilemapMember.SetTileFlags(_levelTile.LocalPosition, TileFlags.None);
                 _levelTile.TilemapMember.SetColor(_levelTile.LocalPosition, Color.green);
             }

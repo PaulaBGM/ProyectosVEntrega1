@@ -4,21 +4,57 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
-    [Header("UI References")]
-    [SerializeField] private GameObject mainMenuCanvas;
-    [SerializeField] private GameObject optionsMenuCanvas;
+    public static MenuController Instance { get; private set; }
 
+    [Header("UI References (persistentes)")]
+    [SerializeField] private GameObject mainMenuCanvas;     // Canvas Menú Principal (persistente)
+    [SerializeField] private GameObject optionsMenuCanvas;  // Canvas Opciones (persistente)
+
+    [Header("Buttons")]
     [SerializeField] private Button playButton;
     [SerializeField] private Button optionsButton;
     [SerializeField] private Button quitButton;
 
+    private bool _listenersBound;
+
+    private void Awake()
+    {
+        // Singleton + persistencia
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        // Suscribirse para mostrar/ocultar los canvas según escena
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
     private void Start()
     {
-        // Aseguramos estados iniciales
+        BindListenersOnce();
+
+        // Estado inicial (asumiendo que arrancas en el menú: buildIndex 0)
         if (mainMenuCanvas != null) mainMenuCanvas.SetActive(true);
         if (optionsMenuCanvas != null) optionsMenuCanvas.SetActive(false);
+    }
 
-        // Asignar listeners
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            Instance = null;
+        }
+    }
+
+    private void BindListenersOnce()
+    {
+        if (_listenersBound) return;
+
         if (playButton != null)
             playButton.onClick.AddListener(OnPlay);
 
@@ -27,11 +63,26 @@ public class MenuController : MonoBehaviour
 
         if (quitButton != null)
             quitButton.onClick.AddListener(OnQuit);
+
+        _listenersBound = true;
     }
 
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Muestra el menú solo en la escena 0 (menú). Ocúltalo en niveles.
+        bool isMenuScene = scene.buildIndex == 0;
+
+        if (mainMenuCanvas != null)
+            mainMenuCanvas.SetActive(isMenuScene);
+
+        if (optionsMenuCanvas != null)
+            optionsMenuCanvas.SetActive(false); // al entrar a cualquier escena, cierra opciones
+    }
+
+    // --- Acciones de botones ---
     public void OnPlay()
     {
-        // Aquí cargas la primera escena del juego
+        // Carga tu escena de juego (ajusta el índice o usa nombre)
         SceneManager.LoadScene(1);
     }
 
@@ -51,5 +102,12 @@ public class MenuController : MonoBehaviour
     {
         Debug.Log("Saliendo del juego...");
         Application.Quit();
+    }
+
+    // --- Utilidad: volver al menú desde el juego ---
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene(0);
+        // OnSceneLoaded se encargará de mostrar mainMenuCanvas
     }
 }

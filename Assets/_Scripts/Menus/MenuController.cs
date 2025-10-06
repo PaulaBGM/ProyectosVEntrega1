@@ -38,8 +38,8 @@ public class MenuController : MonoBehaviour
         BindListenersOnce();
 
         // Estado inicial (asumiendo que arrancas en el menú: buildIndex 0)
-        if (mainMenuCanvas != null) mainMenuCanvas.SetActive(true);
-        if (optionsMenuCanvas != null) optionsMenuCanvas.SetActive(false);
+        mainMenuCanvas?.SetActive(true);
+        optionsMenuCanvas?.SetActive(false);
     }
 
     private void OnDestroy()
@@ -55,14 +55,9 @@ public class MenuController : MonoBehaviour
     {
         if (_listenersBound) return;
 
-        if (playButton != null)
-            playButton.onClick.AddListener(OnPlay);
-
-        if (optionsButton != null)
-            optionsButton.onClick.AddListener(OpenOptionsMenu);
-
-        if (quitButton != null)
-            quitButton.onClick.AddListener(OnQuit);
+        playButton?.onClick.AddListener(OnPlay);
+        optionsButton?.onClick.AddListener(OpenOptionsMenu);
+        quitButton?.onClick.AddListener(OnQuit);
 
         _listenersBound = true;
     }
@@ -72,11 +67,9 @@ public class MenuController : MonoBehaviour
         // Muestra el menú solo en la escena 0 (menú). Ocúltalo en niveles.
         bool isMenuScene = scene.buildIndex == 0;
 
-        if (mainMenuCanvas != null)
-            mainMenuCanvas.SetActive(isMenuScene);
+        mainMenuCanvas?.SetActive(isMenuScene);
 
-        if (optionsMenuCanvas != null)
-            optionsMenuCanvas.SetActive(false); // al entrar a cualquier escena, cierra opciones
+        optionsMenuCanvas?.SetActive(false); // al entrar a cualquier escena, cierra opciones
     }
 
     // --- Acciones de botones ---
@@ -88,14 +81,14 @@ public class MenuController : MonoBehaviour
 
     public void OpenOptionsMenu()
     {
-        if (mainMenuCanvas != null) mainMenuCanvas.SetActive(false);
-        if (optionsMenuCanvas != null) optionsMenuCanvas.SetActive(true);
+        mainMenuCanvas?.SetActive(false);
+        optionsMenuCanvas?.SetActive(true);
     }
 
     public void CloseOptionsMenu()
     {
-        if (optionsMenuCanvas != null) optionsMenuCanvas.SetActive(false);
-        if (mainMenuCanvas != null) mainMenuCanvas.SetActive(true);
+        optionsMenuCanvas?.SetActive(false);
+        mainMenuCanvas?.SetActive(true);
     }
 
     public void OnQuit()

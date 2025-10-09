@@ -13,9 +13,11 @@ public class LevelTile
 
     //Others
 
-    public bool IsOccupied { get; set; }
+    public IOccupant Occupant { get; set; } = null;
 
-    public bool IsWalkable { get; set; }
+    public int HeightLayer { get; set; }
 
-    public int Height { get; set; }
+    public float WidthSize => TilemapMember.cellSize.x;
+
+    public float HeightSize => TilemapMember.cellSize.y;
 }

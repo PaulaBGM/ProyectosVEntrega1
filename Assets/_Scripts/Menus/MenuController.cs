@@ -64,7 +64,7 @@ public class MenuController : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Muestra el menú solo en la escena 0 (menú). Ocúltalo en niveles.
+        // Muestra el menú solo en la escena 0 (menú)
         bool isMenuScene = scene.buildIndex == 0;
 
         mainMenuCanvas?.SetActive(isMenuScene);
@@ -75,7 +75,7 @@ public class MenuController : MonoBehaviour
     // --- Acciones de botones ---
     public void OnPlay()
     {
-        // Carga tu escena de juego (ajusta el índice o usa nombre)
+        // Carga la escena de juego 
         SceneManager.LoadScene(1);
     }
 
@@ -97,7 +97,6 @@ public class MenuController : MonoBehaviour
         Application.Quit();
     }
 
-    // --- Utilidad: volver al menú desde el juego ---
     public void ReturnToMenu()
     {
         SceneManager.LoadScene(0);

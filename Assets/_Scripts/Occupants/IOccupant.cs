@@ -3,7 +3,8 @@ using UnityEngine;
 
 public interface IOccupant
 {
-    LevelTile TileAssigned { get; set; }
+    LevelTile TileAssigned { get; }
+    int MaxMovementTiles { get; }
+    Transform Transform { get; }
     void AssignTile(LevelTile levelTile);
-    void MoveTo(LevelTile levelTile);
 }

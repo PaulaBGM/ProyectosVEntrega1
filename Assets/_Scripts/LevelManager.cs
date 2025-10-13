@@ -5,18 +5,14 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField]
-    private GameTiles _gameTiles;
+    private TileGridDataSystem _gameTiles;
 
     [SerializeField]
-    private GameObject[] _occupantsInLevel;
-
-    [SerializeField]
-    private TileInputHandler _tileInputHandler;
+    private PlayerInputHandler _playerInputHandler;
 
     private void Start()
     {
-        _gameTiles.GetWorldTiles();
-        _gameTiles.SetOccupantsInTiles(_occupantsInLevel);
-        _tileInputHandler._tiles = _gameTiles.Tiles;
+        _gameTiles.SetWorldTiles();
+        _playerInputHandler._tiles = _gameTiles.Tiles;
     }
 }

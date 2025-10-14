@@ -1,8 +1,13 @@
 public interface IEvent { }
 
-#region Level
-public class OnGameTilesAssigned : IEvent
+public class OnPlayerOccupantSelected : IEvent 
 {
-    public GameTiles GameTiles { get; set; }
+    public LevelTile tileSelected { get; set; }
+    public int MaxMovementTiles { get; set; }
 }
-#endregion
+
+public class OnPlayerOccupantMove : IEvent
+{
+    public LevelTile tileToMove { get; set; }
+    public IOccupant Occupant { get; set; }
+}

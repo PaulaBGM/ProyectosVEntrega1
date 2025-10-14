@@ -1,21 +1,63 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class LevelTile
 {
-    public Vector3Int LocalPosition { get; set; }
+    public LevelTile(Vector3Int localPosition,
+        Vector3 worldPosition,
+        TileBase tileBase,
+        Tilemap tilemapMember,
+        int heightLayer)
+    {
+        LocalPosition = localPosition;
+        WorldPosition = worldPosition;
+        TileBase = tileBase;
+        TilemapMember = tilemapMember;
+        HeightLayer = heightLayer;
+    }
 
-    public Vector3 WorldPosition { get; set; }
+    public readonly Vector3Int LocalPosition;
 
-    public TileBase TileBase { get; set; }
+    public readonly Vector3 WorldPosition;
 
-    public Tilemap TilemapMember { get; set; }
+    public readonly TileBase TileBase;
+
+    public readonly Tilemap TilemapMember;
+
+    public readonly int HeightLayer;
 
     //Others
 
-    public bool IsOccupied { get; set; }
+    public IOccupant Occupant { get; set; } = null;
 
-    public bool IsWalkable { get; set; }
+    public LevelTileNeighbours TileNeighbours { get; set; }
 
-    public int Height { get; set; }
+    public float WidthSize => TilemapMember.cellSize.x;
+
+    public float HeightSize => TilemapMember.cellSize.y;
+
+    public IEnumerable<LevelTile> GetNeightbours()
+    {
+        yield return TileNeighbours.UpTile;
+        yield return TileNeighbours.DownTile;
+        yield return TileNeighbours.LeftTile;
+        yield return TileNeighbours.RightTile;
+    }
+}
+
+public class LevelTileNeighbours
+{
+    public LevelTileNeighbours(LevelTile upTile, LevelTile downTile, LevelTile rightTile, LevelTile leftTile)
+    {
+        UpTile = upTile;
+        DownTile = downTile;
+        RightTile = rightTile;
+        LeftTile = leftTile;
+    }
+
+    public readonly LevelTile UpTile;
+    public readonly LevelTile DownTile;
+    public readonly LevelTile RightTile;
+    public readonly LevelTile LeftTile;
 }

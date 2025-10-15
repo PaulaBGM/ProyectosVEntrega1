@@ -1,13 +1,9 @@
+using System.Collections.Generic;
+using System.Numerics;
+
 public interface IEvent { }
 
-public class OnPlayerOccupantSelected : IEvent 
+public class OnTileClicked : IEvent
 {
-    public LevelTile tileSelected { get; set; }
-    public int MaxMovementTiles { get; set; }
-}
-
-public class OnPlayerOccupantMove : IEvent
-{
-    public LevelTile tileToMove { get; set; }
-    public IOccupant Occupant { get; set; }
+    public UnityEngine.Vector3 Point { get; set; }
 }

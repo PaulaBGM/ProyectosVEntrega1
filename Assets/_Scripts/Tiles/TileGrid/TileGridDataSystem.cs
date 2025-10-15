@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -9,6 +11,17 @@ public class TileGridDataSystem : MediatorClientSystem<TileGridMediator>
     private Tilemap[] _tilemapsFromTopToBottom;
 
     public Dictionary<Vector3, LevelTile> Tiles { get; private set; } = new();
+
+    protected override void Awake()
+    {
+        base.Awake();
+        SetWorldTiles();
+    }
+
+    private void OnEnable()
+    {
+        mediator.OnTileClicked += GetTileFromPlayerInput;
+    }
 
     public void SetWorldTiles()
     {
@@ -55,4 +68,16 @@ public class TileGridDataSystem : MediatorClientSystem<TileGridMediator>
 
     private LevelTile GetWorldTile(Vector3 position) =>
         Tiles.GetValueOrDefault(_tilemapsFromTopToBottom.First().WorldToCell(position));
+
+    private void GetTileFromPlayerInput(OnTileClicked eventData)
+    {
+        var tileSelected = GetWorldTile(eventData.Point);
+
+        mediator.TileExecuteAction(tileSelected);
+    }
+
+    private void OnDisable()
+    {
+        mediator.OnTileClicked -= GetTileFromPlayerInput;
+    }
 }

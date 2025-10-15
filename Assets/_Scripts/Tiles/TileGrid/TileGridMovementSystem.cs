@@ -1,13 +1,9 @@
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Profiling.Memory.Experimental;
 
 public class TileGridMovementSystem : MediatorClientSystem<TileGridMediator>
 {
-    private Dictionary<Vector3, LevelTile> _tiles;
-
     private IEnumerable<LevelTile> _availableTilesToMove;
 
     private void OnEnable()
@@ -16,9 +12,10 @@ public class TileGridMovementSystem : MediatorClientSystem<TileGridMediator>
         mediator.OnPlayerOccupantMove += MoveToTile;
     }
       
-    private void PlayerOccupantSelected(OnPlayerOccupantSelected eventData)
+    private void PlayerOccupantSelected(
+        (LevelTile tileSelected, int maxMovementTiles) eventData)
     {
-        _availableTilesToMove = GetMovementTiles(eventData.tileSelected, eventData.MaxMovementTiles);
+        _availableTilesToMove = GetMovementTiles(eventData.tileSelected, eventData.maxMovementTiles);
     }
 
     public IEnumerable<LevelTile> GetMovementTiles(LevelTile initialTile, int maxMovementTiles)
@@ -54,10 +51,10 @@ public class TileGridMovementSystem : MediatorClientSystem<TileGridMediator>
         return reachable;
     }
 
-    public void MoveToTile(OnPlayerOccupantMove eventData)
+    public void MoveToTile((LevelTile tileToMove, IOccupant occupant) eventData)
     {
         var tileToMove = eventData.tileToMove;
-        var occupant = eventData.Occupant;
+        var occupant = eventData.occupant;
 
         if (!_availableTilesToMove.Contains(tileToMove))
             return;

@@ -8,16 +8,19 @@ public class TileGridMediator : MonoBehaviour, IMediator
 
     public event Action<IEnumerable<LevelTile>> OnMovementTilesSet;
 
+    public event Action<LevelTile> OnTileExecuteAction;
+
     //EventBus
 
-    public event Action<OnPlayerOccupantSelected> OnPlayerOccupantSelected;
+    public event Action<(LevelTile levelTile, int maxMovementTiles)> OnPlayerOccupantSelected;
 
-    public event Action<OnPlayerOccupantMove> OnPlayerOccupantMove;
+    public event Action<(LevelTile levelTile, IOccupant occupant)> OnPlayerOccupantMove;
+
+    public event Action<OnTileClicked> OnTileClicked;
 
     private void OnEnable()
     {
-        EventBus<OnPlayerOccupantSelected>.Subscribe(PlayerOccupantSelected);
-        EventBus<OnPlayerOccupantMove>.Subscribe(PlayerOccupantMove);
+        EventBus<OnTileClicked>.Subscribe(TileClicked);
     }
 
     public void WorldTilesSet(Dictionary<Vector3, LevelTile> tiles)
@@ -30,19 +33,28 @@ public class TileGridMediator : MonoBehaviour, IMediator
         OnMovementTilesSet?.Invoke(movementTiles);
     }
 
-    public void PlayerOccupantSelected(OnPlayerOccupantSelected eventData)
+    public void TileExecuteAction (LevelTile tileSelected)
     {
-        OnPlayerOccupantSelected?.Invoke(eventData);
+        OnTileExecuteAction?.Invoke(tileSelected);
     }
 
-    public void PlayerOccupantMove(OnPlayerOccupantMove eventData)
+    public void PlayerOccupantSelected(LevelTile levelTile, int maxMovementTiles)
     {
-        OnPlayerOccupantMove?.Invoke(eventData);
+        OnPlayerOccupantSelected?.Invoke((levelTile, maxMovementTiles));
+    }
+
+    public void PlayerOccupantMove(LevelTile levelTile, IOccupant occupant)
+    {
+        OnPlayerOccupantMove?.Invoke((levelTile, occupant));
+    }
+
+    public void TileClicked(OnTileClicked eventData)
+    {
+        OnTileClicked?.Invoke(eventData);
     }
 
     private void OnDisable()
     {
-        EventBus<OnPlayerOccupantSelected>.Unsubscribe(PlayerOccupantSelected);
-        EventBus<OnPlayerOccupantMove>.Unsubscribe(PlayerOccupantMove);
+        EventBus<OnTileClicked>.Unsubscribe(TileClicked);
     }
 }

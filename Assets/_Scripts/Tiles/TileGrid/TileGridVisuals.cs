@@ -25,7 +25,7 @@ public class TileGridVisuals : MediatorClientSystem<TileGridMediator>
         }
     }
 
-    private void HideHighlightMovementTiles(OnPlayerOccupantMove _)
+    private void HideHighlightMovementTiles((LevelTile tile, IOccupant occupant) _)
     {
         if (!tilesHighlighted.Any())
             return;

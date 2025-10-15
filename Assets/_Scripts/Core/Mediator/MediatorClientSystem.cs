@@ -14,7 +14,7 @@ public class MediatorClientSystem<T> : MonoBehaviour where T : IMediator
 {
     protected T mediator;
 
-    protected void Awake()
+    protected virtual void Awake()
     {
         mediator = transform.root.GetComponent<T>();
     }

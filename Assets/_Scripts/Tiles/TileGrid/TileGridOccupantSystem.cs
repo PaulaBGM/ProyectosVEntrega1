@@ -7,9 +7,12 @@ public class TileGridOccupantSystem : MediatorClientSystem<TileGridMediator>
     [SerializeField]
     private GameObject[] _occupants;
 
+    private IOccupant _occupantSelected;
+
     private void OnEnable()
     {
         mediator.OnWorldTilesSet += SetOccupantsInTiles;
+        mediator.OnTileExecuteAction += ExecuteActionInTile;
     }
 
     public void SetOccupantsInTiles(Dictionary<Vector3, LevelTile> tiles)
@@ -35,8 +38,28 @@ public class TileGridOccupantSystem : MediatorClientSystem<TileGridMediator>
         }
     }
 
+    public void ExecuteActionInTile(LevelTile tileSelected)
+    {
+        if (_occupantSelected is not null)
+        {
+            mediator.PlayerOccupantMove(tileSelected, _occupantSelected);
+
+            _occupantSelected = null;
+        }
+        else
+        {
+            _occupantSelected = tileSelected.Occupant;
+
+            if (_occupantSelected != null)
+            {
+                mediator.PlayerOccupantSelected(tileSelected, _occupantSelected.MaxMovementTiles);
+            }
+        }
+    }
+
     private void OnDisable()
     {
         mediator.OnWorldTilesSet -= SetOccupantsInTiles;
+        mediator.OnTileExecuteAction -= ExecuteActionInTile;
     }
 }

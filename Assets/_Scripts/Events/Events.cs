@@ -1,9 +1,22 @@
-using System.Collections.Generic;
-using System.Numerics;
+using _Scripts.Managers;
 
-public interface IEvent { }
-
-public class OnTileClicked : IEvent
+namespace _Scripts.Events
 {
-    public UnityEngine.Vector3 Point { get; set; }
+    public interface IEvent { }
+
+    #region Level Events
+
+    public class OnTileClicked : IEvent
+    {
+        public UnityEngine.Vector3 Point { get; set; }
+    }
+
+    public struct OnPlayerAction : IEvent { }
+
+    public struct OnLevelStateChanged : IEvent
+    {
+        public LevelManager.LevelState NewState { get; set; }
+    }
+    
+    #endregion
 }

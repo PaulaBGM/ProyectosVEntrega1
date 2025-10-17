@@ -8,3 +8,7 @@ public interface IOccupant
     Transform Transform { get; }
     void AssignTile(LevelTile levelTile);
 }
+
+public interface IPlayerOccupant : IOccupant { }
+
+public interface IAIOccupant : IOccupant { }

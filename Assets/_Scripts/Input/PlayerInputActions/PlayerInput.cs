@@ -72,7 +72,7 @@ using UnityEngine.InputSystem.Utilities;
 /// }
 /// </code>
 /// </example>
-public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
+public partial class PlayerInput: IInputActionCollection2, IDisposable
 {
     /// <summary>
     /// Provides access to the underlying asset instance.
@@ -82,7 +82,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     /// <summary>
     /// Constructs a new instance.
     /// </summary>
-    public @PlayerInputActions()
+    public PlayerInput()
     {
         asset = InputActionAsset.FromJson(@"{
     ""name"": ""PlayerInputActions"",
@@ -712,7 +712,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
     }
 
-    ~@PlayerInputActions()
+    ~PlayerInput()
     {
         UnityEngine.Debug.Assert(!m_InLevel.enabled, "This will cause a leak and performance issues, PlayerInputActions.InLevel.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, PlayerInputActions.UI.Disable() has not been called.");
@@ -797,12 +797,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     /// </summary>
     public struct InLevelActions
     {
-        private @PlayerInputActions m_Wrapper;
+        private PlayerInput m_Wrapper;
 
         /// <summary>
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
-        public InLevelActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InLevelActions(PlayerInput wrapper) { m_Wrapper = wrapper; }
         /// <summary>
         /// Provides access to the underlying input action "InLevel/Select".
         /// </summary>
@@ -902,12 +902,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     /// </summary>
     public struct UIActions
     {
-        private @PlayerInputActions m_Wrapper;
+        private PlayerInput m_Wrapper;
 
         /// <summary>
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
-        public UIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public UIActions(PlayerInput wrapper) { m_Wrapper = wrapper; }
         /// <summary>
         /// Provides access to the underlying input action "UI/Navigate".
         /// </summary>

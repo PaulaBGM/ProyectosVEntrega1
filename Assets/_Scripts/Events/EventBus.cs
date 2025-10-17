@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using _Scripts.Events;
 using UnityEngine;
 
 public static class EventBus<T> where T : IEvent

@@ -1,83 +1,85 @@
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Threading.Tasks;
+using _Scripts.Events;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TileGridDataSystem : MediatorClientSystem<TileGridMediator>
+namespace _Scripts.Tiles.TileGrid
 {
-    [SerializeField]
-    private Tilemap[] _tilemapsFromTopToBottom;
-
-    public Dictionary<Vector3, LevelTile> Tiles { get; private set; } = new();
-
-    protected override void Awake()
+    public class TileGridDataSystem : MediatorClientSystem<TileGridMediator>
     {
-        base.Awake();
-        SetWorldTiles();
-    }
+        [SerializeField]
+        private Tilemap[] _tilemapsFromTopToBottom;
 
-    private void OnEnable()
-    {
-        mediator.OnTileClicked += GetTileFromPlayerInput;
-    }
+        public Dictionary<Vector3, LevelTile> Tiles { get; private set; } = new();
 
-    public void SetWorldTiles()
-    {
-        Tiles.Clear();
-        int layerCounter = 0;
-
-        foreach (var tilemap in _tilemapsFromTopToBottom)
+        protected override void Awake()
         {
-            foreach (Vector3Int localPosition in tilemap.cellBounds.allPositionsWithin)
+            base.Awake();
+            SetWorldTiles();
+        }
+
+        private void OnEnable()
+        {
+            mediator.OnTileClicked += GetTileFromPlayerInput;
+        }
+
+        public void SetWorldTiles()
+        {
+            Tiles.Clear();
+            int layerCounter = 0;
+
+            foreach (var tilemap in _tilemapsFromTopToBottom)
             {
-                if ((!tilemap.HasTile(localPosition)) ||
-                    Tiles.ContainsKey(tilemap.CellToWorld(localPosition)))
-                    continue;
+                foreach (Vector3Int localPosition in tilemap.cellBounds.allPositionsWithin)
+                {
+                    if ((!tilemap.HasTile(localPosition)) ||
+                        Tiles.ContainsKey(tilemap.CellToWorld(localPosition)))
+                        continue;
 
-                var tile = new LevelTile(
-                    localPosition: localPosition,
-                    worldPosition: tilemap.CellToWorld(localPosition),
-                    tileBase: tilemap.GetTile(localPosition),
-                    tilemapMember: tilemap,
-                    heightLayer: layerCounter);
+                    var tile = new LevelTile(
+                        localPosition: localPosition,
+                        worldPosition: tilemap.CellToWorld(localPosition),
+                        tileBase: tilemap.GetTile(localPosition),
+                        tilemapMember: tilemap,
+                        heightLayer: layerCounter);
 
-                Tiles.Add(tile.WorldPosition, tile);
+                    Tiles.Add(tile.WorldPosition, tile);
+                }
+
+                layerCounter++;
             }
 
-            layerCounter++;
+            AssignNeighbours();
+            mediator.WorldTilesSet(Tiles);
         }
 
-        AssignNeighbours();
-        mediator.WorldTilesSet(Tiles);
-    }
-
-    private void AssignNeighbours()
-    {
-        foreach (var tile in Tiles.Values)
+        private void AssignNeighbours()
         {
-            tile.TileNeighbours = new LevelTileNeighbours(
-                upTile: GetWorldTile(tile.WorldPosition + new Vector3(0, tile.HeightSize, 0)),
-                downTile: GetWorldTile(tile.WorldPosition + new Vector3(0, -tile.HeightSize, 0)),
-                rightTile: GetWorldTile(tile.WorldPosition + new Vector3(tile.WidthSize, 0, 0)),
-                leftTile: GetWorldTile(tile.WorldPosition + new Vector3(-tile.WidthSize, 0, 0))
+            foreach (var tile in Tiles.Values)
+            {
+                tile.TileNeighbours = new LevelTileNeighbours(
+                    upTile: GetWorldTile(tile.WorldPosition + new Vector3(0, tile.HeightSize, 0)),
+                    downTile: GetWorldTile(tile.WorldPosition + new Vector3(0, -tile.HeightSize, 0)),
+                    rightTile: GetWorldTile(tile.WorldPosition + new Vector3(tile.WidthSize, 0, 0)),
+                    leftTile: GetWorldTile(tile.WorldPosition + new Vector3(-tile.WidthSize, 0, 0))
                 );
+            }
         }
-    }
 
-    private LevelTile GetWorldTile(Vector3 position) =>
-        Tiles.GetValueOrDefault(_tilemapsFromTopToBottom.First().WorldToCell(position));
+        private LevelTile GetWorldTile(Vector3 position) =>
+            Tiles.GetValueOrDefault(_tilemapsFromTopToBottom.First().WorldToCell(position));
 
-    private void GetTileFromPlayerInput(OnTileClicked eventData)
-    {
-        var tileSelected = GetWorldTile(eventData.Point);
+        private void GetTileFromPlayerInput(OnTileClicked eventData)
+        {
+            var tileSelected = GetWorldTile(eventData.Point);
 
-        mediator.TileExecuteAction(tileSelected);
-    }
+            mediator.TileExecuteAction(tileSelected);
+        }
 
-    private void OnDisable()
-    {
-        mediator.OnTileClicked -= GetTileFromPlayerInput;
+        private void OnDisable()
+        {
+            mediator.OnTileClicked -= GetTileFromPlayerInput;
+        }
     }
 }

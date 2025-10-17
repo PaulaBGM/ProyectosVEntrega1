@@ -1,10 +1,9 @@
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
-public class FireFighterController : MonoBehaviour, IOccupant
+public abstract class OccupantController : MonoBehaviour, IOccupant
 {
     [SerializeField]
-    private int _maxMovementTiles;
+    protected int _maxMovementTiles;
 
     public int MaxMovementTiles => _maxMovementTiles;
 

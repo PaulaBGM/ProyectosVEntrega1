@@ -1,23 +1,27 @@
+using _Scripts.Tiles;
 using UnityEngine;
 
-public abstract class OccupantController : MonoBehaviour, IOccupant
+namespace _Scripts.Occupants
 {
-    [SerializeField]
-    protected int _maxMovementTiles;
-
-    public int MaxMovementTiles => _maxMovementTiles;
-
-    public LevelTile TileAssigned { get; private set; }
-
-    public Transform Transform => gameObject.transform;
-
-    public void AssignTile(LevelTile levelTile)
+    public abstract class OccupantController : MonoBehaviour, IOccupant
     {
-        if (TileAssigned is not null)
-            TileAssigned.Occupant = null;
+        [SerializeField]
+        protected int _maxMovementTiles;
 
-        TileAssigned = null;
-        TileAssigned = levelTile;
-        TileAssigned.Occupant = this;
+        public int MaxMovementTiles => _maxMovementTiles;
+
+        public LevelTile TileAssigned { get; private set; }
+
+        public Transform Transform => gameObject.transform;
+
+        public void AssignTile(LevelTile levelTile)
+        {
+            if (TileAssigned is not null)
+                TileAssigned.Occupant = null;
+
+            TileAssigned = null;
+            TileAssigned = levelTile;
+            TileAssigned.Occupant = this;
+        }
     }
 }

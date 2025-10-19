@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Scripts.Core.Mediator;
 using _Scripts.Events;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -13,15 +15,14 @@ namespace _Scripts.Tiles.TileGrid
 
         public Dictionary<Vector3, LevelTile> Tiles { get; private set; } = new();
 
-        protected override void Awake()
-        {
-            base.Awake();
-            SetWorldTiles();
-        }
-
         private void OnEnable()
         {
             mediator.OnTileClicked += GetTileFromPlayerInput;
+        }
+
+        private void Start()
+        {
+            SetWorldTiles();
         }
 
         public void SetWorldTiles()

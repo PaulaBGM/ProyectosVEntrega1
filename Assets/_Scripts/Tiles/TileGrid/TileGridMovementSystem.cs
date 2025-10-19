@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using _Scripts.Core.Mediator;
 using _Scripts.Events;
+using _Scripts.Occupants;
 using UnityEngine;
 
 namespace _Scripts.Tiles.TileGrid
@@ -11,14 +13,16 @@ namespace _Scripts.Tiles.TileGrid
 
         private void OnEnable()
         {
-            mediator.OnOccupantSelected += PlayerOccupantSelected;
+            mediator.OnOccupantSelected += OccupantSelected;
             mediator.OnPlayerOccupantMove += MovePlayerOccupantToTile;
+            mediator.OnPerformAIAction += MoveAIOccupantToTile;
         }
       
-        private void PlayerOccupantSelected(
+        private void OccupantSelected(
             (LevelTile tileSelected, int maxMovementTiles) eventData)
         {
             _availableTilesToMove = GetMovementTiles(eventData.tileSelected, eventData.maxMovementTiles);
+            mediator.MovementTilesSet(_availableTilesToMove);
         }
 
         private IEnumerable<LevelTile> GetMovementTiles(LevelTile initialTile, int maxMovementTiles)
@@ -51,30 +55,54 @@ namespace _Scripts.Tiles.TileGrid
                     frontier.Enqueue((neightbour, depth + 1));
                 }
             }
-
-            mediator.MovementTilesSet(reachable);
+            
             return reachable;
         }
 
-        private void MovePlayerOccupantToTile((LevelTile tileToMove, IOccupant occupant) eventData)
+        private void MovePlayerOccupantToTile((LevelTile tileToMove, IPlayerOccupant playerOccupant) eventData)
         {
             var tileToMove = eventData.tileToMove;
-            var occupant = eventData.occupant;
+            var occupant = eventData.playerOccupant;
 
-            if (!_availableTilesToMove.Contains(tileToMove) || occupant is not IPlayerOccupant)
+            if (!_availableTilesToMove.Contains(tileToMove))
                 return;
 
             occupant.AssignTile(tileToMove);
             occupant.Transform.position = tileToMove.TilemapMember.CellToWorld(tileToMove.LocalPosition)
-                                          + (Vector3)tileToMove.TilemapMember.cellSize * 0.5f;
+                                          + tileToMove.TilemapMember.cellSize * 0.5f;
             
             EventBus<OnPlayerAction>.Publish(new OnPlayerAction());
         }
-
+        
+        private void MoveAIOccupantToTile(OnPerformAIAction eventData)
+        {
+            var aiOccupant = eventData.AiOccupant;
+            
+            var tileToMove = GetAiMovementTile(aiOccupant);
+            
+            aiOccupant.AssignTile(tileToMove);
+            aiOccupant.Transform.position = tileToMove.TilemapMember.CellToWorld(tileToMove.LocalPosition)
+                                          + tileToMove.TilemapMember.cellSize * 0.5f;
+        }
+        
+        private LevelTile GetAiMovementTile(IAIOccupant aiOccupant)
+        {
+            var availableTiles = GetMovementTiles(
+                    aiOccupant.TileAssigned, aiOccupant.MaxMovementTiles)
+                .Where(tile =>
+                    tile.GetNeightbours().Where(neighbour => neighbour is not null)
+                        .All(neighbour => neighbour.Occupant is not IPlayerOccupant))
+                .ToArray();
+            
+            int randomIndex = UnityEngine.Random.Range(0, availableTiles.Count());
+            return availableTiles[randomIndex];
+        }
+        
         private void OnDisable()
         {
-            mediator.OnOccupantSelected -= PlayerOccupantSelected;
+            mediator.OnOccupantSelected -= OccupantSelected;
             mediator.OnPlayerOccupantMove -= MovePlayerOccupantToTile;
+            mediator.OnPerformAIAction -= MoveAIOccupantToTile;
         }
     }
 }

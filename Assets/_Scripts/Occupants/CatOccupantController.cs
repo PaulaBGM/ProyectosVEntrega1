@@ -1,6 +1,7 @@
-using UnityEngine;
-
-public class CatOccupantController : OccupantController, IAIOccupant
+namespace _Scripts.Occupants
 {
+    public class CatOccupantController : OccupantController, IAIOccupant
+    {
 
+    }
 }

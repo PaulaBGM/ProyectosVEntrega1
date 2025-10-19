@@ -1,21 +1,24 @@
 using UnityEngine;
 
-/// <summary>
-/// Interface that defines which scripts may be used as mediators
-/// </summary>
-/// <typeparam name="T"></typeparam>
-public interface IMediator { }
-
-/// <summary>
-/// Class designed for clients of a mediator class that reduces coupling between scripts
-/// </summary>
-/// <typeparam name="T"></typeparam>
-public class MediatorClientSystem<T> : MonoBehaviour where T : IMediator
+namespace _Scripts.Core.Mediator
 {
-    protected T mediator;
+    /// <summary>
+    /// Interface that defines which scripts may be used as mediators
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public interface IMediator { }
 
-    protected virtual void Awake()
+    /// <summary>
+    /// Class designed for clients of a mediator class that reduces coupling between scripts
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class MediatorClientSystem<T> : MonoBehaviour where T : IMediator
     {
-        mediator = transform.root.GetComponent<T>();
+        protected T mediator;
+
+        protected virtual void Awake()
+        {
+            mediator = transform.root.GetComponent<T>();
+        }
     }
 }

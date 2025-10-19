@@ -27,6 +27,7 @@ namespace _Scripts.Managers
         private void OnEnable()
         {
             EventBus<OnPlayerAction>.Subscribe(HandlePlayerAction);
+            EventBus<OnAITurnCompleted>.Subscribe(HandleAITurnCompleted);
         }
 
         private void Start()
@@ -42,6 +43,11 @@ namespace _Scripts.Managers
             {
                 ChangeState(LevelState.AITurn);
             }
+        }
+
+        private void HandleAITurnCompleted(OnAITurnCompleted _)
+        {
+            ChangeState(LevelState.PlayerTurn);
         }
 
         public void ChangeState(LevelState newState)

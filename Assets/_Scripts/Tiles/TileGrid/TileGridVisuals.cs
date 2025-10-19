@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using _Scripts.Core.Mediator;
+using _Scripts.Occupants;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -27,7 +29,7 @@ namespace _Scripts.Tiles.TileGrid
             }
         }
 
-        private void HideHighlightMovementTiles((LevelTile tile, IOccupant occupant) _)
+        private void HideHighlightMovementTiles((LevelTile tile, IPlayerOccupant playerOccupant) _)
         {
             if (!_tilesHighlighted.Any())
                 return;

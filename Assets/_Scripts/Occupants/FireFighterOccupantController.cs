@@ -1,6 +1,7 @@
-using UnityEngine;
-
-public class FireFighterOccupantController : OccupantController, IPlayerOccupant
+namespace _Scripts.Occupants
 {
+    public class FireFighterOccupantController : OccupantController, IPlayerOccupant
+    {
 
+    }
 }

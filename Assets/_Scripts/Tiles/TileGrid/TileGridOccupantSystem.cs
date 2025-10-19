@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using _Scripts.Core.Mediator;
+using _Scripts.Occupants;
 using UnityEngine;
 
 namespace _Scripts.Tiles.TileGrid
@@ -42,9 +44,9 @@ namespace _Scripts.Tiles.TileGrid
 
         public void ExecuteActionInTile(LevelTile tileSelected)
         {
-            if (_occupantSelected is not null)
+            if (_occupantSelected is not null && _occupantSelected is IPlayerOccupant)
             {
-                mediator.PlayerOccupantMove(tileSelected, _occupantSelected);
+                mediator.PlayerOccupantMove(tileSelected, _occupantSelected as  IPlayerOccupant);
 
                 _occupantSelected = null;
             }

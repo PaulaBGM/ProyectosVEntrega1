@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using _Scripts.Core.Mediator;
+using _Scripts.Events;
 using _Scripts.Occupants;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -14,7 +15,7 @@ namespace _Scripts.Tiles.TileGrid
         private void OnEnable()
         {
             mediator.OnMovementTilesSet += HighlightMovementTiles;
-            mediator.OnPlayerOccupantMove += HideHighlightMovementTiles;
+            mediator.OnTileClicked += HideHighlightMovementTiles;
         }
 
         private void HighlightMovementTiles(IEnumerable<LevelTile> movementTiles)
@@ -29,11 +30,8 @@ namespace _Scripts.Tiles.TileGrid
             }
         }
 
-        private void HideHighlightMovementTiles((LevelTile tile, IPlayerOccupant playerOccupant) _)
+        private void HideHighlightMovementTiles(OnTileClicked _)
         {
-            if (!_tilesHighlighted.Any())
-                return;
-
             foreach (var tile in _tilesHighlighted)
             {
                 tile.TilemapMember.SetTileFlags(tile.LocalPosition, TileFlags.LockTransform);
@@ -44,7 +42,6 @@ namespace _Scripts.Tiles.TileGrid
         private void OnDisable()
         {
             mediator.OnMovementTilesSet -= HighlightMovementTiles;
-            mediator.OnPlayerOccupantMove -= HideHighlightMovementTiles;
         }
     }
 }

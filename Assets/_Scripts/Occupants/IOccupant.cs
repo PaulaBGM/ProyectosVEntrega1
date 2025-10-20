@@ -1,10 +1,18 @@
-using System.Numerics;
+using System.Collections.Generic;
+using _Scripts.Tiles;
 using UnityEngine;
 
-public interface IOccupant
+namespace _Scripts.Occupants
 {
-    LevelTile TileAssigned { get; }
-    int MaxMovementTiles { get; }
-    Transform Transform { get; }
-    void AssignTile(LevelTile levelTile);
+    public interface IOccupant
+    {
+        LevelTile TileAssigned { get; }
+        int MaxMovementTiles { get; }
+        Transform Transform { get; }
+        void AssignTile(LevelTile levelTile);
+    }
+
+    public interface IPlayerOccupant : IOccupant { }
+
+    public interface IAIOccupant : IOccupant { }
 }

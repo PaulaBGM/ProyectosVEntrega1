@@ -1,13 +1,37 @@
-public interface IEvent { }
+using System.Collections.Generic;
+using _Scripts.Managers;
+using _Scripts.Occupants;
+using _Scripts.Tiles;
 
-public class OnPlayerOccupantSelected : IEvent 
+namespace _Scripts.Events
 {
-    public LevelTile tileSelected { get; set; }
-    public int MaxMovementTiles { get; set; }
-}
+    public interface IEvent { }
 
-public class OnPlayerOccupantMove : IEvent
-{
-    public LevelTile tileToMove { get; set; }
-    public IOccupant Occupant { get; set; }
+    #region Level Events
+
+    public struct OnWorldTilesSet : IEvent
+    {
+        public IEnumerable<LevelTile> Tiles { get; set; }
+    }
+    
+    public class OnTileClicked : IEvent
+    {
+        public UnityEngine.Vector3 Point { get; set; }
+    }
+    
+    public struct OnPlayerAction : IEvent { }
+    
+    public class OnPerformAIAction : IEvent
+    {
+        public IAIOccupant AiOccupant { get; set; }
+    }
+    
+    public struct OnLevelStateChanged : IEvent
+    {
+        public LevelManager.LevelState NewState { get; set; }
+    }
+    
+    public struct OnAITurnCompleted : IEvent { }
+    
+    #endregion
 }

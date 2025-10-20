@@ -1,8 +1,11 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using _Scripts.Core.Mediator;
 using _Scripts.Events;
 using _Scripts.Occupants;
+using _Scripts.Pathfinding;
 using UnityEngine;
 
 namespace _Scripts.Tiles.TileGrid
@@ -44,15 +47,15 @@ namespace _Scripts.Tiles.TileGrid
                 if (depth >= maxMovementTiles)
                     continue;
 
-                foreach (var neightbour in current.GetNeightbours())
+                foreach (var neighrbour in current.GetNeightbours())
                 {
-                    if (neightbour is null ||
-                        visited.Contains(neightbour) ||
-                        neightbour.Occupant is not null) 
+                    if (neighrbour is null ||
+                        visited.Contains(neighrbour) ||
+                        neighrbour.Occupant is not null) 
                         continue;
 
-                    visited.Add(neightbour);
-                    frontier.Enqueue((neightbour, depth + 1));
+                    visited.Add(neighrbour);
+                    frontier.Enqueue((neighrbour, depth + 1));
                 }
             }
             
@@ -79,10 +82,13 @@ namespace _Scripts.Tiles.TileGrid
             var aiOccupant = eventData.AiOccupant;
             
             var tileToMove = GetAiMovementTile(aiOccupant);
+
+            var enumerablePath = GeneratePath(aiOccupant.TileAssigned, tileToMove);
+            var path = enumerablePath.ToArray();
             
             aiOccupant.AssignTile(tileToMove);
-            aiOccupant.Transform.position = tileToMove.TilemapMember.CellToWorld(tileToMove.LocalPosition)
-                                          + tileToMove.TilemapMember.cellSize * 0.5f;
+
+            StartCoroutine(MoveAiOccupantAlongPath(aiOccupant, path));
         }
         
         private LevelTile GetAiMovementTile(IAIOccupant aiOccupant)
@@ -96,6 +102,97 @@ namespace _Scripts.Tiles.TileGrid
             
             int randomIndex = UnityEngine.Random.Range(0, availableTiles.Count());
             return availableTiles[randomIndex];
+        }
+
+        private IEnumerable<Vector3> GeneratePath(LevelTile startTile, LevelTile endTile)
+        {
+            var pathNodeClosedList = new HashSet<LevelTile>();
+            var pathNodeOpenList = new HashSet<PathNode>();
+            var nodeMap = new Dictionary<LevelTile, PathNode>();
+
+            var startNode = new PathNode(
+                startTile, null, 0, GetLocalDistanceBetweenTiles(startTile, endTile));
+            pathNodeOpenList.Add(startNode);
+            nodeMap[startTile] = startNode;
+            
+            while (pathNodeOpenList.Count > 0)
+            {
+                var currentNode = pathNodeOpenList.OrderBy(f => f.FCost).First();
+                pathNodeOpenList.Remove(currentNode);
+                pathNodeClosedList.Add(currentNode.LevelTile);
+                
+                if (currentNode.LevelTile == endTile)
+                    break;
+                
+                foreach (var neighbour in currentNode.LevelTile.GetNeightbours())
+                {
+                    if (neighbour == null || pathNodeClosedList.Contains(neighbour))
+                        continue;
+
+                    var tentativeG = currentNode.GCost + 1;
+
+                    if (!nodeMap.TryGetValue(neighbour, out var neighbourNode))
+                    {
+                        neighbourNode = new PathNode(neighbour, currentNode, tentativeG,
+                            GetLocalDistanceBetweenTiles(neighbour, endTile));
+                        pathNodeOpenList.Add(neighbourNode);
+                        nodeMap[neighbour] = neighbourNode;
+                    }
+                    else if (tentativeG < neighbourNode.GCost)
+                    {
+                        neighbourNode.GCost = tentativeG;
+                        neighbourNode.Parent = currentNode;
+                    }
+                }
+            }
+            
+            List<Vector3> path = new List<Vector3>();
+            if (nodeMap.TryGetValue(endTile, out var endNode))
+            {
+                var node = endNode;
+                while (node != null)
+                {
+                    path.Add(node.LevelTile.WorldPosition + new Vector3(0.5f, 0.5f, 0));
+                    node = node.Parent;
+                }
+                path.Reverse();
+            }
+
+            return path;
+        }
+
+        
+        private int GetLocalDistanceBetweenTiles(LevelTile startTile, LevelTile endTile)
+        {
+            int distanceX = Math.Abs(startTile.LocalPosition.x - endTile.LocalPosition.x);
+            int distanceY = Math.Abs(startTile.LocalPosition.y - endTile.LocalPosition.y);
+            return distanceX + distanceY;
+        }
+        
+        private IEnumerator MoveAiOccupantAlongPath(IAIOccupant aiOccupant, IEnumerable<Vector3> pathPoints)
+        {
+            var pathPointArray = pathPoints as Vector3[] ?? pathPoints.ToArray();
+            var destination = pathPointArray.First();
+            var destinationsReached = 0;
+            
+            while (destinationsReached < pathPointArray.Length)
+            {
+                aiOccupant.Transform.position = Vector3.MoveTowards(
+                    aiOccupant.Transform.position,
+                    destination,
+                    2f * Time.deltaTime);
+
+                if (Vector3.Distance(aiOccupant.Transform.position, destination) < 0.01f)
+                {
+                    destinationsReached++;
+                    if (destinationsReached < pathPointArray.Length)
+                    {
+                        destination = pathPointArray[destinationsReached];
+                    }
+                }
+
+                yield return null;
+            }
         }
         
         private void OnDisable()

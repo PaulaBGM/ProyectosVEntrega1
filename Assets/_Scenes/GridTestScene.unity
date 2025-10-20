@@ -3395,6 +3395,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FireFighterOccupant
       objectReference: {fileID: 0}
+    - target: {fileID: 4461004184171160990, guid: d03c607a58e41524aaa49b52e71e3db5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -1,64 +1,70 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+using _Scripts.Events;
+using _Scripts.Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Tilemaps;
 
-public class PlayerInputHandler : MonoBehaviour
+namespace _Scripts.Input
 {
-    public Dictionary<Vector3, LevelTile> _tiles;
-
-    private IOccupant _occupantSelected = null;
-
-    public void OnSelect(InputAction.CallbackContext context)
+    public class PlayerInputHandler : MonoBehaviour
     {
-        if (context.phase != InputActionPhase.Performed)
-            return;
+        private PlayerInput _playerInput;
+        
+        private bool _isPlayerTurn = true;
 
-        Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        Vector3Int cellPos = _tiles.First().Value.TilemapMember.WorldToCell(point);
-        Vector3 worldPoint = _tiles.First().Value.TilemapMember.CellToWorld(cellPos);
-
-        if (_tiles.TryGetValue(worldPoint, out var _levelTile))
+        private void Awake()
         {
+            _playerInput = new PlayerInput();
+        }
 
-            StartCoroutine(SelectionTest(_levelTile));
+        private void OnEnable()
+        {
+            EventBus<OnLevelStateChanged>.Subscribe(evt => HandleLevelStateChanged(evt.NewState));
+            
+            _playerInput.InLevel.Select.performed += OnSelect;
+        }
 
-            if (_occupantSelected is not null)
+        private void HandleLevelStateChanged(LevelManager.LevelState state)
+        {
+            switch (state)
             {
-                EventBus<OnPlayerOccupantMove>.Publish(new OnPlayerOccupantMove
-                {
-                    tileToMove = _levelTile,
-                    Occupant = _occupantSelected
-                });
+                case LevelManager.LevelState.PlayerTurn:
+                    _isPlayerTurn = true;
+                    break;
+                case LevelManager.LevelState.AITurn:
+                    _isPlayerTurn = false;
+                    break;
+            }
+        }
 
-                _occupantSelected = null;
+        public void OnSelect(InputAction.CallbackContext context)
+        {
+            if (context.phase != InputActionPhase.Performed || !_isPlayerTurn)
+                return;
+
+            if (Camera.main != null)
+            {
+                Vector3 point = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
+
+                EventBus<OnTileClicked>.Publish(new OnTileClicked
+                {
+                    Point = point
+                });
             }
             else
             {
-                _occupantSelected = _levelTile.Occupant;
-
-                if (_occupantSelected != null)
-                {
-                    EventBus<OnPlayerOccupantSelected>.Publish(new OnPlayerOccupantSelected
-                    {
-                        tileSelected = _levelTile,
-                        MaxMovementTiles = _occupantSelected.MaxMovementTiles
-                    });
-                }
+                Debug.LogError("Main Camera not found in the scene.");
             }
         }
-    }
-
-    //ALL TEST, DELETE BELOW
-
-    private IEnumerator SelectionTest(LevelTile tile)
-    {
-        tile.TilemapMember.SetTileFlags(tile.LocalPosition, TileFlags.LockTransform);
-        tile.TilemapMember.SetColor(tile.LocalPosition, Color.green);
-        yield return new WaitForSeconds(3);
-        tile.TilemapMember.SetColor(tile.LocalPosition, Color.white);
+        
+        private void OnDisable()
+        {
+            EventBus<OnLevelStateChanged>.Unsubscribe(evt => HandleLevelStateChanged(evt.NewState));
+            
+            if (_playerInput != null)
+            {
+                _playerInput.InLevel.Select.performed -= OnSelect;
+                _playerInput.Dispose();
+            }
+        }
     }
 }

@@ -1,74 +1,205 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
+using _Scripts.Core.Mediator;
+using _Scripts.Events;
+using _Scripts.Occupants;
+using _Scripts.Pathfinding;
 using UnityEngine;
-using UnityEngine.Profiling.Memory.Experimental;
 
-public class TileGridMovementSystem : MediatorClientSystem<TileGridMediator>
+namespace _Scripts.Tiles.TileGrid
 {
-    private Dictionary<Vector3, LevelTile> _tiles;
-
-    private IEnumerable<LevelTile> _availableTilesToMove;
-
-    private void OnEnable()
+    public class TileGridMovementSystem : MediatorClientSystem<TileGridMediator>
     {
-        mediator.OnPlayerOccupantSelected += PlayerOccupantSelected;
-        mediator.OnPlayerOccupantMove += MoveToTile;
-    }
-      
-    private void PlayerOccupantSelected(OnPlayerOccupantSelected eventData)
-    {
-        _availableTilesToMove = GetMovementTiles(eventData.tileSelected, eventData.MaxMovementTiles);
-    }
+        private IEnumerable<LevelTile> _availableTilesToMove;
 
-    public IEnumerable<LevelTile> GetMovementTiles(LevelTile initialTile, int maxMovementTiles)
-    {
-        var visited = new HashSet<LevelTile>();
-        var frontier = new Queue<(LevelTile tile, int depth)>();
-        var reachable = new List<LevelTile>();
-
-        frontier.Enqueue((initialTile, 0));
-        visited.Add(initialTile);
-
-        while (frontier.Count > 0)
+        private void OnEnable()
         {
-            var (current, depth) = frontier.Dequeue();
-
-            if (depth > 0)
-                reachable.Add(current);
-
-            if (depth >= maxMovementTiles)
-                continue;
-
-            foreach (var neightbour in current.GetNeightbours())
-            {
-                if (neightbour is null || visited.Contains(neightbour)) 
-                    continue;
-
-                visited.Add(neightbour);
-                frontier.Enqueue((neightbour, depth + 1));
-            }
+            mediator.OnOccupantSelected += OccupantSelected;
+            mediator.OnPlayerOccupantMove += MovePlayerOccupantToTile;
+            mediator.OnPerformAIAction += MoveAIOccupantToTile;
+        }
+      
+        private void OccupantSelected(
+            (LevelTile tileSelected, int maxMovementTiles) eventData)
+        {
+            _availableTilesToMove = GetMovementTiles(eventData.tileSelected, eventData.maxMovementTiles);
+            mediator.MovementTilesSet(_availableTilesToMove);
         }
 
-        mediator.MovementTilesSet(reachable);
-        return reachable;
-    }
+        private IEnumerable<LevelTile> GetMovementTiles(LevelTile initialTile, int maxMovementTiles)
+        {
+            var visited = new HashSet<LevelTile>();
+            var frontier = new Queue<(LevelTile tile, int depth)>();
+            var reachable = new List<LevelTile>();
 
-    public void MoveToTile(OnPlayerOccupantMove eventData)
-    {
-        var tileToMove = eventData.tileToMove;
-        var occupant = eventData.Occupant;
+            frontier.Enqueue((initialTile, 0));
+            visited.Add(initialTile);
 
-        if (!_availableTilesToMove.Contains(tileToMove))
-            return;
+            while (frontier.Count > 0)
+            {
+                var (current, depth) = frontier.Dequeue();
 
-        occupant.AssignTile(tileToMove);
-        occupant.Transform.position = tileToMove.TilemapMember.CellToWorld(tileToMove.LocalPosition)
-                     + (Vector3)tileToMove.TilemapMember.cellSize * 0.5f;
-    }
+                if (depth > 0)
+                    reachable.Add(current);
 
-    private void OnDisable()
-    {
-        mediator.OnPlayerOccupantSelected -= PlayerOccupantSelected;
+                if (depth >= maxMovementTiles)
+                    continue;
+
+                foreach (var neighrbour in current.GetNeightbours())
+                {
+                    if (neighrbour is null ||
+                        visited.Contains(neighrbour) ||
+                        neighrbour.Occupant is not null) 
+                        continue;
+
+                    visited.Add(neighrbour);
+                    frontier.Enqueue((neighrbour, depth + 1));
+                }
+            }
+            
+            return reachable;
+        }
+
+        private void MovePlayerOccupantToTile((LevelTile tileToMove, IPlayerOccupant playerOccupant) eventData)
+        {
+            var tileToMove = eventData.tileToMove;
+            var occupant = eventData.playerOccupant;
+
+            if (!_availableTilesToMove.Contains(tileToMove))
+                return;
+
+            occupant.AssignTile(tileToMove);
+            occupant.Transform.position = tileToMove.TilemapMember.CellToWorld(tileToMove.LocalPosition)
+                                          + tileToMove.TilemapMember.cellSize * 0.5f;
+            
+            EventBus<OnPlayerAction>.Publish(new OnPlayerAction());
+        }
+        
+        private void MoveAIOccupantToTile(OnPerformAIAction eventData)
+        {
+            var aiOccupant = eventData.AiOccupant;
+            
+            var tileToMove = GetAiMovementTile(aiOccupant);
+
+            var enumerablePath = GeneratePath(aiOccupant.TileAssigned, tileToMove);
+            var path = enumerablePath.ToArray();
+            
+            aiOccupant.AssignTile(tileToMove);
+
+            StartCoroutine(MoveAiOccupantAlongPath(aiOccupant, path));
+        }
+        
+        private LevelTile GetAiMovementTile(IAIOccupant aiOccupant)
+        {
+            var availableTiles = GetMovementTiles(
+                    aiOccupant.TileAssigned, aiOccupant.MaxMovementTiles)
+                .Where(tile =>
+                    tile.GetNeightbours().Where(neighbour => neighbour is not null)
+                        .All(neighbour => neighbour.Occupant is not IPlayerOccupant))
+                .ToArray();
+            
+            int randomIndex = UnityEngine.Random.Range(0, availableTiles.Count());
+            return availableTiles[randomIndex];
+        }
+
+        private IEnumerable<Vector3> GeneratePath(LevelTile startTile, LevelTile endTile)
+        {
+            var pathNodeClosedList = new HashSet<LevelTile>();
+            var pathNodeOpenList = new HashSet<PathNode>();
+            var nodeMap = new Dictionary<LevelTile, PathNode>();
+
+            var startNode = new PathNode(
+                startTile, null, 0, GetLocalDistanceBetweenTiles(startTile, endTile));
+            pathNodeOpenList.Add(startNode);
+            nodeMap[startTile] = startNode;
+            
+            while (pathNodeOpenList.Count > 0)
+            {
+                var currentNode = pathNodeOpenList.OrderBy(f => f.FCost).First();
+                pathNodeOpenList.Remove(currentNode);
+                pathNodeClosedList.Add(currentNode.LevelTile);
+                
+                if (currentNode.LevelTile == endTile)
+                    break;
+                
+                foreach (var neighbour in currentNode.LevelTile.GetNeightbours())
+                {
+                    if (neighbour == null || pathNodeClosedList.Contains(neighbour))
+                        continue;
+
+                    var tentativeG = currentNode.GCost + 1;
+
+                    if (!nodeMap.TryGetValue(neighbour, out var neighbourNode))
+                    {
+                        neighbourNode = new PathNode(neighbour, currentNode, tentativeG,
+                            GetLocalDistanceBetweenTiles(neighbour, endTile));
+                        pathNodeOpenList.Add(neighbourNode);
+                        nodeMap[neighbour] = neighbourNode;
+                    }
+                    else if (tentativeG < neighbourNode.GCost)
+                    {
+                        neighbourNode.GCost = tentativeG;
+                        neighbourNode.Parent = currentNode;
+                    }
+                }
+            }
+            
+            List<Vector3> path = new List<Vector3>();
+            if (nodeMap.TryGetValue(endTile, out var endNode))
+            {
+                var node = endNode;
+                while (node != null)
+                {
+                    path.Add(node.LevelTile.WorldPosition + new Vector3(0.5f, 0.5f, 0));
+                    node = node.Parent;
+                }
+                path.Reverse();
+            }
+
+            return path;
+        }
+
+        
+        private int GetLocalDistanceBetweenTiles(LevelTile startTile, LevelTile endTile)
+        {
+            int distanceX = Math.Abs(startTile.LocalPosition.x - endTile.LocalPosition.x);
+            int distanceY = Math.Abs(startTile.LocalPosition.y - endTile.LocalPosition.y);
+            return distanceX + distanceY;
+        }
+        
+        private IEnumerator MoveAiOccupantAlongPath(IAIOccupant aiOccupant, IEnumerable<Vector3> pathPoints)
+        {
+            var pathPointArray = pathPoints as Vector3[] ?? pathPoints.ToArray();
+            var destination = pathPointArray.First();
+            var destinationsReached = 0;
+            
+            while (destinationsReached < pathPointArray.Length)
+            {
+                aiOccupant.Transform.position = Vector3.MoveTowards(
+                    aiOccupant.Transform.position,
+                    destination,
+                    2f * Time.deltaTime);
+
+                if (Vector3.Distance(aiOccupant.Transform.position, destination) < 0.01f)
+                {
+                    destinationsReached++;
+                    if (destinationsReached < pathPointArray.Length)
+                    {
+                        destination = pathPointArray[destinationsReached];
+                    }
+                }
+
+                yield return null;
+            }
+        }
+        
+        private void OnDisable()
+        {
+            mediator.OnOccupantSelected -= OccupantSelected;
+            mediator.OnPlayerOccupantMove -= MovePlayerOccupantToTile;
+            mediator.OnPerformAIAction -= MoveAIOccupantToTile;
+        }
     }
 }

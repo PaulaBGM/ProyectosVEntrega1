@@ -1,45 +1,47 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Scripts.Core.Mediator;
+using _Scripts.Events;
+using _Scripts.Occupants;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TileGridVisuals : MediatorClientSystem<TileGridMediator>
+namespace _Scripts.Tiles.TileGrid
 {
-    IEnumerable<LevelTile> tilesHighlighted = new List<LevelTile>();
-
-    private void OnEnable()
+    public class TileGridVisuals : MediatorClientSystem<TileGridMediator>
     {
-        mediator.OnMovementTilesSet += HighlightMovementTiles;
-        mediator.OnPlayerOccupantMove += HideHighlightMovementTiles;
-    }
+        private IEnumerable<LevelTile> _tilesHighlighted = new List<LevelTile>();
 
-    private void HighlightMovementTiles(IEnumerable<LevelTile> movementTiles)
-    {
-        tilesHighlighted = movementTiles;
-
-        foreach (var tile in movementTiles)
+        private void OnEnable()
         {
-            tile.TilemapMember.SetTileFlags(tile.LocalPosition, TileFlags.LockTransform);
-            tile.TilemapMember.SetColor(tile.LocalPosition, Color.blue);
+            mediator.OnMovementTilesSet += HighlightMovementTiles;
+            mediator.OnTileClicked += HideHighlightMovementTiles;
         }
-    }
 
-    private void HideHighlightMovementTiles(OnPlayerOccupantMove _)
-    {
-        if (!tilesHighlighted.Any())
-            return;
-
-        foreach (var tile in tilesHighlighted)
+        private void HighlightMovementTiles(IEnumerable<LevelTile> movementTiles)
         {
-            tile.TilemapMember.SetTileFlags(tile.LocalPosition, TileFlags.LockTransform);
-            tile.TilemapMember.SetColor(tile.LocalPosition, Color.white);
-        }
-    }
+            var tilesHighlighted = movementTiles as LevelTile[] ?? movementTiles.ToArray();
+            _tilesHighlighted = tilesHighlighted;
 
-    private void OnDisable()
-    {
-        mediator.OnMovementTilesSet -= HighlightMovementTiles;
-        mediator.OnPlayerOccupantMove -= HideHighlightMovementTiles;
+            foreach (var tile in tilesHighlighted)
+            {
+                tile.TilemapMember.SetTileFlags(tile.LocalPosition, TileFlags.LockTransform);
+                tile.TilemapMember.SetColor(tile.LocalPosition, Color.blue);
+            }
+        }
+
+        private void HideHighlightMovementTiles(OnTileClicked _)
+        {
+            foreach (var tile in _tilesHighlighted)
+            {
+                tile.TilemapMember.SetTileFlags(tile.LocalPosition, TileFlags.LockTransform);
+                tile.TilemapMember.SetColor(tile.LocalPosition, Color.white);
+            }
+        }
+
+        private void OnDisable()
+        {
+            mediator.OnMovementTilesSet -= HighlightMovementTiles;
+        }
     }
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6645890882351542898}
   - component: {fileID: 7971529249976636212}
-  - component: {fileID: 2799922554263958961}
+  - component: {fileID: -9126850049804868045}
   m_Layer: 0
   m_Name: InputManager
   m_TagString: Untagged
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb9341cf3728a104ca631c635cd690e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2799922554263958961
+--- !u!114 &-9126850049804868045
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -73,7 +73,7 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7971529249976636212}
-        m_TargetAssemblyTypeName: PlayerInputHandler, Assembly-CSharp
+        m_TargetAssemblyTypeName: _Scripts.Input.PlayerInputHandler, Assembly-CSharp
         m_MethodName: OnSelect
         m_Mode: 0
         m_Arguments:
@@ -127,7 +127,7 @@ MonoBehaviour:
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Keyboard&Mouse
+  m_DefaultControlScheme: 
   m_DefaultActionMap: InLevel
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

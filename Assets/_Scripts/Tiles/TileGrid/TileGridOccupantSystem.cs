@@ -1,42 +1,70 @@
 using System.Collections.Generic;
 using System.Linq;
+using _Scripts.Core.Mediator;
+using _Scripts.Occupants;
 using UnityEngine;
 
-public class TileGridOccupantSystem : MediatorClientSystem<TileGridMediator>
+namespace _Scripts.Tiles.TileGrid
 {
-    [SerializeField]
-    private GameObject[] _occupants;
-
-    private void OnEnable()
+    public class TileGridOccupantSystem : MediatorClientSystem<TileGridMediator>
     {
-        mediator.OnWorldTilesSet += SetOccupantsInTiles;
-    }
+        [SerializeField]
+        private GameObject[] _occupants;
 
-    public void SetOccupantsInTiles(Dictionary<Vector3, LevelTile> tiles)
-    {
-        var tilemap = tiles.First().Value.TilemapMember;
+        private IOccupant _occupantSelected;
 
-        foreach (var occupant in _occupants)
+        private void OnEnable()
         {
-            if (occupant.TryGetComponent<IOccupant>(out var occup))
-            {
-                if (tiles.TryGetValue(tilemap.WorldToCell(occupant.transform.position), out var tile))
-                {
-                    occup.AssignTile(tile);
-                }
+            mediator.OnWorldTilesSet += SetOccupantsInTiles;
+            mediator.OnTileExecuteAction += ExecuteActionInTile;
+        }
 
-                Debug.Log(tilemap.WorldToCell(occupant.transform.position));
+        public void SetOccupantsInTiles(Dictionary<Vector3, LevelTile> tiles)
+        {
+            var tilemap = tiles.First().Value.TilemapMember;
+
+            foreach (var occupant in _occupants)
+            {
+                if (occupant.TryGetComponent<IOccupant>(out var occup))
+                {
+                    if (tiles.TryGetValue(tilemap.WorldToCell(occupant.transform.position), out var tile))
+                    {
+                        occup.AssignTile(tile);
+                    }
+
+                    Debug.Log(tilemap.WorldToCell(occupant.transform.position));
+                }
+                else
+                {
+                    Debug.LogError("Gameobject: " +  occupant.name + " doesn't implement the " +
+                                   "IOccupant interface or misses the script that does");
+                }
+            }
+        }
+
+        public void ExecuteActionInTile(LevelTile tileSelected)
+        {
+            if (_occupantSelected is not null && _occupantSelected is IPlayerOccupant)
+            {
+                mediator.PlayerOccupantMove(tileSelected, _occupantSelected as  IPlayerOccupant);
+
+                _occupantSelected = null;
             }
             else
             {
-                Debug.LogError("Gameobject: " +  occupant.name + " doesn't implement the " +
-                    "IOccupant interface or misses the script that does");
+                _occupantSelected = tileSelected.Occupant;
+
+                if (_occupantSelected != null)
+                {
+                    mediator.OccupantSelected(tileSelected, _occupantSelected.MaxMovementTiles);
+                }
             }
         }
-    }
 
-    private void OnDisable()
-    {
-        mediator.OnWorldTilesSet -= SetOccupantsInTiles;
+        private void OnDisable()
+        {
+            mediator.OnWorldTilesSet -= SetOccupantsInTiles;
+            mediator.OnTileExecuteAction -= ExecuteActionInTile;
+        }
     }
 }

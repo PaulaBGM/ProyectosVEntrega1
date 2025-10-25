@@ -30,7 +30,7 @@ namespace _Scripts.Tiles.TileGrid
             }
         }
 
-        private void HideHighlightMovementTiles(OnTileClicked _)
+        private void HideHighlightMovementTiles(Vector3 _)
         {
             foreach (var tile in _tilesHighlighted)
             {

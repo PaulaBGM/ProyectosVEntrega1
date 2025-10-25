@@ -42,8 +42,8 @@ namespace _Scripts.Managers
                     AiOccupant = aiOccupant
                 });
                 
-                //Cambiar por un evento que indique que el AI ha terminado su acción
-                yield return new WaitForSeconds(5f);
+                aiOccupant.IsAIActionFinished = false;
+                yield return new WaitUntil(() => aiOccupant.IsAIActionFinished);
             }
 
             EventBus<OnAITurnCompleted>.Publish(new OnAITurnCompleted());

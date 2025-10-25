@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using _Scripts.Core.Mediator;
 using _Scripts.Events;
+using _Scripts.Input;
 using _Scripts.Occupants;
 using UnityEngine;
 
@@ -15,19 +16,19 @@ namespace _Scripts.Tiles.TileGrid
 
         public event Action<LevelTile> OnTileExecuteAction;
 
-        //EventBus
+        //EventBus or Singletons events
 
         public event Action<(LevelTile levelTile, int maxMovementTiles)> OnOccupantSelected;
 
         public event Action<(LevelTile levelTile, IPlayerOccupant playerOccupant)> OnPlayerOccupantMove;
 
-        public event Action<OnTileClicked> OnTileClicked;
+        public event Action<Vector3> OnTileClicked;
         
         public event Action<OnPerformAIAction> OnPerformAIAction;
 
         private void OnEnable()
         {
-            EventBus<OnTileClicked>.Subscribe(TileClicked);
+            PlayerInputHandler.Instance.OnSelect += TileClicked;
             EventBus<OnPerformAIAction>.Subscribe(PerformAIAction);
         }
 
@@ -57,9 +58,9 @@ namespace _Scripts.Tiles.TileGrid
             OnPlayerOccupantMove?.Invoke((levelTile, playerOccupant));
         }
 
-        private void TileClicked(OnTileClicked eventData)
+        private void TileClicked(Vector3 pointInWorld)
         {
-            OnTileClicked?.Invoke(eventData);
+            OnTileClicked?.Invoke(pointInWorld);
         }
         
         private void PerformAIAction(OnPerformAIAction eventData)
@@ -69,7 +70,7 @@ namespace _Scripts.Tiles.TileGrid
 
         private void OnDisable()
         {
-            EventBus<OnTileClicked>.Unsubscribe(TileClicked);
+            PlayerInputHandler.Instance.OnSelect -= TileClicked;
             EventBus<OnPerformAIAction>.Unsubscribe(PerformAIAction);
         }
     }

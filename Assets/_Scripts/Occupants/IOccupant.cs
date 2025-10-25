@@ -14,5 +14,8 @@ namespace _Scripts.Occupants
 
     public interface IPlayerOccupant : IOccupant { }
 
-    public interface IAIOccupant : IOccupant { }
+    public interface IAIOccupant : IOccupant
+    {
+        bool IsAIActionFinished { get; set; }
+    }
 }

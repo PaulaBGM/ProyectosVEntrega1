@@ -3419,6 +3419,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CatOccupant
       objectReference: {fileID: 0}
+    - target: {fileID: 9101013653763743107, guid: 4b87f81b7f65a154e86d146be2eeb81e, type: 3}
+      propertyPath: _maxMovementTiles
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3494,6 +3498,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9126850049804868045, guid: 593e36bcc2c7e854d9a3ba920b4b8a19, type: 3}
+      propertyPath: m_DefaultControlScheme
+      value: Keyboard&Mouse
+      objectReference: {fileID: 0}
+    - target: {fileID: -9126850049804868045, guid: 593e36bcc2c7e854d9a3ba920b4b8a19, type: 3}
+      propertyPath: m_NotificationBehavior
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -9126850049804868045, guid: 593e36bcc2c7e854d9a3ba920b4b8a19, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1334985288635174050, guid: 593e36bcc2c7e854d9a3ba920b4b8a19, type: 3}
       propertyPath: m_Name
       value: InputManager

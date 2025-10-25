@@ -71,9 +71,9 @@ namespace _Scripts.Tiles.TileGrid
         private LevelTile GetWorldTile(Vector3 position) =>
             Tiles.GetValueOrDefault(_tilemapsFromTopToBottom.First().WorldToCell(position));
 
-        private void GetTileFromPlayerInput(OnTileClicked eventData)
+        private void GetTileFromPlayerInput(Vector3 pointInWorld)
         {
-            var tileSelected = GetWorldTile(eventData.Point);
+            var tileSelected = GetWorldTile(pointInWorld);
 
             mediator.TileExecuteAction(tileSelected);
         }

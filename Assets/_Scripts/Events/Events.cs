@@ -14,11 +14,6 @@ namespace _Scripts.Events
         public IEnumerable<LevelTile> Tiles { get; set; }
     }
     
-    public class OnTileClicked : IEvent
-    {
-        public UnityEngine.Vector3 Point { get; set; }
-    }
-    
     public struct OnPlayerAction : IEvent { }
     
     public class OnPerformAIAction : IEvent

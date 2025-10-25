@@ -47,15 +47,15 @@ namespace _Scripts.Tiles.TileGrid
                 if (depth >= maxMovementTiles)
                     continue;
 
-                foreach (var neighrbour in current.GetNeightbours())
+                foreach (var neighbour in current.GetNeightbours())
                 {
-                    if (neighrbour is null ||
-                        visited.Contains(neighrbour) ||
-                        neighrbour.Occupant is not null) 
+                    if (neighbour is null ||
+                        visited.Contains(neighbour) ||
+                        neighbour.Occupant is not null) 
                         continue;
 
-                    visited.Add(neighrbour);
-                    frontier.Enqueue((neighrbour, depth + 1));
+                    visited.Add(neighbour);
+                    frontier.Enqueue((neighbour, depth + 1));
                 }
             }
             
@@ -104,7 +104,7 @@ namespace _Scripts.Tiles.TileGrid
             return availableTiles[randomIndex];
         }
 
-        private IEnumerable<Vector3> GeneratePath(LevelTile startTile, LevelTile endTile)
+        private static IEnumerable<Vector3> GeneratePath(LevelTile startTile, LevelTile endTile)
         {
             var pathNodeClosedList = new HashSet<LevelTile>();
             var pathNodeOpenList = new HashSet<PathNode>();
@@ -162,7 +162,7 @@ namespace _Scripts.Tiles.TileGrid
         }
 
         
-        private int GetLocalDistanceBetweenTiles(LevelTile startTile, LevelTile endTile)
+        private static int GetLocalDistanceBetweenTiles(LevelTile startTile, LevelTile endTile)
         {
             int distanceX = Math.Abs(startTile.LocalPosition.x - endTile.LocalPosition.x);
             int distanceY = Math.Abs(startTile.LocalPosition.y - endTile.LocalPosition.y);
@@ -193,6 +193,8 @@ namespace _Scripts.Tiles.TileGrid
 
                 yield return null;
             }
+            
+            aiOccupant.IsAIActionFinished = true;
         }
         
         private void OnDisable()

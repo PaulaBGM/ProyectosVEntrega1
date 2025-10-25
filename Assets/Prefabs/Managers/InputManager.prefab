@@ -74,7 +74,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7971529249976636212}
         m_TargetAssemblyTypeName: _Scripts.Input.PlayerInputHandler, Assembly-CSharp
-        m_MethodName: OnSelect
+        m_MethodName: Select
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

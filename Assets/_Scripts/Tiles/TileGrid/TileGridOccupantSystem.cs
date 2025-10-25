@@ -44,9 +44,9 @@ namespace _Scripts.Tiles.TileGrid
 
         public void ExecuteActionInTile(LevelTile tileSelected)
         {
-            if (_occupantSelected is not null && _occupantSelected is IPlayerOccupant)
+            if (_occupantSelected is IPlayerOccupant occupant)
             {
-                mediator.PlayerOccupantMove(tileSelected, _occupantSelected as  IPlayerOccupant);
+                mediator.PlayerOccupantMove(tileSelected, occupant);
 
                 _occupantSelected = null;
             }

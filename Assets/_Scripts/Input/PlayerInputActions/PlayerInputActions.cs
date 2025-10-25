@@ -99,6 +99,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Hold"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Drag"",
+                    ""type"": ""Button"",
+                    ""id"": ""ff0f6d4e-cb9d-4f41-9d82-8c94dbfcd0bf"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -110,6 +119,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f10b4325-abdc-4a4e-a994-3f54d896ee13"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Drag"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -698,6 +718,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // InLevel
         m_InLevel = asset.FindActionMap("InLevel", throwIfNotFound: true);
         m_InLevel_Select = m_InLevel.FindAction("Select", throwIfNotFound: true);
+        m_InLevel_Drag = m_InLevel.FindAction("Drag", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -792,6 +813,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_InLevel;
     private List<IInLevelActions> m_InLevelActionsCallbackInterfaces = new List<IInLevelActions>();
     private readonly InputAction m_InLevel_Select;
+    private readonly InputAction m_InLevel_Drag;
     /// <summary>
     /// Provides access to input actions defined in input action map "InLevel".
     /// </summary>
@@ -807,6 +829,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "InLevel/Select".
         /// </summary>
         public InputAction @Select => m_Wrapper.m_InLevel_Select;
+        /// <summary>
+        /// Provides access to the underlying input action "InLevel/Drag".
+        /// </summary>
+        public InputAction @Drag => m_Wrapper.m_InLevel_Drag;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -836,6 +862,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Select.started += instance.OnSelect;
             @Select.performed += instance.OnSelect;
             @Select.canceled += instance.OnSelect;
+            @Drag.started += instance.OnDrag;
+            @Drag.performed += instance.OnDrag;
+            @Drag.canceled += instance.OnDrag;
         }
 
         /// <summary>
@@ -850,6 +879,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Select.started -= instance.OnSelect;
             @Select.performed -= instance.OnSelect;
             @Select.canceled -= instance.OnSelect;
+            @Drag.started -= instance.OnDrag;
+            @Drag.performed -= instance.OnDrag;
+            @Drag.canceled -= instance.OnDrag;
         }
 
         /// <summary>
@@ -1157,6 +1189,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSelect(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Drag" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDrag(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

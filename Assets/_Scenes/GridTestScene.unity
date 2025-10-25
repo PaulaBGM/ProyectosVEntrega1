@@ -3286,6 +3286,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1de3d12ee65f5c641a827771bf10d011, type: 3}
+--- !u!114 &3893750903151759258 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 200956075864986291, guid: 1de3d12ee65f5c641a827771bf10d011, type: 3}
+  m_PrefabInstance: {fileID: 3893750903151759257}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b7433562a32d794197182427ce93499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5508673254989413659
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3297,6 +3308,46 @@ PrefabInstance:
     - target: {fileID: 1334985288635174050, guid: 593e36bcc2c7e854d9a3ba920b4b8a19, type: 3}
       propertyPath: m_Name
       value: InputManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 2799922554263958961, guid: 593e36bcc2c7e854d9a3ba920b4b8a19, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2799922554263958961, guid: 593e36bcc2c7e854d9a3ba920b4b8a19, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_ActionId
+      value: ff0f6d4e-cb9d-4f41-9d82-8c94dbfcd0bf
+      objectReference: {fileID: 0}
+    - target: {fileID: 2799922554263958961, guid: 593e36bcc2c7e854d9a3ba920b4b8a19, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_ActionName
+      value: 'InLevel/Drag[/Mouse/rightButton]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2799922554263958961, guid: 593e36bcc2c7e854d9a3ba920b4b8a19, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2799922554263958961, guid: 593e36bcc2c7e854d9a3ba920b4b8a19, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2799922554263958961, guid: 593e36bcc2c7e854d9a3ba920b4b8a19, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3893750903151759258}
+    - target: {fileID: 2799922554263958961, guid: 593e36bcc2c7e854d9a3ba920b4b8a19, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2799922554263958961, guid: 593e36bcc2c7e854d9a3ba920b4b8a19, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDrag
+      objectReference: {fileID: 0}
+    - target: {fileID: 2799922554263958961, guid: 593e36bcc2c7e854d9a3ba920b4b8a19, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CameraDrag, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2799922554263958961, guid: 593e36bcc2c7e854d9a3ba920b4b8a19, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6645890882351542898, guid: 593e36bcc2c7e854d9a3ba920b4b8a19, type: 3}
       propertyPath: m_LocalPosition.x

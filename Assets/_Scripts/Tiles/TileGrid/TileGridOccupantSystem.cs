@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using _Scripts.Core.Mediator;
+using _Scripts.Events;
 using _Scripts.Occupants;
 using UnityEngine;
 
@@ -44,22 +45,44 @@ namespace _Scripts.Tiles.TileGrid
 
         public void ExecuteActionInTile(LevelTile tileSelected)
         {
-            if (_occupantSelected is IPlayerOccupant occupant)
+            if (_occupantSelected is IPlayerOccupant playerOccupant)
             {
-                mediator.PlayerOccupantMove(tileSelected, occupant);
-
+                HandlePlayerAction(tileSelected, playerOccupant);
                 _occupantSelected = null;
+                return;
+            }
+            
+            SelectOccupantOnTile(tileSelected);
+        }
+
+        private void HandlePlayerAction(LevelTile tileSelected, IPlayerOccupant playerOccupant)
+        {
+            var occupantOnTile = tileSelected.Occupant;
+            
+            if (occupantOnTile is IAIOccupant catOccupant && CanCatchCat(catOccupant, playerOccupant))
+            {
+                catOccupant.Catch();
+                EventBus<OnPlayerAction>.Publish(new OnPlayerAction());
             }
             else
             {
-                _occupantSelected = tileSelected.Occupant;
-
-                if (_occupantSelected != null)
-                {
-                    mediator.OccupantSelected(tileSelected, _occupantSelected.MaxMovementTiles);
-                }
+                mediator.PlayerOccupantMove(tileSelected, playerOccupant);
             }
         }
+
+        private void SelectOccupantOnTile(LevelTile tileSelected)
+        {
+            _occupantSelected = tileSelected.Occupant;
+
+            if (_occupantSelected != null)
+            {
+                mediator.OccupantSelected(tileSelected, _occupantSelected.MaxMovementTiles);
+            }
+        }
+
+
+        private bool CanCatchCat(IAIOccupant catOccupant, IPlayerOccupant playerOccupant) =>
+            catOccupant.TileAssigned.GetNeightbours().Contains(playerOccupant.TileAssigned);
 
         private void OnDisable()
         {

@@ -20,9 +20,10 @@ namespace _Scripts.Occupants
             if (TileAssigned is not null)
                 TileAssigned.Occupant = null;
 
-            TileAssigned = null;
             TileAssigned = levelTile;
-            TileAssigned.Occupant = this;
+
+            if (TileAssigned is not null)
+                TileAssigned.Occupant = this;
         }
     }
 }

@@ -184,6 +184,7 @@ namespace _Scripts.Tiles.TileGrid
 
                 if (Vector3.Distance(aiOccupant.Transform.position, destination) < 0.01f)
                 {
+                    aiOccupant.Transform.position = destination;
                     destinationsReached++;
                     if (destinationsReached < pathPointArray.Length)
                     {

@@ -17,5 +17,8 @@ namespace _Scripts.Occupants
     public interface IAIOccupant : IOccupant
     {
         bool IsAIActionFinished { get; set; }
+        bool IsCaught { get; set; }
+        
+        void Catch();
     }
 }

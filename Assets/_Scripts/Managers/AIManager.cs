@@ -37,6 +37,9 @@ namespace _Scripts.Managers
         {
             foreach (var aiOccupant in _aiOccupants)
             {
+                if (aiOccupant.IsCaught)
+                    continue;
+                
                 EventBus<OnPerformAIAction>.Publish(new OnPerformAIAction
                 {
                     AiOccupant = aiOccupant

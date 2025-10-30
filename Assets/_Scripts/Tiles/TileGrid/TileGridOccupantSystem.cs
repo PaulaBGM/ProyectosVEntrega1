@@ -12,7 +12,7 @@ public class TileGridOccupantSystem : MediatorClientSystem<TileGridMediator>
         mediator.OnWorldTilesSet += SetOccupantsInTiles;
     }
 
-    public void SetOccupantsInTiles(Dictionary<Vector3, LevelTile> tiles)
+    public void SetOccupantsInTiles(Dictionary<TileKey, LevelTile> tiles)
     {
         var tilemap = tiles.First().Value.TilemapMember;
 
@@ -20,16 +20,25 @@ public class TileGridOccupantSystem : MediatorClientSystem<TileGridMediator>
         {
             if (occupant.TryGetComponent<IOccupant>(out var occup))
             {
-                if (tiles.TryGetValue(tilemap.WorldToCell(occupant.transform.position), out var tile))
+                var cell = tilemap.WorldToCell(occupant.transform.position);
+
+                // Asigna el tile del layer más alto que exista en esa celda
+                var candidate = tiles
+                    .Where(kv => kv.Key.Cell == cell)
+                    .OrderByDescending(kv => kv.Key.Layer)
+                    .Select(kv => kv.Value)
+                    .FirstOrDefault();
+
+                if (candidate != null)
                 {
-                    occup.AssignTile(tile);
+                    occup.AssignTile(candidate);
                 }
 
                 Debug.Log(tilemap.WorldToCell(occupant.transform.position));
             }
             else
             {
-                Debug.LogError("Gameobject: " +  occupant.name + " doesn't implement the " +
+                Debug.LogError("Gameobject: " + occupant.name + " doesn't implement the " +
                     "IOccupant interface or misses the script that does");
             }
         }

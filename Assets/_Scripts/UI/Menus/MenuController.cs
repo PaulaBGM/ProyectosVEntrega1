@@ -19,10 +19,13 @@ public class MenuController : MonoBehaviour
     [Header("In-Game Menu")]
     [SerializeField] private GameObject inGameMenuCanvas;   // Canvas con botón de opciones en juego
     [SerializeField] private Button inGameOptionsButton;    // Botón para abrir opciones dentro del juego
+    [Header("Select Level Menu")]
+    [SerializeField] private GameObject SelectLevelCanvas;   // Canvas con botón de opciones en juego
 
     private bool _listenersBound;
     private bool _pausedByOptions = false;
     private float _prePauseTimeScale = 1f;
+    
 
     private void Awake() 
     { 
@@ -40,10 +43,13 @@ public class MenuController : MonoBehaviour
     private void Start() 
     { 
         BindListenersOnce();
-        
-        var isMenuScene = SceneManager.GetActiveScene().buildIndex == 0;   // <-- NUEVO
+        bool isMenuScene = SceneManager.GetActiveScene().buildIndex == 0;
+        bool isSelectScene = SceneManager.GetActiveScene().buildIndex == 1;
+
         inGameMenuCanvas?.SetActive(!isMenuScene);
-        
+        SelectLevelCanvas?.SetActive(!isMenuScene);
+        SelectLevelCanvas?.SetActive(isSelectScene);
+
         mainMenuCanvas?.SetActive(true); 
         optionsMenuCanvas?.SetActive(false); 
     } 
@@ -69,17 +75,17 @@ public class MenuController : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) 
     { 
       // Muestra el menú solo en la escena 0 (menú)
-      bool isMenuScene = scene.buildIndex == 0; 
-      mainMenuCanvas?.SetActive(isMenuScene); 
-      optionsMenuCanvas?.SetActive(false);
-        // Mostrar el canvas del menú en juego solo en niveles (no en el menú principal)
-        if (inGameMenuCanvas != null)
-            inGameMenuCanvas.SetActive(!isMenuScene);
+      bool isMenuScene = scene.buildIndex == 0;
+      bool isSelectScene = SceneManager.GetActiveScene().buildIndex == 1;
 
+        mainMenuCanvas?.SetActive(isMenuScene); 
+      optionsMenuCanvas?.SetActive(false);
+      inGameMenuCanvas?.SetActive(!isMenuScene);
+        SelectLevelCanvas?.SetActive(isSelectScene);
         // Asegurar que el juego se reanude al cargar escena
         ResumeIfPausedByMenu();
     } 
-    // --- Acciones de botones ---
+    
     public void OnPlay() 
     { 
         // Carga la escena de juego
@@ -90,11 +96,12 @@ public class MenuController : MonoBehaviour
         mainMenuCanvas?.SetActive(false); 
         optionsMenuCanvas?.SetActive(true); 
     } 
-    public void CloseOptionsMenu() { 
+    public void CloseOptionsMenu() {
+        bool isMenuScene = SceneManager.GetActiveScene().buildIndex == 0;
+        bool isSelectScene = SceneManager.GetActiveScene().buildIndex == 1;
+
         optionsMenuCanvas?.SetActive(false);
         
-        // Activa el canvas correcto según la escena
-        bool isMenuScene = SceneManager.GetActiveScene().buildIndex == 0;
         if (isMenuScene)
             mainMenuCanvas?.SetActive(true);
         else
@@ -126,5 +133,5 @@ public class MenuController : MonoBehaviour
     }
     public void ReturnToMenu() { 
         SceneManager.LoadScene(0); 
-                                                                                                                         }
-      }
+    }
+ }

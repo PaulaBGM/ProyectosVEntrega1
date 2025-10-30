@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TileGridMediator : MonoBehaviour, IMediator
 {
-    public event Action<Dictionary<Vector3, LevelTile>> OnWorldTilesSet;
+    public event Action<Dictionary<TileKey, LevelTile>> OnWorldTilesSet;
 
     public event Action<IEnumerable<LevelTile>> OnMovementTilesSet;
 
@@ -20,7 +20,7 @@ public class TileGridMediator : MonoBehaviour, IMediator
         EventBus<OnPlayerOccupantMove>.Subscribe(PlayerOccupantMove);
     }
 
-    public void WorldTilesSet(Dictionary<Vector3, LevelTile> tiles)
+    public void WorldTilesSet(Dictionary<TileKey, LevelTile> tiles)
     {
         OnWorldTilesSet?.Invoke(tiles);
     }

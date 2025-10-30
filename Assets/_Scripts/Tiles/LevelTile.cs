@@ -37,27 +37,43 @@ public class LevelTile
 
     public float HeightSize => TilemapMember.cellSize.y;
 
+    // Flags mínimos
+    public bool IsLadder { get; set; } = false;
+
+    public bool IsWalkable => LevelTileMetadata.IsWalkable(TileBase);
+
     public IEnumerable<LevelTile> GetNeightbours()
     {
-        yield return TileNeighbours.UpTile;
-        yield return TileNeighbours.DownTile;
-        yield return TileNeighbours.LeftTile;
-        yield return TileNeighbours.RightTile;
+        if (TileNeighbours.UpTile != null && TileNeighbours.UpTile.IsWalkable) yield return TileNeighbours.UpTile;
+        if (TileNeighbours.DownTile != null && TileNeighbours.DownTile.IsWalkable) yield return TileNeighbours.DownTile;
+        if (TileNeighbours.LeftTile != null && TileNeighbours.LeftTile.IsWalkable) yield return TileNeighbours.LeftTile;
+        if (TileNeighbours.RightTile != null && TileNeighbours.RightTile.IsWalkable) yield return TileNeighbours.RightTile;
+
+        // Verticales (si fueron asignados)
+        if (TileNeighbours.UpLevelTile != null && TileNeighbours.UpLevelTile.IsWalkable) yield return TileNeighbours.UpLevelTile;
+        if (TileNeighbours.DownLevelTile != null && TileNeighbours.DownLevelTile.IsWalkable) yield return TileNeighbours.DownLevelTile;
     }
 }
 
 public class LevelTileNeighbours
 {
-    public LevelTileNeighbours(LevelTile upTile, LevelTile downTile, LevelTile rightTile, LevelTile leftTile)
+    public LevelTileNeighbours(LevelTile upTile, LevelTile downTile, LevelTile rightTile, LevelTile leftTile,
+                               LevelTile upLevelTile, LevelTile downLevelTile)
     {
         UpTile = upTile;
         DownTile = downTile;
         RightTile = rightTile;
         LeftTile = leftTile;
+        UpLevelTile = upLevelTile;
+        DownLevelTile = downLevelTile;
     }
 
     public readonly LevelTile UpTile;
     public readonly LevelTile DownTile;
     public readonly LevelTile RightTile;
     public readonly LevelTile LeftTile;
+
+    // Conexiones verticales entre capas
+    public readonly LevelTile UpLevelTile;
+    public readonly LevelTile DownLevelTile;
 }

@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 5dc9db3795d87854e888101581c120aa
+guid: c5cbb78113650c94d8349ef99e336f34
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8679976570566290282
-    second: FireFighter_SpriteSheet 1_0
-  - first:
-      213: 1935970351666767914
-    second: FireFighter_SpriteSheet 1_1
-  - first:
-      213: -9029570938233990638
-    second: FireFighter_SpriteSheet 1_2
-  - first:
-      213: 4805886849171539371
-    second: FireFighter_SpriteSheet 1_3
+      213: 2722816657355525349
+    second: Fireman_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -55,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 0
   alignment: 0
@@ -81,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 16384
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -161,13 +152,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: FireFighter_Frame4
+      name: Fireman_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 512
-        height: 512
+        x: 6
+        y: 30
+        width: 495
+        height: 460
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -176,74 +167,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 694deac2c478a8780800000000000000
-      internalID: -8679976570566290282
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FireFighter_Frame3
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 0
-        width: 512
-        height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a2829c217c2fdda10800000000000000
-      internalID: 1935970351666767914
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FireFighter_Frame2
-      rect:
-        serializedVersion: 2
-        x: 1024
-        y: 0
-        width: 512
-        height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2125f58821580b280800000000000000
-      internalID: -9029570938233990638
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FireFighter_Frame1
-      rect:
-        serializedVersion: 2
-        x: 1536
-        y: 0
-        width: 512
-        height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ba5479b60a0f1b240800000000000000
-      internalID: 4805886849171539371
+      spriteID: 5ec4132e25369c520800000000000000
+      internalID: 2722816657355525349
       vertices: []
       indices: 
       edges: []
@@ -252,7 +177,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 9f561af6c6b0f864683c891c429d4e9d
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -262,10 +187,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      FireFighter_Frame1: 4805886849171539371
-      FireFighter_Frame2: -9029570938233990638
-      FireFighter_Frame3: 1935970351666767914
-      FireFighter_Frame4: -8679976570566290282
+      Fireman_0: 2722816657355525349
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

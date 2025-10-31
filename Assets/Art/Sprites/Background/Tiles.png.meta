@@ -91,7 +91,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -126,7 +126,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 16384
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -214,7 +214,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -236,7 +236,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -250,7 +250,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TileLake_LUp
+      name: Tile_1
       rect:
         serializedVersion: 2
         x: 1536
@@ -258,7 +258,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -272,7 +272,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TileLake_RUp
+      name: Tile_2
       rect:
         serializedVersion: 2
         x: 2048
@@ -280,7 +280,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -294,7 +294,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FloorTileMiddle
+      name: Tile_5
       rect:
         serializedVersion: 2
         x: 3072
@@ -302,7 +302,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -316,7 +316,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_8
+      name: Tile_6
       rect:
         serializedVersion: 2
         x: 4096
@@ -324,7 +324,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -346,7 +346,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -368,7 +368,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -382,7 +382,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TileLake_LDown
+      name: Tile_3
       rect:
         serializedVersion: 2
         x: 1536
@@ -390,7 +390,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -404,7 +404,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TileLake_RDown
+      name: Tile_4
       rect:
         serializedVersion: 2
         x: 2048
@@ -412,7 +412,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -426,7 +426,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_17
+      name: Tile_7
       rect:
         serializedVersion: 2
         x: 3072
@@ -434,7 +434,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -448,7 +448,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_18
+      name: Tile_8
       rect:
         serializedVersion: 2
         x: 3584
@@ -456,7 +456,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -470,7 +470,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_19
+      name: Tile_9
       rect:
         serializedVersion: 2
         x: 4096
@@ -478,7 +478,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -492,7 +492,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_20
+      name: Tile_10
       rect:
         serializedVersion: 2
         x: 4608
@@ -500,7 +500,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -514,7 +514,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_21
+      name: Tile_11
       rect:
         serializedVersion: 2
         x: 5120
@@ -522,7 +522,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -536,7 +536,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_28
+      name: Tile_12
       rect:
         serializedVersion: 2
         x: 3072
@@ -544,7 +544,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -558,7 +558,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_29
+      name: Tile_13
       rect:
         serializedVersion: 2
         x: 3584
@@ -566,7 +566,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -580,7 +580,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_30
+      name: Tile_14
       rect:
         serializedVersion: 2
         x: 4096
@@ -588,7 +588,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -602,7 +602,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_31
+      name: Tile_15
       rect:
         serializedVersion: 2
         x: 4608
@@ -610,7 +610,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -624,7 +624,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_32
+      name: Tile_16
       rect:
         serializedVersion: 2
         x: 5120
@@ -632,7 +632,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -646,7 +646,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_33
+      name: Tile_17
       rect:
         serializedVersion: 2
         x: 0
@@ -654,7 +654,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -668,7 +668,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_34
+      name: Tile_18
       rect:
         serializedVersion: 2
         x: 512
@@ -676,7 +676,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -690,7 +690,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_35
+      name: Tile_19
       rect:
         serializedVersion: 2
         x: 1024
@@ -698,7 +698,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -712,7 +712,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_37
+      name: Tile_20
       rect:
         serializedVersion: 2
         x: 2048
@@ -720,7 +720,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -734,7 +734,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_44
+      name: Tile_21
       rect:
         serializedVersion: 2
         x: 0
@@ -742,7 +742,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -756,7 +756,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_45
+      name: Tile_22
       rect:
         serializedVersion: 2
         x: 512
@@ -764,7 +764,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -778,7 +778,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_46
+      name: Tile_23
       rect:
         serializedVersion: 2
         x: 1024
@@ -786,7 +786,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -800,7 +800,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_48
+      name: Tile_24
       rect:
         serializedVersion: 2
         x: 2048
@@ -808,7 +808,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -822,7 +822,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_50
+      name: Tile_1_Transparent
       rect:
         serializedVersion: 2
         x: 3072
@@ -830,7 +830,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -844,7 +844,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_51
+      name: Tile_2_Transparent
       rect:
         serializedVersion: 2
         x: 3584
@@ -852,7 +852,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -874,7 +874,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -888,7 +888,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_54
+      name: Tile_26
       rect:
         serializedVersion: 2
         x: 0
@@ -896,7 +896,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -910,15 +910,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_55
+      name: Tile_27
       rect:
         serializedVersion: 2
         x: 512
-        y: 2560
+        y: 2553
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -932,7 +932,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_56
+      name: Tile_28
       rect:
         serializedVersion: 2
         x: 1024
@@ -940,7 +940,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -954,7 +954,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_60
+      name: Tile_3_Transparent
       rect:
         serializedVersion: 2
         x: 3072
@@ -962,7 +962,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -976,7 +976,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_61
+      name: Tile_4_Transparent
       rect:
         serializedVersion: 2
         x: 3584
@@ -984,7 +984,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -998,7 +998,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_63
+      name: Tile_29
       rect:
         serializedVersion: 2
         x: 0
@@ -1006,7 +1006,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1020,7 +1020,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_64
+      name: Tile_30
       rect:
         serializedVersion: 2
         x: 512
@@ -1028,7 +1028,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1042,7 +1042,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_65
+      name: Tile_31
       rect:
         serializedVersion: 2
         x: 1024
@@ -1050,7 +1050,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1072,7 +1072,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1086,7 +1086,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_72
+      name: Tile_32
       rect:
         serializedVersion: 2
         x: 0
@@ -1094,7 +1094,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1108,7 +1108,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_73
+      name: Tile_33
       rect:
         serializedVersion: 2
         x: 512
@@ -1116,7 +1116,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1130,7 +1130,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_74
+      name: Tile_34
       rect:
         serializedVersion: 2
         x: 1024
@@ -1138,7 +1138,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1152,7 +1152,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_76
+      name: Tile_20_Transparent
       rect:
         serializedVersion: 2
         x: 2048
@@ -1160,7 +1160,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1174,7 +1174,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_78
+      name: Tile_5_Transparent
       rect:
         serializedVersion: 2
         x: 3072
@@ -1182,7 +1182,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1196,7 +1196,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_80
+      name: Tile_6_Transparent
       rect:
         serializedVersion: 2
         x: 4096
@@ -1204,7 +1204,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1218,7 +1218,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_89
+      name: Tile_7_Transparent
       rect:
         serializedVersion: 2
         x: 3072
@@ -1226,7 +1226,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1240,7 +1240,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_90
+      name: Tile_8_Transparent
       rect:
         serializedVersion: 2
         x: 3584
@@ -1248,7 +1248,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1262,7 +1262,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_91
+      name: Tile_9_Transparent
       rect:
         serializedVersion: 2
         x: 4096
@@ -1270,7 +1270,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1284,7 +1284,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_92
+      name: Tile_10_Transparent
       rect:
         serializedVersion: 2
         x: 4608
@@ -1292,7 +1292,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1306,7 +1306,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_93
+      name: Tile_11_Transparent
       rect:
         serializedVersion: 2
         x: 5120
@@ -1314,7 +1314,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1336,7 +1336,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1350,7 +1350,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_96
+      name: Tile_17_Transparent
       rect:
         serializedVersion: 2
         x: 1024
@@ -1358,7 +1358,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1372,7 +1372,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_97
+      name: Tile_18_Transparent
       rect:
         serializedVersion: 2
         x: 1536
@@ -1380,7 +1380,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1394,7 +1394,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_98
+      name: Tile_19_Transparent
       rect:
         serializedVersion: 2
         x: 2048
@@ -1402,7 +1402,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1429,16 +1429,59 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      FloorTileMiddle: -537749870668139058
       Flower1: -8377130690987618698
       Flower2: 3930821917377472818
       Grass1: 7223950226953391895
       Grass2: -47299315171432025
-      TileLake_LDown: -6765242926017629268
-      TileLake_LUp: -5062486230716756072
-      TileLake_RDown: -8637159173488095169
-      TileLake_RUp: 4099902767569298868
       TileSelector: 304451652
+      Tile_1: -5062486230716756072
+      Tile_10: 85259679
+      Tile_10_Transparent: -496947326
+      Tile_11: -759669722
+      Tile_11_Transparent: -1359433032
+      Tile_12: -1717642796
+      Tile_13: -2030700217
+      Tile_14: 1076571501
+      Tile_15: 897036133
+      Tile_16: -1256728715
+      Tile_17: -1022213013
+      Tile_17_Transparent: 661205846
+      Tile_18: -756422151
+      Tile_18_Transparent: -1045055991
+      Tile_19: 1032012806
+      Tile_19_Transparent: -2141684345
+      Tile_1_Transparent: 1145257517
+      Tile_2: 4099902767569298868
+      Tile_20: -776373421
+      Tile_20_Transparent: 1049539190
+      Tile_21: -1290719484
+      Tile_22: -201531062
+      Tile_23: -231107691
+      Tile_24: 255872801
+      Tile_26: -2010536459
+      Tile_27: 1578620992
+      Tile_28: -2120803707
+      Tile_29: 466061140
+      Tile_2_Transparent: -1688597166
+      Tile_3: -6765242926017629268
+      Tile_30: -1916018972
+      Tile_31: -648181342
+      Tile_32: 646108263
+      Tile_33: 380313529
+      Tile_34: 1296198645
+      Tile_3_Transparent: -709128494
+      Tile_4: -8637159173488095169
+      Tile_4_Transparent: -1823707488
+      Tile_5: -537749870668139058
+      Tile_5_Transparent: 687200475
+      Tile_6: 857779327251732012
+      Tile_6_Transparent: -356975689
+      Tile_7: -8955812619259062215
+      Tile_7_Transparent: -579990220
+      Tile_8: 4680653795402065389
+      Tile_8_Transparent: 800109576
+      Tile_9: -1447880317
+      Tile_9_Transparent: 785124220
       Tiles_0: -1108238547
       Tiles_10: 7477827516038983822
       Tiles_100: -1560478144
@@ -1451,56 +1494,28 @@ TextureImporter:
       Tiles_107: 1558318763
       Tiles_13: 9045646400296435942
       Tiles_16: 8933607801220796041
-      Tiles_17: -8955812619259062215
-      Tiles_18: 4680653795402065389
-      Tiles_19: -1447880317
       Tiles_2: -4684333735789482159
-      Tiles_20: 85259679
-      Tiles_21: -759669722
       Tiles_22: -1091682007
       Tiles_23: 995798096
       Tiles_24: -1297082958
       Tiles_25: -335342574
       Tiles_26: 2112752960
       Tiles_27: -578477448
-      Tiles_28: -1717642796
-      Tiles_29: -2030700217
-      Tiles_30: 1076571501
-      Tiles_31: 897036133
-      Tiles_32: -1256728715
-      Tiles_33: -1022213013
-      Tiles_34: -756422151
-      Tiles_35: 1032012806
       Tiles_36: -2086885783
-      Tiles_37: -776373421
       Tiles_38: 698389193
       Tiles_39: 1591192900
       Tiles_40: 1124968839
       Tiles_41: 419699321
       Tiles_42: -1158075428
       Tiles_43: 187490324
-      Tiles_44: -1290719484
-      Tiles_45: -201531062
-      Tiles_46: -231107691
       Tiles_47: -635458245
-      Tiles_48: 255872801
       Tiles_49: -2068928626
       Tiles_5: -6833445872158455971
-      Tiles_50: 1145257517
-      Tiles_51: -1688597166
       Tiles_52: -354923026
-      Tiles_54: -2010536459
-      Tiles_55: 1578620992
-      Tiles_56: -2120803707
       Tiles_57: 1665894181
       Tiles_58: 2082575625
       Tiles_59: -796680023
-      Tiles_60: -709128494
-      Tiles_61: -1823707488
       Tiles_62: 121779109
-      Tiles_63: 466061140
-      Tiles_64: -1916018972
-      Tiles_65: -648181342
       Tiles_66: -803912088
       Tiles_67: 1953473688
       Tiles_68: 1273770720
@@ -1508,16 +1523,9 @@ TextureImporter:
       Tiles_7: 1561205615984820651
       Tiles_70: 472186535
       Tiles_71: 217399125
-      Tiles_72: 646108263
-      Tiles_73: 380313529
-      Tiles_74: 1296198645
       Tiles_75: -1251327398
-      Tiles_76: 1049539190
       Tiles_77: -1915467815
-      Tiles_78: 687200475
       Tiles_79: -1805756411
-      Tiles_8: 857779327251732012
-      Tiles_80: -356975689
       Tiles_81: 210929950
       Tiles_82: -1930139330
       Tiles_83: 1902401165
@@ -1526,16 +1534,8 @@ TextureImporter:
       Tiles_86: -1821373280
       Tiles_87: 1000441392
       Tiles_88: -1209036496
-      Tiles_89: -579990220
       Tiles_9: 3825752689756085014
-      Tiles_90: 800109576
-      Tiles_91: 785124220
-      Tiles_92: -496947326
-      Tiles_93: -1359433032
       Tiles_95: 1942960181
-      Tiles_96: 661205846
-      Tiles_97: -1045055991
-      Tiles_98: -2141684345
       Tiles_99: -78035564
       Trampoline: 35638646
   mipmapLimitGroupName: 

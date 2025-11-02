@@ -22,6 +22,7 @@ namespace _Scripts.Input
             {
                 Instance = this;
                 _playerInput = GetComponent<PlayerInput>();
+                
                 DontDestroyOnLoad(this);
             }
             else

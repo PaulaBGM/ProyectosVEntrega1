@@ -47,7 +47,7 @@ namespace _Scripts.Tiles.TileGrid
                 if (depth >= maxMovementTiles)
                     continue;
 
-                foreach (var neighbour in current.GetNeightbours())
+                foreach (var neighbour in current.GetNeighbours())
                 {
                     if (neighbour is null ||
                         visited.Contains(neighbour) ||
@@ -75,6 +75,7 @@ namespace _Scripts.Tiles.TileGrid
                                           + tileToMove.TilemapMember.cellSize * 0.5f;
             
             EventBus<OnPlayerAction>.Publish(new OnPlayerAction());
+            TryExecuteTileInteractor(tileToMove, occupant);
         }
         
         private void MoveAIOccupantToTile(OnPerformAIAction eventData)
@@ -96,7 +97,7 @@ namespace _Scripts.Tiles.TileGrid
             var availableTiles = GetMovementTiles(
                     aiOccupant.TileAssigned, aiOccupant.MaxMovementTiles)
                 .Where(tile =>
-                    tile.GetNeightbours().Where(neighbour => neighbour is not null)
+                    tile.GetNeighbours().Where(neighbour => neighbour is not null)
                         .All(neighbour => neighbour.Occupant is not IPlayerOccupant))
                 .ToArray();
             
@@ -124,7 +125,7 @@ namespace _Scripts.Tiles.TileGrid
                 if (currentNode.LevelTile == endTile)
                     break;
                 
-                foreach (var neighbour in currentNode.LevelTile.GetNeightbours())
+                foreach (var neighbour in currentNode.LevelTile.GetNeighbours())
                 {
                     if (neighbour == null || pathNodeClosedList.Contains(neighbour))
                         continue;
@@ -196,6 +197,13 @@ namespace _Scripts.Tiles.TileGrid
             }
             
             aiOccupant.IsAIActionFinished = true;
+            TryExecuteTileInteractor(aiOccupant.TileAssigned,  aiOccupant);
+        }
+
+        private void TryExecuteTileInteractor(LevelTile tile, IOccupant occupant)
+        {
+            var interactor = tile.TileInteractor;
+            interactor?.Interact(occupant);
         }
         
         private void OnDisable()

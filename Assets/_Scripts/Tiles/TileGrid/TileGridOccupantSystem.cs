@@ -82,7 +82,7 @@ namespace _Scripts.Tiles.TileGrid
 
 
         private bool CanCatchCat(IAIOccupant catOccupant, IPlayerOccupant playerOccupant) =>
-            catOccupant.TileAssigned.GetNeightbours().Contains(playerOccupant.TileAssigned);
+            catOccupant.TileAssigned.GetNeighbours().Contains(playerOccupant.TileAssigned);
 
         private void OnDisable()
         {

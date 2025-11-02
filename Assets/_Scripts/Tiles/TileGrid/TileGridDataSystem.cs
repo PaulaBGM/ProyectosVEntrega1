@@ -10,10 +10,9 @@ namespace _Scripts.Tiles.TileGrid
 {
     public class TileGridDataSystem : MediatorClientSystem<TileGridMediator>
     {
-        [SerializeField]
-        private Tilemap[] _tilemapsFromTopToBottom;
+        [SerializeField] private Tilemap[] _tilemapsFromTopToBottom;
 
-        public Dictionary<Vector3, LevelTile> Tiles { get; private set; } = new();
+        private readonly Dictionary<Vector3, LevelTile> _tiles = new();
 
         private void OnEnable()
         {
@@ -27,7 +26,7 @@ namespace _Scripts.Tiles.TileGrid
 
         public void SetWorldTiles()
         {
-            Tiles.Clear();
+            _tiles.Clear();
             int layerCounter = 0;
 
             foreach (var tilemap in _tilemapsFromTopToBottom)
@@ -35,7 +34,7 @@ namespace _Scripts.Tiles.TileGrid
                 foreach (Vector3Int localPosition in tilemap.cellBounds.allPositionsWithin)
                 {
                     if ((!tilemap.HasTile(localPosition)) ||
-                        Tiles.ContainsKey(tilemap.CellToWorld(localPosition)))
+                        _tiles.ContainsKey(tilemap.CellToWorld(localPosition)))
                         continue;
 
                     var tile = new LevelTile(
@@ -45,31 +44,38 @@ namespace _Scripts.Tiles.TileGrid
                         tilemapMember: tilemap,
                         heightLayer: layerCounter);
 
-                    Tiles.Add(tile.WorldPosition, tile);
+                    _tiles.Add(tile.WorldPosition, tile);
                 }
 
                 layerCounter++;
             }
 
             AssignNeighbours();
-            mediator.WorldTilesSet(Tiles);
+            mediator.WorldTilesSet(_tiles);
         }
 
         private void AssignNeighbours()
         {
-            foreach (var tile in Tiles.Values)
+            foreach (var tile in _tiles.Values)
             {
+                LevelTile TryGetSameHeightNeighbour(Vector3 offset)
+                {
+                    var neighbour = GetWorldTile(tile.WorldPosition + offset);
+                    return (neighbour != null && neighbour.HeightLayer == tile.HeightLayer) ? neighbour : null;
+                }
+
                 tile.TileNeighbours = new LevelTileNeighbours(
-                    upTile: GetWorldTile(tile.WorldPosition + new Vector3(0, tile.HeightSize, 0)),
-                    downTile: GetWorldTile(tile.WorldPosition + new Vector3(0, -tile.HeightSize, 0)),
-                    rightTile: GetWorldTile(tile.WorldPosition + new Vector3(tile.WidthSize, 0, 0)),
-                    leftTile: GetWorldTile(tile.WorldPosition + new Vector3(-tile.WidthSize, 0, 0))
+                    upTile:    TryGetSameHeightNeighbour(new Vector3(0, tile.HeightSize, 0)),
+                    downTile:  TryGetSameHeightNeighbour(new Vector3(0, -tile.HeightSize, 0)),
+                    rightTile: TryGetSameHeightNeighbour(new Vector3(tile.WidthSize, 0, 0)),
+                    leftTile:  TryGetSameHeightNeighbour(new Vector3(-tile.WidthSize, 0, 0))
                 );
             }
         }
 
+
         private LevelTile GetWorldTile(Vector3 position) =>
-            Tiles.GetValueOrDefault(_tilemapsFromTopToBottom.First().WorldToCell(position));
+            _tiles.GetValueOrDefault(_tilemapsFromTopToBottom.First().WorldToCell(position));
 
         private void GetTileFromPlayerInput(Vector3 pointInWorld)
         {

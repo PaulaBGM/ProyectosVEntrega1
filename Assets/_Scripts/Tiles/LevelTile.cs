@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using _Scripts.Occupants;
+using _Scripts.TileInteractor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -33,14 +34,16 @@ namespace _Scripts.Tiles
         //Others
 
         public IOccupant Occupant { get; set; } = null;
-
+        
+        public ITileInteractor TileInteractor { get; set; } = null;
+        
         public LevelTileNeighbours TileNeighbours { get; set; }
 
         public float WidthSize => TilemapMember.cellSize.x;
 
         public float HeightSize => TilemapMember.cellSize.y;
 
-        public IEnumerable<LevelTile> GetNeightbours()
+        public IEnumerable<LevelTile> GetNeighbours()
         {
             yield return TileNeighbours.UpTile;
             yield return TileNeighbours.DownTile;

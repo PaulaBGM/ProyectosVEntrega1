@@ -22,7 +22,7 @@ namespace _Scripts.Tiles.TileGrid
         {
             var tilesHighlighted = movementTiles as LevelTile[] ?? movementTiles.ToArray();
             _tilesHighlighted = tilesHighlighted;
-
+            
             foreach (var tile in tilesHighlighted)
             {
                 tile.TilemapMember.SetTileFlags(tile.LocalPosition, TileFlags.LockTransform);

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed7ffc3d3021dd148994d9310f3844da, type: 3}
+  m_Name: Area 1
+  m_EditorClassIdentifier: 
+  areaName: Tutorial
+  levels:
+  - {fileID: 11400000, guid: 3728312024b7e1e4ab13bf7d6ef87e99, type: 2}
+  - {fileID: 11400000, guid: 39949afbbe6c7dd4d85f056499e34097, type: 2}
+  - {fileID: 11400000, guid: 8e87671aa8c0dd842a220c333a2d5c37, type: 2}
+  - {fileID: 11400000, guid: 9038dee16b86656448054d67bad554fa, type: 2}
+  - {fileID: 11400000, guid: 003a355fe572b2b4ab6b6c1bc2cfc598, type: 2}

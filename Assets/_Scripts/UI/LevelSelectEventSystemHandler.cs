@@ -9,12 +9,11 @@ public class LevelSelectEventSystemHandler : DynamicEventSystemHandler
     private LevelButton _levelButton;
     private LevelSelectManager _manager;
 
+    private bool _initialMoveComplete;
+
     private void Awake()
     {
-        // Cachea referencias para evitar buscar cada vez
-        _manager = GetComponentInParent<LevelSelectManager>();
-        // _image = GetComponent<Image>();
-        //_levelButton = GetComponent<LevelButton>();
+        _manager = GetComponentInParent<LevelSelectManager>(); 
     }
 
     public override void OnPointerEnter(BaseEventData eventData) 
@@ -32,6 +31,13 @@ public class LevelSelectEventSystemHandler : DynamicEventSystemHandler
         if (_levelButton != null) 
         {
             _manager.LevelHeaderText.SetText(_levelButton.levelData.LevelName);
+            
+            RectTransform rectTrans = eventData.selectedObject.GetComponent<RectTransform>();
+            
+            if (_initialMoveComplete) 
+                _manager.MovePlayerToButton(_manager.PlayerObj, rectTrans, _manager.WorldSpaceCanvasRect);
+
+            _initialMoveComplete = true;
 
             if (_image != null) 
             {

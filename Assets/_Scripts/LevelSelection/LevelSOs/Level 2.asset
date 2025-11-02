@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Level 2
   m_EditorClassIdentifier: 
   LevelID: 1-2
-  ISUnlockedByDefault: 1
+  ISUnlockedByDefault: 0
   scene:
-    m_SceneAsset: {fileID: 102900000, guid: 1c6a97b3cd1555840a052caa7e75703b, type: 3}
+    m_SceneAsset: {fileID: 0}
     m_SceneName: Level 2
   LevelName: 1-2

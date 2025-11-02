@@ -1,3 +1,4 @@
+// OptionsMenuController.cs (refactor mínima)
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
@@ -7,7 +8,6 @@ public class OptionsMenuController : MonoBehaviour
     [Header("Panels")]
     [SerializeField] private GameObject optionsPanel;
     [SerializeField] private GameObject creditsPanel;
-    [SerializeField] private MenuController menuController;
 
     [Header("Buttons")]
     [SerializeField] private Button backButton;
@@ -18,14 +18,6 @@ public class OptionsMenuController : MonoBehaviour
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Slider sfxSlider;
     [SerializeField] private Slider brightnessSlider;
-
-    [Header("Audio")]
-    [SerializeField] private AudioMixer masterMixer; // expone "MusicVol" y "SFXVol"
-    private const string MIXER_MUSIC_PARAM = "MusicVol";
-    private const string MIXER_SFX_PARAM = "SFXVol";
-
-    [Header("Visuals")]
-    [SerializeField] private Image brightnessOverlay; // Image negra fullscreen
 
     private const string PP_MUSIC = "opt_music";
     private const string PP_SFX = "opt_sfx";
@@ -44,9 +36,10 @@ public class OptionsMenuController : MonoBehaviour
         if (sfxSlider) sfxSlider.SetValueWithoutNotify(sfx);
         if (brightnessSlider) brightnessSlider.SetValueWithoutNotify(bright);
 
-        ApplyMusicVolume(music);
-        ApplySfxVolume(sfx);
-        ApplyBrightness(bright);
+        // Aplicamos vía bus al global
+        UIEvents.BroadcastMusic(music);
+        UIEvents.BroadcastSfx(sfx);
+        UIEvents.BroadcastBrightness(bright);
 
         if (backButton) backButton.onClick.AddListener(OnBack);
         if (creditsButton) creditsButton.onClick.AddListener(OpenCredits);
@@ -59,19 +52,20 @@ public class OptionsMenuController : MonoBehaviour
 
     private void OnEnable()
     {
+        // al habilitar, reemitimos para asegurar
         float music = musicSlider ? musicSlider.value : PlayerPrefs.GetFloat(PP_MUSIC, 0.8f);
         float sfx = sfxSlider ? sfxSlider.value : PlayerPrefs.GetFloat(PP_SFX, 0.8f);
         float bright = brightnessSlider ? brightnessSlider.value : PlayerPrefs.GetFloat(PP_BRIGHT, 1.0f);
 
-        ApplyMusicVolume(music);
-        ApplySfxVolume(sfx);
-        ApplyBrightness(bright);
+        UIEvents.BroadcastMusic(music);
+        UIEvents.BroadcastSfx(sfx);
+        UIEvents.BroadcastBrightness(bright);
     }
 
-    // --- Navegación de paneles ---
     public void OnBack()
     {
-        if (menuController) menuController.CloseOptionsMenu();
+        // le decimos al global que cierre y que avise
+        GlobalUIRoot.Instance?.CloseOptionsFromGlobal();
     }
 
     public void OpenCredits()
@@ -86,46 +80,23 @@ public class OptionsMenuController : MonoBehaviour
         if (optionsPanel) optionsPanel.SetActive(true);
     }
 
-    // --- Callbacks de sliders ---
     private void OnMusicChanged(float v)
     {
-        ApplyMusicVolume(v);
         PlayerPrefs.SetFloat(PP_MUSIC, v);
+        UIEvents.BroadcastMusic(v);
     }
 
     private void OnSfxChanged(float v)
     {
-        ApplySfxVolume(v);
         PlayerPrefs.SetFloat(PP_SFX, v);
+        UIEvents.BroadcastSfx(v);
     }
 
     private void OnBrightnessChanged(float v)
     {
-        ApplyBrightness(v);
         PlayerPrefs.SetFloat(PP_BRIGHT, v);
+        UIEvents.BroadcastBrightness(v);
     }
 
     private void OnDestroy() => PlayerPrefs.Save();
-
-    // --- Aplicadores ---
-    private void ApplyMusicVolume(float value01)
-    {
-        if (!masterMixer) return;
-        float dB = (value01 <= 0.0001f) ? -80f : Mathf.Log10(Mathf.Clamp(value01, 0.0001f, 1f)) * 20f;
-        masterMixer.SetFloat(MIXER_MUSIC_PARAM, dB);
-    }
-
-    private void ApplySfxVolume(float value01)
-    {
-        if (!masterMixer) return;
-        float dB = (value01 <= 0.0001f) ? -80f : Mathf.Log10(Mathf.Clamp(value01, 0.0001f, 1f)) * 20f;
-        masterMixer.SetFloat(MIXER_SFX_PARAM, dB);
-    }
-
-    private void ApplyBrightness(float value01)
-    {
-        if (!brightnessOverlay) return;
-        float alpha = Mathf.Lerp(0.85f, 0f, Mathf.Clamp01(value01)); // 0=>oscuro, 1=>claro
-        var c = brightnessOverlay.color; c.a = alpha; brightnessOverlay.color = c;
-    }
 }

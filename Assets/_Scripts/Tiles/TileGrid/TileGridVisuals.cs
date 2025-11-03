@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using _Scripts.Core.Mediator;
+using _Scripts.Occupants;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.Tilemaps;
+using UnityEngine.Timeline;
 
 namespace _Scripts.Tiles.TileGrid
 {
@@ -17,6 +19,10 @@ namespace _Scripts.Tiles.TileGrid
         private ObjectPool<GameObject> _actionTileMarkerPool;
 
         private readonly List<GameObject> _actionTileMarkers = new();
+        
+        private static readonly Color OccupantColor = Color.yellow;
+        private static readonly Color InteractorColor = Color.blue;
+        private static readonly Color DefaultColor = Color.white;
         
         protected override void Awake()
         {
@@ -55,12 +61,13 @@ namespace _Scripts.Tiles.TileGrid
             
             foreach (var tile in tilesHighlighted)
             {
-                Debug.Log("AAA");
                 var marker = _actionTileMarkerPool.Get();
                 marker.transform.position = new Vector3(
                     tile.WorldPosition.x + tile.TilemapMember.cellSize.x * 0.5f,
                     tile.WorldPosition.y +tile.TilemapMember.cellSize.y * 0.5f,
                     transform.position.z);
+                
+                HighlightOptions(marker, tile);
             }
         }
         private void HandleOnTileClicked(Vector3 _)
@@ -74,6 +81,19 @@ namespace _Scripts.Tiles.TileGrid
             {
                 _actionTileMarkerPool.Release(marker);
             }
+        }
+
+        private void HighlightOptions(GameObject marker, LevelTile tile)
+        {
+            if (!marker.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+            {
+                Debug.LogWarning($"Marker {marker.name} no tiene SpriteRenderer");
+                return;
+            }
+
+            spriteRenderer.color = tile.Occupant is IAIOccupant ? OccupantColor  :
+                tile.TileInteractor != null ? InteractorColor :
+                DefaultColor;
         }
         
         // private void HighlightMovementTiles(IEnumerable<LevelTile> movementTiles)

@@ -51,7 +51,7 @@ namespace _Scripts.Tiles.TileGrid
                 {
                     if (neighbour is null ||
                         visited.Contains(neighbour) ||
-                        neighbour.Occupant is not null) 
+                        neighbour.Occupant is IPlayerOccupant) 
                         continue;
 
                     visited.Add(neighbour);
@@ -127,7 +127,9 @@ namespace _Scripts.Tiles.TileGrid
                 
                 foreach (var neighbour in currentNode.LevelTile.GetNeighbours())
                 {
-                    if (neighbour == null || pathNodeClosedList.Contains(neighbour))
+                    if (neighbour == null ||
+                        neighbour.Occupant is IAIOccupant ||
+                        pathNodeClosedList.Contains(neighbour))
                         continue;
 
                     var tentativeG = currentNode.GCost + 1;

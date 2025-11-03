@@ -62,7 +62,20 @@ namespace _Scripts.Tiles.TileGrid
             if (occupantOnTile is IAIOccupant catOccupant && CanCatchCat(catOccupant, playerOccupant))
             {
                 catOccupant.Catch();
-                EventBus<OnPlayerAction>.Publish(new OnPlayerAction());
+
+                foreach (var occupant in _occupants)
+                {
+                    if (occupant.TryGetComponent<IAIOccupant>(out _))
+                    {
+                        EventBus<OnPlayerAction>.Publish(new OnPlayerAction());
+                        break;
+                    }
+                }
+                
+                EventBus<OnGameFinished>.Publish(new OnGameFinished
+                {
+                    IsWin = true
+                });
             }
             else
             {

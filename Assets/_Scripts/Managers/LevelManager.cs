@@ -14,11 +14,15 @@ namespace _Scripts.Managers
         private int maxTurns;
         
         private int _actionsLeft;
+        private int _turnsLeft;
+
+        private bool isGameWon = false;
 
         public enum LevelState
         {
             PlayerTurn,
-            AITurn
+            AITurn,
+            EndGame
         }
 
         private LevelState _currentState = LevelState.PlayerTurn;
@@ -28,11 +32,13 @@ namespace _Scripts.Managers
         {
             EventBus<OnPlayerAction>.Subscribe(HandlePlayerAction);
             EventBus<OnAITurnCompleted>.Subscribe(HandleAITurnCompleted);
+            EventBus<OnGameFinished>.Subscribe(HandleOnGameFinished);
         }
 
         private void Start()
         {
             _actionsLeft = playerActionsPerTurn;
+            _turnsLeft =  maxTurns;
         }
 
         private void HandlePlayerAction(OnPlayerAction _)
@@ -48,6 +54,12 @@ namespace _Scripts.Managers
         private void HandleAITurnCompleted(OnAITurnCompleted _)
         {
             ChangeState(LevelState.PlayerTurn);
+        }
+        
+        private void HandleOnGameFinished(OnGameFinished eventData)
+        {
+            isGameWon = eventData.IsWin;
+            ChangeState(LevelState.EndGame);
         }
 
         public void ChangeState(LevelState newState)
@@ -73,7 +85,14 @@ namespace _Scripts.Managers
                     _actionsLeft = playerActionsPerTurn;
                     break;
                 case LevelState.AITurn:
-                    // Handle AI turn logic here
+                    _turnsLeft--;
+                    
+                    if (_turnsLeft <= 0)
+                        ChangeState(LevelState.EndGame);
+                    break;
+                case LevelState.EndGame:
+                    // Handle End logic here (Show Win UI)
+                    Debug.Log("EndGame");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);

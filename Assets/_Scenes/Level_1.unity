@@ -243,6 +243,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FireFighterOccupant
       objectReference: {fileID: 0}
+    - target: {fileID: 3769298337486391183, guid: d03c607a58e41524aaa49b52e71e3db5, type: 3}
+      propertyPath: _maxMovementTiles
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7654791247528903354, guid: d03c607a58e41524aaa49b52e71e3db5, type: 3}
     m_RemovedGameObjects: []
@@ -7350,11 +7354,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8406035441509420827, guid: d108bbb5f491abb42a1550ace59c6567, type: 3}
       propertyPath: maxTurns
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8406035441509420827, guid: d108bbb5f491abb42a1550ace59c6567, type: 3}
       propertyPath: playerActionsPerTurn
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8406035441509420827, guid: d108bbb5f491abb42a1550ace59c6567, type: 3}
       propertyPath: playerMovementsPerTurn

@@ -27,6 +27,11 @@ namespace _Scripts.Events
     }
     
     public struct OnAITurnCompleted : IEvent { }
-    
+
+    public struct OnGameFinished : IEvent
+    {
+        public bool IsWin { get; set; }
+    }
+
     #endregion
 }

@@ -20,9 +20,9 @@ namespace _Scripts.Tiles.TileGrid
 
         private readonly List<GameObject> _actionTileMarkers = new();
         
-        private static readonly Color OccupantColor = Color.yellow;
-        private static readonly Color InteractorColor = Color.blue;
-        private static readonly Color DefaultColor = Color.white;
+        private static readonly Color OccupantColor = new Color(1f, 1f, 0f, 0.75f); 
+        private static readonly Color InteractorColor = new Color(0f, 0.5f, 1f, 0.75f); 
+        private static readonly Color DefaultColor = new Color(1f, 1f, 1f, 0.75f);
         
         protected override void Awake()
         {

@@ -80,8 +80,9 @@ namespace _Scripts.Tiles.TileGrid
         private void GetTileFromPlayerInput(Vector3 pointInWorld)
         {
             var tileSelected = GetWorldTile(pointInWorld);
-
-            mediator.TileExecuteAction(tileSelected);
+            
+            if (tileSelected != null)
+                mediator.TileExecuteAction(tileSelected);
         }
 
         private void OnDisable()

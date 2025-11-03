@@ -1143,7 +1143,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8406035441509420827, guid: d108bbb5f491abb42a1550ace59c6567, type: 3}
       propertyPath: maxTurns
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8406035441509420827, guid: d108bbb5f491abb42a1550ace59c6567, type: 3}
       propertyPath: playerActionsPerTurn
@@ -1182,6 +1182,10 @@ PrefabInstance:
       propertyPath: '_tilemapsFromTopToBottom.Array.data[1]'
       value: 
       objectReference: {fileID: 172783744}
+    - target: {fileID: 7539043115942196571, guid: eb7fb22d3f049f843bff256ff2aa3320, type: 3}
+      propertyPath: actionMarkerPrefab
+      value: 
+      objectReference: {fileID: 1294321502897275693, guid: 9309fea2e5ac8eb458b108aa4c5f0519, type: 3}
     - target: {fileID: 7725613753503670182, guid: eb7fb22d3f049f843bff256ff2aa3320, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

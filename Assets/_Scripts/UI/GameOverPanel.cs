@@ -5,37 +5,53 @@ using TMPro;
 
 public class GameOverPanel : MonoBehaviour
 {
-    [Header("Refs")]
-    [SerializeField] private GameObject root;     // el Panel o el propio Canvas
+    [Header("UI")]
+    [SerializeField] private GameObject root;      // panel/canvas que se muestra
+    [SerializeField] private TMP_Text titleText;   // opcional, por si quieres cambiar el título
     [SerializeField] private Button retryButton;
     [SerializeField] private Button menuButton;
-    [SerializeField] private Button quitButton;
-    [SerializeField] private TMP_Text noLivesText;
 
-    [Header("Gameplay")]
-    [SerializeField] private LivesSystem lives;   // arrastra tu LivesSystem de la escena
+    [Header("Opcional")]
+    [SerializeField] private LivesSystem lives;    // opcional: si no lo asignas, siempre permite retry
 
     private void Awake()
     {
+        // que empiece oculto
         if (root != null)
             root.SetActive(false);
+
+        // enganchar botones si están
+        if (retryButton != null)
+            retryButton.onClick.AddListener(OnRetry);
+
+        if (menuButton != null)
+            menuButton.onClick.AddListener(OnMenu);
     }
 
-    public void Show()
+    /// <summary>
+    /// Llamas a esto cuando el jugador muere.
+    /// </summary>
+    public void Show(string title = "Has perdido")
     {
         if (root != null)
             root.SetActive(true);
 
-        bool canRetry = lives != null && lives.CurrentLives > 0 && !lives.InCooldown;
+        if (titleText != null)
+            titleText.text = title;
 
-        if (retryButton) retryButton.interactable = canRetry;
-        if (noLivesText) noLivesText.gameObject.SetActive(!canRetry);
+        // si hay sistema de vidas y no hay vidas, desactivar retry
+        bool canRetry = true;
+        if (lives != null)
+            canRetry = lives.CurrentLives > 0 && !lives.InCooldown;
 
-        // pausar
+        if (retryButton != null)
+            retryButton.interactable = canRetry;
+
+        // pausar juego
         Time.timeScale = 0f;
     }
 
-    public void Hide()
+    private void Hide()
     {
         if (root != null)
             root.SetActive(false);
@@ -43,26 +59,21 @@ public class GameOverPanel : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    // BOTONES
-    public void OnRetry()
+    private void OnRetry()
     {
-        if (lives == null) return;
-        if (lives.CurrentLives <= 0 || lives.InCooldown) return;
+        // si hay vidas y no se puede, no hagas nada
+        if (lives != null && (lives.CurrentLives <= 0 || lives.InCooldown))
+            return;
 
+        // recarga escena actual
         Time.timeScale = 1f;
-        Scene current = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(current.buildIndex);
+        var scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.buildIndex);
     }
 
-    public void OnMenu()
+    private void OnMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(0); // tu menú principal
-    }
-
-    public void OnQuit()
-    {
-        Application.Quit();
+        SceneManager.LoadScene(0); // menú principal
     }
 }
-

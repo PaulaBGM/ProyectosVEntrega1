@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using _Scripts.Events;
 
 public class LevelSelectManager : MonoBehaviour
 {
@@ -38,7 +39,6 @@ public class LevelSelectManager : MonoBehaviour
         LoadUnlockedLevels();
         CreateLevelButtons();
         ShowPathsForAlreadyUnlocked();
-
     }
     private void ShowPathsForAlreadyUnlocked()
     {

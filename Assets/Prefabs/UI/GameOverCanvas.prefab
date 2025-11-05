@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Volver al men\xFA\n"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a5be18f1feb7cf2468d3f07dacab1962, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: a5be18f1feb7cf2468d3f07dacab1962, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -324,8 +324,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Reintentar
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a5be18f1feb7cf2468d3f07dacab1962, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: a5be18f1feb7cf2468d3f07dacab1962, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -645,8 +645,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Has Perdido
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 46c472ac61ce54c449f65db6e2206778, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 46c472ac61ce54c449f65db6e2206778, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -748,10 +748,10 @@ RectTransform:
   - {fileID: 5173926212811121460}
   m_Father: {fileID: 6630183832732307493}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 307.6569, y: 173.1349}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1035351825154345992
 CanvasRenderer:
@@ -910,4 +910,4 @@ MonoBehaviour:
   titleText: {fileID: 755145029914739540}
   retryButton: {fileID: 743544018013941052}
   menuButton: {fileID: 651828446573612463}
-  lives: {fileID: 0}
+  lives: {fileID: 2779433278628389703, guid: 1caf35ad9b3715c49ae0cd479e203756, type: 3}

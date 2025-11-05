@@ -86,9 +86,15 @@ namespace _Scripts.Managers
                     break;
                 case LevelState.AITurn:
                     _turnsLeft--;
-                    
+
                     if (_turnsLeft <= 0)
+                    {
                         ChangeState(LevelState.EndGame);
+                        EventBus<OnGameFinished>.Publish(new OnGameFinished
+                        {
+                            IsWin = false
+                        });
+                    }
                     break;
                 case LevelState.EndGame:
                     // Handle End logic here (Show Win UI)

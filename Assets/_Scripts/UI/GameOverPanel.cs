@@ -2,25 +2,24 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using _Scripts.Events;   // <-- el namespace donde tengas el EventBus y el OnGameFinished
 
 public class GameOverPanel : MonoBehaviour
 {
     [Header("UI")]
-    [SerializeField] private GameObject root;      // panel/canvas que se muestra
-    [SerializeField] private TMP_Text titleText;   // opcional, por si quieres cambiar el título
+    [SerializeField] private GameObject root;
+    [SerializeField] private TMP_Text titleText;
     [SerializeField] private Button retryButton;
     [SerializeField] private Button menuButton;
 
     [Header("Opcional")]
-    [SerializeField] private LivesSystem lives;    // opcional: si no lo asignas, siempre permite retry
+    [SerializeField] private LivesSystem lives;
 
     private void Awake()
     {
-        // que empiece oculto
         if (root != null)
             root.SetActive(false);
 
-        // enganchar botones si están
         if (retryButton != null)
             retryButton.onClick.AddListener(OnRetry);
 
@@ -28,9 +27,31 @@ public class GameOverPanel : MonoBehaviour
             menuButton.onClick.AddListener(OnMenu);
     }
 
-    /// <summary>
-    /// Llamas a esto cuando el jugador muere.
-    /// </summary>
+    private void OnEnable()
+    {
+        EventBus<OnGameFinished>.Subscribe(HandleGameFinished);
+    }
+
+    private void OnDisable()
+    {
+        EventBus<OnGameFinished>.Unsubscribe(HandleGameFinished);
+    }
+
+    private void HandleGameFinished(OnGameFinished data)
+    {
+        // si ganó, aquí podrías abrir un panel de victoria
+        if (!data.IsWin)
+        {
+            Show("Has perdido");
+        }
+        else
+        {
+            // si quieres pausar también al ganar:
+            // Time.timeScale = 0f;
+            // o cargar otra escena, etc.
+        }
+    }
+
     public void Show(string title = "Has perdido")
     {
         if (root != null)
@@ -39,7 +60,6 @@ public class GameOverPanel : MonoBehaviour
         if (titleText != null)
             titleText.text = title;
 
-        // si hay sistema de vidas y no hay vidas, desactivar retry
         bool canRetry = true;
         if (lives != null)
             canRetry = lives.CurrentLives > 0 && !lives.InCooldown;
@@ -47,7 +67,6 @@ public class GameOverPanel : MonoBehaviour
         if (retryButton != null)
             retryButton.interactable = canRetry;
 
-        // pausar juego
         Time.timeScale = 0f;
     }
 
@@ -61,11 +80,9 @@ public class GameOverPanel : MonoBehaviour
 
     private void OnRetry()
     {
-        // si hay vidas y no se puede, no hagas nada
         if (lives != null && (lives.CurrentLives <= 0 || lives.InCooldown))
             return;
 
-        // recarga escena actual
         Time.timeScale = 1f;
         var scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.buildIndex);
@@ -74,6 +91,6 @@ public class GameOverPanel : MonoBehaviour
     private void OnMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(0); // menú principal
+        SceneManager.LoadScene(0);
     }
 }

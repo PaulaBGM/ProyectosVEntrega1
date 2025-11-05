@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using _Scripts.Events; // donde tengas OnGameFinished
 
 public class LivesSystem : MonoBehaviour
 {
@@ -20,6 +21,25 @@ public class LivesSystem : MonoBehaviour
     {
         CurrentLives = maxLives;
         NotifyState();
+    }
+
+    private void OnEnable()
+    {
+        EventBus<OnGameFinished>.Subscribe(HandleGameFinished);
+    }
+
+    private void OnDisable()
+    {
+        EventBus<OnGameFinished>.Unsubscribe(HandleGameFinished);
+    }
+
+    private void HandleGameFinished(OnGameFinished data)
+    {
+        // solo consumimos vida si se perdió
+        if (!data.IsWin)
+        {
+            ConsumeLife();
+        }
     }
 
     void Update()

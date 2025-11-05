@@ -4,19 +4,20 @@ using UnityEngine.UI;
 
 public class LevelPathSegment : MonoBehaviour
 {
-    [Header("Destino")]
-    public string toLevelId;  // mantenemos el nombre para no liarnos
+    [Header("IDs de niveles")]
+    public string fromLevelId;   // ej: "Level_1"
+    public string toLevelId;     // ej: "Level_2"
 
     [Header("Visual")]
-    [SerializeField] private Image pathImage;
+    [SerializeField] public Image pathImage;
     [SerializeField] private float animDuration = 0.4f;
 
     private void Awake()
     {
-        if (!pathImage)
+        if (pathImage == null)
             pathImage = GetComponent<Image>();
 
-        if (pathImage)
+        if (pathImage != null)
         {
             pathImage.fillAmount = 0f;
             var c = pathImage.color;
@@ -27,9 +28,7 @@ public class LevelPathSegment : MonoBehaviour
 
     public void Play()
     {
-        if (!gameObject.activeInHierarchy) return;
-        if (!pathImage) return;
-
+        if (pathImage == null) return;
         StopAllCoroutines();
         StartCoroutine(AnimatePath());
     }
@@ -44,24 +43,14 @@ public class LevelPathSegment : MonoBehaviour
             t += Time.deltaTime;
             float k = Mathf.Clamp01(t / animDuration);
 
-            pathImage.fillAmount = k;
-            c.a = Mathf.Lerp(0f, 1f, k);
+            pathImage.fillAmount = k;         // se va “llenando” de izq a der
+            c.a = Mathf.Lerp(0f, 1f, k);      // va apareciendo
             pathImage.color = c;
 
             yield return null;
         }
 
         pathImage.fillAmount = 1f;
-        c.a = 1f;
-        pathImage.color = c;
-    }
-
-    // útil si quieres forzar el estado final sin animación
-    public void SetFilledInstant()
-    {
-        if (!pathImage) return;
-        pathImage.fillAmount = 1f;
-        var c = pathImage.color;
         c.a = 1f;
         pathImage.color = c;
     }

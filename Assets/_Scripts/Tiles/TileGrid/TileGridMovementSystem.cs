@@ -22,13 +22,13 @@ namespace _Scripts.Tiles.TileGrid
         }
       
         private void OccupantSelected(
-            (LevelTile tileSelected, int maxMovementTiles) eventData)
+            (LevelTile tileSelected, IOccupant occupant) eventData)
         {
-            _availableTilesToMove = GetMovementTiles(eventData.tileSelected, eventData.maxMovementTiles);
+            _availableTilesToMove = GetMovementTiles(eventData.tileSelected, eventData.occupant);
             mediator.MovementTilesSet(_availableTilesToMove);
         }
 
-        private IEnumerable<LevelTile> GetMovementTiles(LevelTile initialTile, int maxMovementTiles)
+        private IEnumerable<LevelTile> GetMovementTiles(LevelTile initialTile, IOccupant occupant)
         {
             var visited = new HashSet<LevelTile>();
             var frontier = new Queue<(LevelTile tile, int depth)>();
@@ -44,14 +44,15 @@ namespace _Scripts.Tiles.TileGrid
                 if (depth > 0)
                     reachable.Add(current);
 
-                if (depth >= maxMovementTiles)
+                if (depth >= occupant.MaxMovementTiles)
                     continue;
 
                 foreach (var neighbour in current.GetNeighbours())
                 {
                     if (neighbour is null ||
                         visited.Contains(neighbour) ||
-                        neighbour.Occupant is IPlayerOccupant) 
+                        neighbour.Occupant is IPlayerOccupant ||
+                        neighbour.Occupant is IAIOccupant && occupant is IAIOccupant) 
                         continue;
 
                     visited.Add(neighbour);
@@ -104,7 +105,7 @@ namespace _Scripts.Tiles.TileGrid
         private LevelTile GetAiMovementTile(IAIOccupant aiOccupant)
         {
             var availableTiles = GetMovementTiles(
-                    aiOccupant.TileAssigned, aiOccupant.MaxMovementTiles)
+                    aiOccupant.TileAssigned, aiOccupant)
                 .Where(tile =>
                     tile.GetNeighbours().Where(neighbour => neighbour is not null)
                         .All(neighbour => neighbour.Occupant is not IPlayerOccupant))

@@ -18,7 +18,7 @@ namespace _Scripts.Tiles.TileGrid
 
         //EventBus or Singletons events
 
-        public event Action<(LevelTile levelTile, int maxMovementTiles)> OnOccupantSelected;
+        public event Action<(LevelTile levelTile, IOccupant occupant)> OnOccupantSelected;
 
         public event Action<(LevelTile levelTile, IPlayerOccupant playerOccupant)> OnPlayerOccupantMove;
 
@@ -48,9 +48,9 @@ namespace _Scripts.Tiles.TileGrid
             OnTileExecuteAction?.Invoke(tileSelected);
         }
 
-        public void OccupantSelected(LevelTile levelTile, int maxMovementTiles)
+        public void OccupantSelected(LevelTile levelTile, IOccupant occupant)
         {
-            OnOccupantSelected?.Invoke((levelTile, maxMovementTiles));
+            OnOccupantSelected?.Invoke((levelTile, occupant));
         }
 
         public void PlayerOccupantMove(LevelTile levelTile, IPlayerOccupant playerOccupant)

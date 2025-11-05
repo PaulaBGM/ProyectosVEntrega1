@@ -89,7 +89,7 @@ namespace _Scripts.Tiles.TileGrid
 
             if (_occupantSelected != null)
             {
-                mediator.OccupantSelected(tileSelected, _occupantSelected.MaxMovementTiles);
+                mediator.OccupantSelected(tileSelected, _occupantSelected);
             }
         }
 

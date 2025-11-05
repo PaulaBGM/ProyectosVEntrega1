@@ -154,8 +154,10 @@ public class DynamicEventSystemHandler : MonoBehaviour
 
     public virtual void OnPointerExit(BaseEventData eventData)
     {
-        // No anulamos la selección aquí para evitar dejar el EventSystem sin selección.
-        // Si quisieras limpiar selección al salir, asegúrate de que haya otra por defecto.
+        PointerEventData pointerEventData = eventData as PointerEventData;
+       
+        if (pointerEventData == null) 
+            pointerEventData.selectedObject = null;
     }
 
     // Firma compatible con InputAction.performed

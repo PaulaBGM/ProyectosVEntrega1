@@ -25,6 +25,7 @@ public class LevelSelectManager : MonoBehaviour
 
     public GameObject PlayerObj { get; set; }
     public bool _playerIsFacingRight;
+    private LevelPathSegment[] _pathSegments;
 
     private void Awake()
     {
@@ -36,6 +37,23 @@ public class LevelSelectManager : MonoBehaviour
     {
         LoadUnlockedLevels();
         CreateLevelButtons();
+        ShowPathsForAlreadyUnlocked();
+
+    }
+    private void ShowPathsForAlreadyUnlocked()
+    {
+        if (_pathSegments == null) return;
+
+        foreach (var seg in _pathSegments)
+        {
+            if (string.IsNullOrEmpty(seg.toLevelId)) continue;
+
+            // si el destino de este camino ya está desbloqueado
+            if (UnlockedLevelIDs.Contains(seg.toLevelId))
+            {
+                seg.Play();
+            }
+        }
     }
 
     private void LoadUnlockedLevels() 
@@ -83,19 +101,28 @@ public class LevelSelectManager : MonoBehaviour
         _buttonLocations.Add(buttonGo, buttonWorldPos);
     }
     //private IEnumerator DelayedLineSetup
-    
+
     #region HelperMethods
 
-    public void UnlockLevel(string levelID, LevelButton levelButton) 
+    public void UnlockLevel(string levelID, LevelButton levelButton)
     {
         UnlockedLevelIDs.Add(levelID);
         levelButton.Unlock();
-        
-    
+
+        if (_pathSegments != null)
+        {
+            foreach (var seg in _pathSegments)
+            {
+                if (seg.toLevelId == levelID)
+                {
+                    seg.Play();
+                }
+            }
+        }
     }
 
     #endregion
-    
+
     #region Player
 
     private IEnumerator SpawnInPlayerAfterDelay(RectTransform screenSpaceButton, RectTransform worldSpaceCanvas) 

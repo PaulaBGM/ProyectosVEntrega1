@@ -71,11 +71,20 @@ namespace _Scripts.Tiles.TileGrid
                 return;
 
             occupant.AssignTile(tileToMove);
-            occupant.Transform.position = tileToMove.TilemapMember.CellToWorld(tileToMove.LocalPosition)
-                                          + tileToMove.TilemapMember.cellSize * 0.5f;
+            StartCoroutine(StartPlayerMovement(occupant, tileToMove));
+        }
+
+        private IEnumerator StartPlayerMovement(IPlayerOccupant playerOccupant, LevelTile tileToMove)
+        {
+            playerOccupant.TriggerUnstick();
+            yield return new WaitUntil(() => playerOccupant.IsUnstick);
+            playerOccupant.Transform.position = tileToMove.TilemapMember.CellToWorld(tileToMove.LocalPosition)
+                                                + tileToMove.TilemapMember.cellSize * 0.5f;
+            
+            playerOccupant.TriggerMove();
             
             EventBus<OnPlayerAction>.Publish(new OnPlayerAction());
-            TryExecuteTileInteractor(tileToMove, occupant);
+            TryExecuteTileInteractor(tileToMove, playerOccupant);
         }
         
         private void MoveAIOccupantToTile(OnPerformAIAction eventData)

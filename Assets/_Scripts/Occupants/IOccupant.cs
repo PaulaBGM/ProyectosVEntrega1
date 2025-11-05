@@ -12,7 +12,14 @@ namespace _Scripts.Occupants
         void AssignTile(LevelTile levelTile);
     }
 
-    public interface IPlayerOccupant : IOccupant { }
+    public interface IPlayerOccupant : IOccupant
+    {
+        Animator Animator { get; }
+        void TriggerMove();
+        void TriggerUnstick();
+        
+        public bool IsUnstick {get; }
+    }
 
     public interface IAIOccupant : IOccupant
     {

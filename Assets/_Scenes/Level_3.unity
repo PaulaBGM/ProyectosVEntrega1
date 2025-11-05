@@ -1902,6 +1902,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3527137146512736962, guid: b6a0d06a2288fbf48a26519c377b8cac, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3527137146512736962, guid: b6a0d06a2288fbf48a26519c377b8cac, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3527137146512736962, guid: b6a0d06a2288fbf48a26519c377b8cac, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3527137146512736962, guid: b6a0d06a2288fbf48a26519c377b8cac, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -15
+      objectReference: {fileID: 0}
     - target: {fileID: 6630183832732307493, guid: b6a0d06a2288fbf48a26519c377b8cac, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1982,9 +1998,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7027915563536069274, guid: b6a0d06a2288fbf48a26519c377b8cac, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7027915563536069274, guid: b6a0d06a2288fbf48a26519c377b8cac, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7027915563536069274, guid: b6a0d06a2288fbf48a26519c377b8cac, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 210
+      objectReference: {fileID: 0}
+    - target: {fileID: 7027915563536069274, guid: b6a0d06a2288fbf48a26519c377b8cac, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -15
+      objectReference: {fileID: 0}
     - target: {fileID: 8933425665175024068, guid: b6a0d06a2288fbf48a26519c377b8cac, type: 3}
       propertyPath: m_Name
       value: GameOverCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 8933425665175024068, guid: b6a0d06a2288fbf48a26519c377b8cac, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

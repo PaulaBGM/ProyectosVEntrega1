@@ -1075,6 +1075,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e236fb2711bb0fd488c1cf4da3430754, type: 3}
+--- !u!1 &355427416 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6384534393118460843, guid: e236fb2711bb0fd488c1cf4da3430754, type: 3}
+  m_PrefabInstance: {fileID: 355427415}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &383775681
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1218,7 +1223,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3592179305561085200, guid: d1e551a28ccd4ea4c886e5a41ed02d31, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4610794207212729338, guid: d1e551a28ccd4ea4c886e5a41ed02d31, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1793,7 +1798,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8406035441509420827, guid: d108bbb5f491abb42a1550ace59c6567, type: 3}
       propertyPath: playerActionsPerTurn
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8406035441509420827, guid: d108bbb5f491abb42a1550ace59c6567, type: 3}
       propertyPath: playerMovementsPerTurn
@@ -2132,7 +2137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8282448557641603403, guid: eb7fb22d3f049f843bff256ff2aa3320, type: 3}
       propertyPath: _occupants.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8282448557641603403, guid: eb7fb22d3f049f843bff256ff2aa3320, type: 3}
       propertyPath: '_occupants.Array.data[0]'
@@ -2142,6 +2147,10 @@ PrefabInstance:
       propertyPath: '_occupants.Array.data[1]'
       value: 
       objectReference: {fileID: 2145163493}
+    - target: {fileID: 8282448557641603403, guid: eb7fb22d3f049f843bff256ff2aa3320, type: 3}
+      propertyPath: '_occupants.Array.data[2]'
+      value: 
+      objectReference: {fileID: 355427416}
     - target: {fileID: 8449715589776839483, guid: eb7fb22d3f049f843bff256ff2aa3320, type: 3}
       propertyPath: m_Size.x
       value: 25

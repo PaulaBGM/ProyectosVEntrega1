@@ -206,6 +206,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2708695204504706717, guid: 4fd707de0d272834aa416349d52e53a7, type: 3}
   m_PrefabInstance: {fileID: 53949301}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &67373695 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6384534393118460843, guid: e236fb2711bb0fd488c1cf4da3430754, type: 3}
+  m_PrefabInstance: {fileID: 1422929162}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &221305039
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1473,7 +1478,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8406035441509420827, guid: d108bbb5f491abb42a1550ace59c6567, type: 3}
       propertyPath: playerActionsPerTurn
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8406035441509420827, guid: d108bbb5f491abb42a1550ace59c6567, type: 3}
       propertyPath: playerMovementsPerTurn
@@ -2973,7 +2978,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8282448557641603403, guid: eb7fb22d3f049f843bff256ff2aa3320, type: 3}
       propertyPath: _occupants.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8282448557641603403, guid: eb7fb22d3f049f843bff256ff2aa3320, type: 3}
       propertyPath: '_occupants.Array.data[0]'
@@ -2983,6 +2988,10 @@ PrefabInstance:
       propertyPath: '_occupants.Array.data[1]'
       value: 
       objectReference: {fileID: 1860403405}
+    - target: {fileID: 8282448557641603403, guid: eb7fb22d3f049f843bff256ff2aa3320, type: 3}
+      propertyPath: '_occupants.Array.data[2]'
+      value: 
+      objectReference: {fileID: 67373695}
     - target: {fileID: 8449715589776839483, guid: eb7fb22d3f049f843bff256ff2aa3320, type: 3}
       propertyPath: m_Size.x
       value: 17

@@ -544,7 +544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d21afece996f61042a50ff6a8f07d25c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuCanvas: {fileID: 4308555597456793858}
+  mainMenuCanvas: {fileID: 1400611250486428705}
   playButton: {fileID: 7054535414949505412}
   optionsButton: {fileID: 7414963964822848256}
   quitButton: {fileID: 299866247684845208}

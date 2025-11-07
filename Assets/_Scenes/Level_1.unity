@@ -824,7 +824,7 @@ MonoBehaviour:
   tutorialPanel: {fileID: 1739544427}
   usarBuildIndex: 1
   levelBuildIndex: 1
-  levelName: Level1
+  levelName: Level_1
   pausarJuegoMientrasAbierto: 1
 --- !u!1001 &624641396
 PrefabInstance:
@@ -7945,18 +7945,6 @@ PrefabInstance:
     - target: {fileID: 6318165580180672226, guid: d108bbb5f491abb42a1550ace59c6567, type: 3}
       propertyPath: m_Name
       value: Level Manager
-      objectReference: {fileID: 0}
-    - target: {fileID: 8406035441509420827, guid: d108bbb5f491abb42a1550ace59c6567, type: 3}
-      propertyPath: maxTurns
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8406035441509420827, guid: d108bbb5f491abb42a1550ace59c6567, type: 3}
-      propertyPath: playerActionsPerTurn
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8406035441509420827, guid: d108bbb5f491abb42a1550ace59c6567, type: 3}
-      propertyPath: playerMovementsPerTurn
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

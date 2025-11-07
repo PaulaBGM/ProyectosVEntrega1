@@ -1,17 +1,23 @@
 using System;
 using _Scripts.Events;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 namespace _Scripts.Managers
 {
     public class LevelManager : MonoBehaviour
     {
         [SerializeField]
-        private int playerActionsPerTurn;
+        private int playerActionsPerTurn = 3;
 
         [SerializeField]
-        private int maxTurns;
+        private int maxTurns = 5;
+
+        // nivel actual y siguiente para poder desbloquearlo al ganar
+        [Header("Level Flow")]
+        [SerializeField] private string currentLevelId;
+        [SerializeField] private string nextLevelId;
+        [SerializeField] private string levelSelectSceneName = "LevelSelectScene";
 
         private int _actionsLeft;
         private int _turnsLeft;
@@ -84,6 +90,7 @@ namespace _Scripts.Managers
                 case LevelState.PlayerTurn:
                     _actionsLeft = playerActionsPerTurn;
                     break;
+
                 case LevelState.AITurn:
                     _turnsLeft--;
 
@@ -96,10 +103,29 @@ namespace _Scripts.Managers
                         });
                     }
                     break;
+
                 case LevelState.EndGame:
-                    // Handle End logic here (Show Win UI)
-                    Debug.Log("EndGame");
+                    // aquí decidimos qué hacer según si se ganó o no
+                    if (isGameWon)
+                    {
+                        // desbloqueamos el siguiente
+                        if (!string.IsNullOrEmpty(nextLevelId))
+                        {
+                            LevelProgress.Unlock(nextLevelId);
+                        }
+
+                        // volvemos al selector de niveles
+                        if (!string.IsNullOrEmpty(levelSelectSceneName))
+                        {
+                            SceneManager.LoadScene(levelSelectSceneName);
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("EndGame - Derrota");
+                    }
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
             }
@@ -108,6 +134,8 @@ namespace _Scripts.Managers
         private void OnDisable()
         {
             EventBus<OnPlayerAction>.Unsubscribe(HandlePlayerAction);
+            EventBus<OnAITurnCompleted>.Unsubscribe(HandleAITurnCompleted);
+            EventBus<OnGameFinished>.Unsubscribe(HandleOnGameFinished);
         }
     }
 }

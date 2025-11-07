@@ -219,7 +219,6 @@ public class LevelSelectManager : MonoBehaviour
     {
         _playerIsFacingRight = true;
         PlayerObj = Instantiate(PlayerUIPrefab, worldSpaceUIObject);
-        PlayerObj.transform.SetAsLastSibling();
 
         RectTransform playerRect = PlayerObj.GetComponent<RectTransform>();
 

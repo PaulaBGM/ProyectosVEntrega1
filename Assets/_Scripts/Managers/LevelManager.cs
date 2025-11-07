@@ -12,7 +12,7 @@ namespace _Scripts.Managers
 
         [SerializeField]
         private int maxTurns;
-        
+
         private int _actionsLeft;
         private int _turnsLeft;
 
@@ -38,7 +38,7 @@ namespace _Scripts.Managers
         private void Start()
         {
             _actionsLeft = playerActionsPerTurn;
-            _turnsLeft =  maxTurns;
+            _turnsLeft = maxTurns;
         }
 
         private void HandlePlayerAction(OnPlayerAction _)
@@ -55,7 +55,7 @@ namespace _Scripts.Managers
         {
             ChangeState(LevelState.PlayerTurn);
         }
-        
+
         private void HandleOnGameFinished(OnGameFinished eventData)
         {
             isGameWon = eventData.IsWin;
@@ -104,7 +104,7 @@ namespace _Scripts.Managers
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
             }
         }
-        
+
         private void OnDisable()
         {
             EventBus<OnPlayerAction>.Unsubscribe(HandlePlayerAction);

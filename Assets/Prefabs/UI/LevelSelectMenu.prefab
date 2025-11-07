@@ -1065,8 +1065,8 @@ MonoBehaviour:
   LevelButtonPrefab: {fileID: 17001658174567942, guid: c0d36c220c9322e449c5d10bff44f6b9, type: 3}
   LevelHeaderText: {fileID: 8110513075704264934}
   CurrentArea: {fileID: 11400000, guid: 38ef3c8ef7225c94db8e171a16e8ad37, type: 2}
-  PlayerUIPrefab: {fileID: 2299148158605262374, guid: d03c607a58e41524aaa49b52e71e3db5, type: 3}
-  WorldSpaceCanvasRect: {fileID: 4404976994132637785}
+  PlayerUIPrefab: {fileID: 8135340766415258491, guid: 5015c4dc12921b84f9f63293a79de0b9, type: 3}
+  WorldSpaceCanvasRect: {fileID: 0}
   PlayerPositionOffsetPerLevel: {x: 0.02, y: -0.5}
   _playerIsFacingRight: 0
 --- !u!1 &6999260872658857364
@@ -1119,7 +1119,7 @@ Canvas:
   m_GameObject: {fileID: 6999260872658857364}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0

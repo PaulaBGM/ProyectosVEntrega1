@@ -36,26 +36,34 @@ public class LevelPathGenerator : MonoBehaviour
             RectTransform from = buttons[i];
             RectTransform to = buttons[i + 1];
 
-            // Instanciamos la línea
+            // Instanciamos la línea como hijo del pathParent
             Image path = Instantiate(pathPrefab, pathParent);
             path.name = $"Path_{from.name}_{to.name}";
-
             RectTransform rt = path.rectTransform;
 
-            // Colocar en medio
-            Vector3 p1 = from.position;
-            Vector3 p2 = to.position;
-            Vector3 mid = (p1 + p2) / 2f;
-            float dist = Vector3.Distance(p1, p2);
-            Vector3 dir = (p2 - p1).normalized;
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            // Convertir posiciones de los botones al espacio local del parent de las líneas (esto es lo que hace que se "alineen" de verdad)
+            Vector3 p1Local = pathParent.InverseTransformPoint(from.position);
+            Vector3 p2Local = pathParent.InverseTransformPoint(to.position);
 
-            rt.position = mid;
-            rt.sizeDelta = new Vector2(dist, pathThickness);
+            // Calcular el punto medio y la distancia en ese mismo espacio
+            Vector3 midLocal = (p1Local + p2Local) * 0.5f;
+            float dist = Vector2.Distance(p1Local, p2Local);
+
+            // Calcular ángulo en ese espacio
+            Vector3 dirLocal = (p2Local - p1Local).normalized;
+            float angle = Mathf.Atan2(dirLocal.y, dirLocal.x) * Mathf.Rad2Deg;
+
+            // Aplicar al rect del path
+            rt.anchoredPosition = midLocal;                  // porque ahora estamos en el espacio del parent
+            rt.sizeDelta = new Vector2(dist, pathThickness); // largo = distancia entre botones
             rt.rotation = Quaternion.Euler(0f, 0f, angle);
+
+            // por si el prefab no lo trae, aseguramos pivote centrado
+            rt.pivot = new Vector2(0.5f, 0.5f);
 
             // Opcional: si quieres animación, añade el LevelPathSegment
             var segment = path.gameObject.AddComponent<LevelPathSegment>();
+            segment.fromLevelId = from.name;
             segment.toLevelId = to.name;
             segment.pathImage = path;
         }

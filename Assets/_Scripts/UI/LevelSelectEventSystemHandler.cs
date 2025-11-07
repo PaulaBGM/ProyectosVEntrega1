@@ -39,10 +39,7 @@ public class LevelSelectEventSystemHandler : DynamicEventSystemHandler
 
             _initialMoveComplete = true;
 
-            if (_image != null) 
-            {
-                _image.color = Color.red;
-            }
+           
         }
     }
 

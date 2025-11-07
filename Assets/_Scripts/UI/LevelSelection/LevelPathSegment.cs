@@ -5,8 +5,8 @@ using UnityEngine.UI;
 public class LevelPathSegment : MonoBehaviour
 {
     [Header("IDs de niveles")]
-    public string fromLevelId;   // ej: "Level_1"
-    public string toLevelId;     // ej: "Level_2"
+    public string fromLevelId;   
+    public string toLevelId;     
 
     [Header("Visual")]
     [SerializeField] public Image pathImage;

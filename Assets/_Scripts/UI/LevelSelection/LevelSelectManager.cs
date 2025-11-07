@@ -19,27 +19,38 @@ public class LevelSelectManager : MonoBehaviour
     [Header("Player References")]
     public GameObject PlayerUIPrefab;
     public RectTransform WorldSpaceCanvasRect;
-    public Vector2 PlayerPositionOffsetPerLevel = new Vector2(0.02f, -0.5f);
+    public Vector2 PlayerPositionOffsetPerLevel = new Vector2(0f, 0f);
 
     private List<GameObject> _buttonObjects = new List<GameObject>();
-    private Dictionary<GameObject, Vector3> _buttonLocations = new Dictionary<GameObject, Vector3>();
+    private Dictionary<string, Vector3> _buttonLocationsById = new Dictionary<string, Vector3>();
 
     public GameObject PlayerObj { get; set; }
     public bool _playerIsFacingRight;
     private LevelPathSegment[] _pathSegments;
 
+    private bool _playerSpawned = false;
+    private Tween _playerMoveTween;
+
     private void Awake()
     {
         _camera = Camera.main;
         _eventSystemHandler = GetComponentInChildren<LevelSelectEventSystemHandler>(true);
+        _pathSegments = GetComponentsInChildren<LevelPathSegment>(true);
     }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    private void Start()
     {
         LoadUnlockedLevels();
         CreateLevelButtons();
+        StartCoroutine(ShowPathsAfterFrame());
+    }
+
+    private IEnumerator ShowPathsAfterFrame()
+    {
+        yield return null;
         ShowPathsForAlreadyUnlocked();
     }
+
     private void ShowPathsForAlreadyUnlocked()
     {
         if (_pathSegments == null) return;
@@ -48,29 +59,29 @@ public class LevelSelectManager : MonoBehaviour
         {
             if (string.IsNullOrEmpty(seg.toLevelId)) continue;
 
-            // si el destino de este camino ya está desbloqueado
             if (UnlockedLevelIDs.Contains(seg.toLevelId))
             {
                 seg.Play();
+                PlacePathBetweenPreviousAndThis(seg.toLevelId, seg.transform);
             }
         }
     }
 
-    private void LoadUnlockedLevels() 
+    private void LoadUnlockedLevels()
     {
-        foreach (var level in CurrentArea.levels) 
+        foreach (var level in CurrentArea.levels)
         {
-            if (level.ISUnlockedByDefault) 
+            if (level.ISUnlockedByDefault)
                 UnlockedLevelIDs.Add(level.LevelID);
         }
     }
 
-    private void CreateLevelButtons() 
+    private void CreateLevelButtons()
     {
-        for (int i = 0; i < CurrentArea.levels.Count; i++) 
+        for (int i = 0; i < CurrentArea.levels.Count; i++)
         {
             GameObject buttonGo = Instantiate(LevelButtonPrefab, LevelParent);
-            
+
             _buttonObjects.Add(buttonGo);
             RectTransform buttonRect = buttonGo.GetComponent<RectTransform>();
 
@@ -78,29 +89,35 @@ public class LevelSelectManager : MonoBehaviour
             CurrentArea.levels[i].LevelButtonObj = buttonGo;
 
             LevelButton levelButton = buttonGo.GetComponent<LevelButton>();
+            levelButton.levelSelectManager = this;
             levelButton.Setup(CurrentArea.levels[i], UnlockedLevelIDs.Contains(CurrentArea.levels[i].LevelID));
-            
-            //populate the selectables for the event system
+
             Selectable selectable = buttonGo.GetComponent<Selectable>();
             _eventSystemHandler.AddSelectable(selectable);
-            StartCoroutine(SpawnInPlayerAfterDelay(buttonRect, WorldSpaceCanvasRect));
+
+            StartCoroutine(AddLocationAfterDelay(CurrentArea.levels[i].LevelID, buttonRect));
+
+            if (!_playerSpawned)
+            {
+                StartCoroutine(SpawnInPlayerAfterDelay(buttonRect, WorldSpaceCanvasRect));
+                _playerSpawned = true;
+            }
         }
-        
+
         LevelParent.gameObject.SetActive(true);
         _eventSystemHandler.InitSelectables();
         _eventSystemHandler.SetFirstSelected();
     }
 
-    private IEnumerator AddLocationAfterDelay (GameObject buttonGo, RectTransform buttonRect) 
+    private IEnumerator AddLocationAfterDelay(string levelId, RectTransform buttonRect)
     {
         yield return null;
         Vector2 buttonScreenPoint = RectTransformUtility.WorldToScreenPoint(_camera, buttonRect.position);
         Vector3 buttonWorldPos = _camera.ScreenToWorldPoint(new Vector3(buttonScreenPoint.x, buttonScreenPoint.y, _camera.nearClipPlane));
         buttonWorldPos.z = 0;
-        
-        _buttonLocations.Add(buttonGo, buttonWorldPos);
+
+        _buttonLocationsById[levelId] = buttonWorldPos;
     }
-    //private IEnumerator DelayedLineSetup
 
     #region HelperMethods
 
@@ -116,70 +133,135 @@ public class LevelSelectManager : MonoBehaviour
                 if (seg.toLevelId == levelID)
                 {
                     seg.Play();
+                    PlacePathBetweenPreviousAndThis(levelID, seg.transform);
                 }
             }
         }
+    }
+
+    [ContextMenu("Test Level Unlock")]
+    public void UnlockLevelTwoExample()
+    {
+        if (_buttonObjects.Count > 1)
+        {
+            LevelButton levelButton = _buttonObjects[1].GetComponent<LevelButton>();
+            string levelToUnlock = levelButton.levelData.LevelID;
+            UnlockLevel(levelToUnlock, levelButton);
+        }
+        else
+        {
+            Debug.LogWarning("No hay suficiente botones creados aún para hacer el test de desbloqueo.");
+        }
+    }
+
+    private void PlacePathBetweenPreviousAndThis(string levelId, Transform pathTransform)
+    {
+        if (pathTransform == null) return;
+
+        int idx = -1;
+        for (int i = 0; i < CurrentArea.levels.Count; i++)
+        {
+            if (CurrentArea.levels[i].LevelID == levelId)
+            {
+                idx = i;
+                break;
+            }
+        }
+        if (idx == -1) return;
+        if (idx == 0) return;
+
+        string prevLevelId = CurrentArea.levels[idx - 1].LevelID;
+        string currLevelId = CurrentArea.levels[idx].LevelID;
+
+        if (!_buttonLocationsById.TryGetValue(prevLevelId, out Vector3 prevPos)) return;
+        if (!_buttonLocationsById.TryGetValue(currLevelId, out Vector3 currPos)) return;
+
+        Vector3 mid = (prevPos + currPos) * 0.5f;
+        mid.z = pathTransform.position.z;
+
+        pathTransform.position = mid;
     }
 
     #endregion
 
     #region Player
 
-    private IEnumerator SpawnInPlayerAfterDelay(RectTransform screenSpaceButton, RectTransform worldSpaceCanvas) 
-    { 
-        yield return null; 
+    private IEnumerator SpawnInPlayerAfterDelay(RectTransform screenSpaceButton, RectTransform worldSpaceCanvas)
+    {
+        yield return null;
         SpawnInPlayer(screenSpaceButton, worldSpaceCanvas);
     }
+
     private void SpawnInPlayer(RectTransform screenSpaceUIObject, RectTransform worldSpaceUIObject)
     {
         _playerIsFacingRight = true;
         PlayerObj = Instantiate(PlayerUIPrefab, worldSpaceUIObject);
+        PlayerObj.transform.SetAsLastSibling();
+
+        RectTransform playerRect = PlayerObj.GetComponent<RectTransform>();
 
         Vector2 screenPosition = RectTransformUtility.WorldToScreenPoint(_camera, screenSpaceUIObject.position);
-        Vector3 worldPosition = _camera.ScreenToWorldPoint(new Vector3(screenPosition.x,screenPosition.y,_camera.nearClipPlane));
-        worldPosition.z = worldSpaceUIObject.position.z;
-        Vector3 offsetPosition = worldPosition + (Vector3)PlayerPositionOffsetPerLevel;
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(worldSpaceUIObject, screenPosition, _camera, out Vector2 localPoint))
+        {
+            playerRect.anchoredPosition = localPoint + PlayerPositionOffsetPerLevel;
+        }
 
-        PlayerObj.transform.position = offsetPosition;
-        if (_buttonObjects.Count > 1) 
-        {  
+        if (_buttonObjects.Count > 1)
+        {
             Vector2 secondScreenPoint = RectTransformUtility.WorldToScreenPoint(_camera, _buttonObjects[1].GetComponent<RectTransform>().position);
             Vector3 secondWorldPoint = _camera.ScreenToWorldPoint(new Vector3(secondScreenPoint.x, secondScreenPoint.y, _camera.nearClipPlane));
             secondWorldPoint.z = worldSpaceUIObject.position.z;
-            
+
             CheckForRightOrLeftTurn(PlayerObj, ref _playerIsFacingRight, secondWorldPoint);
         }
     }
 
-    private void CheckForRightOrLeftTurn(GameObject player, ref bool isFacingRight, Vector3 targetWorldPosition) 
+    private void CheckForRightOrLeftTurn(GameObject player, ref bool isFacingRight, Vector3 targetWorldPosition)
     {
-        if (isFacingRight) 
+        if (player == null) return;
+
+        if (targetWorldPosition.x < player.transform.position.x && isFacingRight)
         {
             player.transform.Rotate(0f, 180f, 0f);
             isFacingRight = false;
         }
-        else
+        else if (targetWorldPosition.x > player.transform.position.x && !isFacingRight)
         {
-            if (targetWorldPosition.x > player.transform.position.x) 
-            {
-                player.transform.Rotate(0f, -180f, 0f);
-                isFacingRight = true;
-            }  
+            player.transform.Rotate(0f, 180f, 0f);
+            isFacingRight = true;
         }
     }
 
-    public void MovePlayerToButton(GameObject playerUI, RectTransform targetButton, RectTransform worldSpaceUIObject) 
+    public void MovePlayerToButton(GameObject playerUI, RectTransform targetButton, RectTransform worldSpaceUIObject)
     {
-        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(_camera,targetButton.position);
-        Vector3 worldPosition = _camera.ScreenToWorldPoint(new Vector3(screenPoint.x,screenPoint.y,_camera.nearClipPlane));
-        worldPosition.z = worldSpaceUIObject.position.z;
+        if (playerUI == null || targetButton == null || _camera == null) return;
 
-        Vector3 endPosition = worldPosition + (Vector3)PlayerPositionOffsetPerLevel;
+        RectTransform playerRect = playerUI.GetComponent<RectTransform>();
 
-        CheckForRightOrLeftTurn(playerUI, ref _playerIsFacingRight, worldPosition);
+        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(_camera, targetButton.position);
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(worldSpaceUIObject, screenPoint, _camera, out Vector2 localPoint))
+        {
+            Vector2 endPos = localPoint + PlayerPositionOffsetPerLevel;
 
-        playerUI.transform.DOMove(endPosition, 0.11f);
+            if (_playerMoveTween != null && _playerMoveTween.IsActive())
+            {
+                _playerMoveTween.Kill();
+            }
+
+            _playerMoveTween = playerRect.DOAnchorPos(endPos, 0.11f);
+        }
+
+        Vector3 targetWorld = _camera.ScreenToWorldPoint(new Vector3(screenPoint.x, screenPoint.y, _camera.nearClipPlane));
+        CheckForRightOrLeftTurn(playerUI, ref _playerIsFacingRight, targetWorld);
     }
-    
+
+    private void OnDestroy()
+    {
+        if (_playerMoveTween != null && _playerMoveTween.IsActive())
+        {
+            _playerMoveTween.Kill();
+        }
+    }
+
     #endregion
 }

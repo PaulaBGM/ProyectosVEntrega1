@@ -2,8 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
-public class LevelButton : MonoBehaviour
+public class LevelButton : MonoBehaviour, ISelectHandler
 {
     [SerializeField] private TextMeshProUGUI _levelNameText;
 
@@ -11,7 +12,9 @@ public class LevelButton : MonoBehaviour
 
     private Button _button;
     private Image _image;
-    public Color ReturnColor {  get; set; }
+    public Color ReturnColor { get; set; }
+
+    [HideInInspector] public LevelSelectManager levelSelectManager;
 
     private void Awake()
     {
@@ -20,8 +23,8 @@ public class LevelButton : MonoBehaviour
         ReturnColor = Color.grey;
     }
 
-    public void Setup(LevelData level, bool isUnlocked) 
-    { 
+    public void Setup(LevelData level, bool isUnlocked)
+    {
         levelData = level;
         _levelNameText.SetText(level.LevelID);
 
@@ -33,20 +36,35 @@ public class LevelButton : MonoBehaviour
             ReturnColor = Color.white;
             _image.color = ReturnColor;
         }
-        else 
-        { 
+        else
+        {
             ReturnColor = Color.grey;
             _image.color = ReturnColor;
         }
-
     }
-    public void Unlock() 
+
+    public void Unlock()
     {
         _button.interactable = true;
         _button.onClick.AddListener(LoadLevel);
+        ReturnColor = Color.white;
+        _image.color = ReturnColor;
     }
-    private void LoadLevel() 
+
+    private void LoadLevel()
     {
         SceneManager.LoadScene(levelData.scene);
+    }
+
+    public void OnSelect(BaseEventData eventData)
+    {
+        if (levelSelectManager != null && levelSelectManager.PlayerObj != null)
+        {
+            levelSelectManager.MovePlayerToButton(
+                levelSelectManager.PlayerObj,
+                GetComponent<RectTransform>(),
+                levelSelectManager.WorldSpaceCanvasRect
+            );
+        }
     }
 }

@@ -7,13 +7,9 @@ namespace _Scripts.Managers
 {
     public class LevelManager : MonoBehaviour
     {
-        [SerializeField]
-        private int playerActionsPerTurn = 3;
+        [SerializeField] private int playerActionsPerTurn = 3;
+        [SerializeField] private int maxTurns = 5;
 
-        [SerializeField]
-        private int maxTurns = 5;
-
-        // nivel actual y siguiente para poder desbloquearlo al ganar
         [Header("Level Flow")]
         [SerializeField] private string currentLevelId;
         [SerializeField] private string nextLevelId;
@@ -22,7 +18,8 @@ namespace _Scripts.Managers
         private int _actionsLeft;
         private int _turnsLeft;
 
-        private bool isGameWon = false;
+        private bool _isGameWon = false;
+        private bool _hasEnded = false;    
 
         public enum LevelState
         {
@@ -64,7 +61,8 @@ namespace _Scripts.Managers
 
         private void HandleOnGameFinished(OnGameFinished eventData)
         {
-            isGameWon = eventData.IsWin;
+            if (_hasEnded) return;  
+            _isGameWon = eventData.IsWin;
             ChangeState(LevelState.EndGame);
         }
 
@@ -96,25 +94,25 @@ namespace _Scripts.Managers
 
                     if (_turnsLeft <= 0)
                     {
-                        ChangeState(LevelState.EndGame);
-                        EventBus<OnGameFinished>.Publish(new OnGameFinished
+                        if (!_hasEnded)
                         {
-                            IsWin = false
-                        });
+                            EventBus<OnGameFinished>.Publish(new OnGameFinished { IsWin = false });
+                            ChangeState(LevelState.EndGame);
+                        }
                     }
                     break;
 
                 case LevelState.EndGame:
-                    // aquí decidimos qué hacer según si se ganó o no
-                    if (isGameWon)
+                    _hasEnded = true;   
+
+                    if (_isGameWon)
                     {
-                        // desbloqueamos el siguiente
                         if (!string.IsNullOrEmpty(nextLevelId))
                         {
                             LevelProgress.Unlock(nextLevelId);
+                            PlayerPrefs.SetString("PendingLevelUnlock", nextLevelId);
                         }
 
-                        // volvemos al selector de niveles
                         if (!string.IsNullOrEmpty(levelSelectSceneName))
                         {
                             SceneManager.LoadScene(levelSelectSceneName);

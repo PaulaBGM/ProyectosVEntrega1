@@ -3,8 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class TutorialLevel1 : MonoBehaviour
 {
-    [Header("Configuración")]
-    [Tooltip("Asigna aquí el panel del tutorial (GameObject con CanvasGroup o Panel).")]
+    [Header("Configuraciï¿½n")]
+    [Tooltip("Asigna aquï¿½ el panel del tutorial (GameObject con CanvasGroup o Panel).")]
     public GameObject tutorialPanel;
 
     [Tooltip("Usar build index para identificar el nivel en vez del nombre de la escena.")]
@@ -13,30 +13,27 @@ public class TutorialLevel1 : MonoBehaviour
     [Tooltip("Si usarBuildIndex es true, este es el index del nivel 1 en Build Settings.")]
     public int levelBuildIndex = 1;
 
-    [Tooltip("Si usarBuildIndex es false, se comparará con este nombre de escena.")]
+    [Tooltip("Si usarBuildIndex es false, se compararï¿½ con este nombre de escena.")]
     public string levelName = "Level1";
 
-    [Tooltip("Si true, el juego se pausará (Time.timeScale = 0) mientras el panel esté abierto.")]
+    [Tooltip("Si true, el juego se pausarï¿½ (Time.timeScale = 0) mientras el panel estï¿½ abierto.")]
     public bool pausarJuegoMientrasAbierto = true;
 
-    // Key en PlayerPrefs para marcar que ya se mostró el tutorial de nivel 1
+    // Key en PlayerPrefs para marcar que ya se mostrï¿½ el tutorial de nivel 1
     private const string PlayerPrefsKey = "Tutorial_Level1_Shown_v1";
 
     void Awake()
     {
         if (tutorialPanel == null)
         {
-            Debug.LogWarning("[TutorialLevel1] tutorialPanel no está asignado en el inspector.");
+            Debug.LogWarning("[TutorialLevel1] tutorialPanel no estï¿½ asignado en el inspector.");
             return;
         }
-
-        // Aseguramos que el panel esté oculto al inicio
-        tutorialPanel.SetActive(false);
     }
 
     void Start()
     {
-        // Comprueba si estamos en el nivel 1 según la configuración
+        // Comprueba si estamos en el nivel 1 segï¿½n la configuraciï¿½n
         bool estamosEnLevel1 = false;
         Scene current = SceneManager.GetActiveScene();
 
@@ -47,7 +44,7 @@ public class TutorialLevel1 : MonoBehaviour
 
         if (!estamosEnLevel1) return;
 
-        // Si ya se mostró antes, no hacemos nada
+        // Si ya se mostrï¿½ antes, no hacemos nada
         if (PlayerPrefs.GetInt(PlayerPrefsKey, 0) == 1)
         {
             // ya mostrado previamente -> no abrir
@@ -72,12 +69,12 @@ public class TutorialLevel1 : MonoBehaviour
     }
 
     /// <summary>
-    /// Método público para cerrar el tutorial (conectar al botón UI).
-    /// Marca en PlayerPrefs que ya se mostró para que no vuelva a aparecer.
+    /// Mï¿½todo pï¿½blico para cerrar el tutorial (conectar al botï¿½n UI).
+    /// Marca en PlayerPrefs que ya se mostrï¿½ para que no vuelva a aparecer.
     /// </summary>
     public void CloseTutorial()
     {
-        tutorialPanel.SetActive(false);
+        gameObject.SetActive(false);
 
         if (pausarJuegoMientrasAbierto)
         {
@@ -90,8 +87,8 @@ public class TutorialLevel1 : MonoBehaviour
     }
 
     /// <summary>
-    /// Método útil para desarrollo: elimina la marca y permite volver a ver el tutorial.
-    /// Llamar desde menú de debug o con un botón para testing.
+    /// Mï¿½todo ï¿½til para desarrollo: elimina la marca y permite volver a ver el tutorial.
+    /// Llamar desde menï¿½ de debug o con un botï¿½n para testing.
     /// </summary>
     public static void ResetTutorialShown()
     {

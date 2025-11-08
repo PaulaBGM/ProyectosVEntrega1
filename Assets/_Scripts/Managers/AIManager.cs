@@ -14,20 +14,23 @@ namespace _Scripts.Managers
         
         private void OnEnable()
         {
-            EventBus<OnWorldTilesSet>.Subscribe(evt => GetAIOccupants(evt.Tiles));
-            EventBus<OnLevelStateChanged>.Subscribe(
-                evt => HandleLevelStateChanged(evt.NewState));
+            EventBus<OnWorldTilesSet>.Subscribe(GetAIOccupants);
+            EventBus<OnLevelStateChanged>.Subscribe(HandleLevelStateChanged);
         }
 
-        private void GetAIOccupants(IEnumerable<LevelTile> tiles)
+        private void GetAIOccupants(OnWorldTilesSet evt)
         {
+            var tiles = evt.Tiles;
+            
             _aiOccupants = tiles.Where(tile => tile.Occupant is IAIOccupant)
                 .Select(tile => tile.Occupant as IAIOccupant)
                 .ToArray();
         }
 
-        private void HandleLevelStateChanged(LevelManager.LevelState newState)
+        private void HandleLevelStateChanged(OnLevelStateChanged evt)
         {
+            var newState = evt.NewState;
+            
             if (newState == LevelManager.LevelState.AITurn)
             {
                 StartCoroutine(PerformAIActions());
@@ -54,9 +57,8 @@ namespace _Scripts.Managers
 
         private void OnDisable()
         {
-            EventBus<OnWorldTilesSet>.Unsubscribe(evt => GetAIOccupants(evt.Tiles));
-            EventBus<OnLevelStateChanged>.Unsubscribe(
-                evt => HandleLevelStateChanged(evt.NewState));
+            EventBus<OnWorldTilesSet>.Unsubscribe(GetAIOccupants);
+            EventBus<OnLevelStateChanged>.Unsubscribe(HandleLevelStateChanged);
         }
     }
 }

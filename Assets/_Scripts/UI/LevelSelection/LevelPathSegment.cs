@@ -5,12 +5,14 @@ using UnityEngine.UI;
 public class LevelPathSegment : MonoBehaviour
 {
     [Header("IDs de niveles")]
-    public string fromLevelId;   
-    public string toLevelId;     
+    public string fromLevelId;
+    public string toLevelId;
 
     [Header("Visual")]
     [SerializeField] public Image pathImage;
     [SerializeField] private float animDuration = 0.4f;
+
+    public RectTransform RectTransform => (RectTransform)transform;
 
     private void Awake()
     {
@@ -43,8 +45,8 @@ public class LevelPathSegment : MonoBehaviour
             t += Time.deltaTime;
             float k = Mathf.Clamp01(t / animDuration);
 
-            pathImage.fillAmount = k;         // se va “llenando” de izq a der
-            c.a = Mathf.Lerp(0f, 1f, k);      // va apareciendo
+            pathImage.fillAmount = k;
+            c.a = Mathf.Lerp(0f, 1f, k);
             pathImage.color = c;
 
             yield return null;

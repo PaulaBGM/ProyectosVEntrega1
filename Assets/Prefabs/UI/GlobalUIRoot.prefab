@@ -1982,7 +1982,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5205574723683782999}
         m_TargetAssemblyTypeName: OptionsMenuController, Assembly-CSharp
-        m_MethodName: OnBack
+        m_MethodName: GoToMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3016,6 +3016,7 @@ MonoBehaviour:
   backButton: {fileID: 4982290705714868821}
   creditsButton: {fileID: 2722412339225952931}
   creditsBackButton: {fileID: 6206466066638192952}
+  mainMenuButton: {fileID: 0}
   musicSlider: {fileID: 7745296855399375252}
   sfxSlider: {fileID: 951661878511474652}
   brightnessSlider: {fileID: 7730598568318132186}

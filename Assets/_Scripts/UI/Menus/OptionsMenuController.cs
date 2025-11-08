@@ -1,7 +1,6 @@
-// OptionsMenuController.cs (refactor mínima)
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class OptionsMenuController : MonoBehaviour
 {
@@ -13,6 +12,7 @@ public class OptionsMenuController : MonoBehaviour
     [SerializeField] private Button backButton;
     [SerializeField] private Button creditsButton;
     [SerializeField] private Button creditsBackButton;
+    [SerializeField] private Button mainMenuButton;
 
     [Header("Sliders (0..1)")]
     [SerializeField] private Slider musicSlider;
@@ -36,7 +36,6 @@ public class OptionsMenuController : MonoBehaviour
         if (sfxSlider) sfxSlider.SetValueWithoutNotify(sfx);
         if (brightnessSlider) brightnessSlider.SetValueWithoutNotify(bright);
 
-        // Aplicamos vía bus al global
         UIEvents.BroadcastMusic(music);
         UIEvents.BroadcastSfx(sfx);
         UIEvents.BroadcastBrightness(bright);
@@ -44,6 +43,7 @@ public class OptionsMenuController : MonoBehaviour
         if (backButton) backButton.onClick.AddListener(OnBack);
         if (creditsButton) creditsButton.onClick.AddListener(OpenCredits);
         if (creditsBackButton) creditsBackButton.onClick.AddListener(CloseCredits);
+        if (mainMenuButton) mainMenuButton.onClick.AddListener(GoToMainMenu);
 
         if (musicSlider) musicSlider.onValueChanged.AddListener(OnMusicChanged);
         if (sfxSlider) sfxSlider.onValueChanged.AddListener(OnSfxChanged);
@@ -52,7 +52,6 @@ public class OptionsMenuController : MonoBehaviour
 
     private void OnEnable()
     {
-        // al habilitar, reemitimos para asegurar
         float music = musicSlider ? musicSlider.value : PlayerPrefs.GetFloat(PP_MUSIC, 0.8f);
         float sfx = sfxSlider ? sfxSlider.value : PlayerPrefs.GetFloat(PP_SFX, 0.8f);
         float bright = brightnessSlider ? brightnessSlider.value : PlayerPrefs.GetFloat(PP_BRIGHT, 1.0f);
@@ -64,7 +63,6 @@ public class OptionsMenuController : MonoBehaviour
 
     public void OnBack()
     {
-        // le decimos al global que cierre y que avise
         GlobalUIRoot.Instance?.CloseOptionsFromGlobal();
     }
 
@@ -78,6 +76,11 @@ public class OptionsMenuController : MonoBehaviour
     {
         if (creditsPanel) creditsPanel.SetActive(false);
         if (optionsPanel) optionsPanel.SetActive(true);
+    }
+
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void OnMusicChanged(float v)

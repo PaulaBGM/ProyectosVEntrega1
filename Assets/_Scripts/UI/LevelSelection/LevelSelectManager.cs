@@ -71,7 +71,6 @@ public class LevelSelectManager : MonoBehaviour
         LoadUnlockedLevels();
         CreateLevelButtons();
 
-        // leer pending
         _pendingLevelId = PlayerPrefs.GetString("PendingLevelUnlock", "");
 
         StartCoroutine(InitAfterFrames());
@@ -81,16 +80,12 @@ public class LevelSelectManager : MonoBehaviour
 
     private IEnumerator InitAfterFrames()
     {
-        // esperamos a que:
-        // 1) se creen los botones
-        // 2) AddLocationAfterDelay guarde las posiciones
+
         yield return null;
         yield return null;
 
-        // ya podemos mostrar paths de los que estaban desbloqueados
         ShowPathsForAlreadyUnlocked();
 
-        // y ahora sí aplicar el pending
         if (!string.IsNullOrEmpty(_pendingLevelId))
         {
             UnlockLevelFromBridge(_pendingLevelId);

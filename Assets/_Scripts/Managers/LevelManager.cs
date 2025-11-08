@@ -114,33 +114,32 @@ namespace _Scripts.Managers
                     break;
 
                 case LevelState.EndGame:
-                    if (isGameWon)
-                    {
-                        // si hay un siguiente nivel, lo dejamos "pendiente de desbloqueo"
-                        if (!string.IsNullOrEmpty(nextLevelId))
-                        {
-                            PlayerPrefs.SetString("PendingLevelUnlock", nextLevelId);
-                            PlayerPrefs.Save();
-                        }
-
-                        // volvemos al selector
-                        if (!string.IsNullOrEmpty(levelSelectSceneName))
-                        {
-                            SceneManager.LoadScene(levelSelectSceneName);
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("EndGame - Derrota");
-                        if (!string.IsNullOrEmpty(levelSelectSceneName))
-                        {
-                            SceneManager.LoadScene(levelSelectSceneName);
-                        }
-                    }
+                    HandleEndGame();
                     break;
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
+        }
+
+        private void HandleEndGame()
+        {
+            if (isGameWon)
+            {
+                if (!string.IsNullOrEmpty(nextLevelId))
+                {
+                    PlayerPrefs.SetString("PendingLevelUnlock", nextLevelId);
+                    PlayerPrefs.Save();
+                }
+
+                if (!string.IsNullOrEmpty(levelSelectSceneName))
+                {
+                    SceneManager.LoadScene(levelSelectSceneName);
+                }
+            }
+            else
+            {
+                Debug.Log("EndGame - Derrota");
             }
         }
 

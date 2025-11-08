@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-using _Scripts.Events;   // <-- el namespace donde tengas el EventBus y el OnGameFinished
+using _Scripts.Events;
 
 public class GameOverPanel : MonoBehaviour
 {
@@ -13,7 +13,8 @@ public class GameOverPanel : MonoBehaviour
     [SerializeField] private Button menuButton;
 
     [Header("Opcional")]
-    [SerializeField] private LivesSystem lives;
+    [SerializeField] private LivesSystem lives;          // puede venir de otra escena o no estar
+    [SerializeField] private string levelSelectSceneName = "LevelSelectScene";
 
     private void Awake()
     {
@@ -29,6 +30,10 @@ public class GameOverPanel : MonoBehaviour
 
     private void OnEnable()
     {
+        // si no nos lo han asignado en el inspector, intentamos encontrarlo en la escena
+        if (lives == null)
+            lives = FindFirstObjectByType<LivesSystem>();
+
         EventBus<OnGameFinished>.Subscribe(HandleGameFinished);
     }
 
@@ -39,16 +44,9 @@ public class GameOverPanel : MonoBehaviour
 
     private void HandleGameFinished(OnGameFinished data)
     {
-        // si ganó, aquí podrías abrir un panel de victoria
         if (!data.IsWin)
         {
             Show("Has perdido");
-        }
-        else
-        {
-            // si quieres pausar también al ganar:
-            // Time.timeScale = 0f;
-            // o cargar otra escena, etc.
         }
     }
 
@@ -60,9 +58,7 @@ public class GameOverPanel : MonoBehaviour
         if (titleText != null)
             titleText.text = title;
 
-        bool canRetry = true;
-        if (lives != null)
-            canRetry = lives.CurrentLives > 0 && !lives.InCooldown;
+        bool canRetry = CanRetry();
 
         if (retryButton != null)
             retryButton.interactable = canRetry;
@@ -70,17 +66,21 @@ public class GameOverPanel : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    private void Hide()
+    private bool CanRetry()
     {
-        if (root != null)
-            root.SetActive(false);
+        // si no hay lives en esta escena, dejamos reintentar
+        if (lives == null)
+            return true;
 
-        Time.timeScale = 1f;
+        if (lives.InCooldown)
+            return false;
+
+        return lives.CurrentLives > 0;
     }
 
     private void OnRetry()
     {
-        if (lives != null && (lives.CurrentLives <= 0 || lives.InCooldown))
+        if (!CanRetry())
             return;
 
         Time.timeScale = 1f;
@@ -91,6 +91,10 @@ public class GameOverPanel : MonoBehaviour
     private void OnMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(0);
+
+        if (!string.IsNullOrEmpty(levelSelectSceneName))
+            SceneManager.LoadScene(levelSelectSceneName);
+        else
+            SceneManager.LoadScene(0);
     }
 }

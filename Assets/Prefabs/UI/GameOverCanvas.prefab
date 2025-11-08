@@ -245,9 +245,9 @@ RectTransform:
   - {fileID: 5589442693922419244}
   m_Father: {fileID: 5173926212811121460}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 410, y: -30}
   m_SizeDelta: {x: 200, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &68956504025154369
@@ -502,9 +502,9 @@ RectTransform:
   - {fileID: 8507942504682894546}
   m_Father: {fileID: 5173926212811121460}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -30}
   m_SizeDelta: {x: 200, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &668669990834250842
@@ -806,7 +806,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7808774553631824245
 RectTransform:
   m_ObjectHideFlags: 0
@@ -982,8 +982,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeca9b7bdae6014b99ade6c04f1c648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  root: {fileID: 8933425665175024068}
+  root: {fileID: 8543343495663523844}
   titleText: {fileID: 755145029914739540}
   retryButton: {fileID: 743544018013941052}
   menuButton: {fileID: 651828446573612463}
   lives: {fileID: 2779433278628389703, guid: 1caf35ad9b3715c49ae0cd479e203756, type: 3}
+  levelSelectSceneName: LevelSelectScene

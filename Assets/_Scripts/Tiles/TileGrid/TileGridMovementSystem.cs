@@ -217,8 +217,8 @@ namespace _Scripts.Tiles.TileGrid
                 yield return null;
             }
             
-            aiOccupant.IsAIActionFinished = true;
             TryExecuteTileInteractor(aiOccupant.TileAssigned,  aiOccupant);
+            aiOccupant.IsAIActionFinished = true;
         }
 
         private void TryExecuteTileInteractor(LevelTile tile, IOccupant occupant)

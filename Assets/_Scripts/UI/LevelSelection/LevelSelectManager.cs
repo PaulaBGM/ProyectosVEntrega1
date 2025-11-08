@@ -14,7 +14,7 @@ public class LevelSelectManager : MonoBehaviour
     public TextMeshProUGUI LevelHeaderText;
     public AreaData CurrentArea;
 
-    // niveles desbloqueados en esta sesi�n / por defecto
+    // niveles desbloqueados en esta sesión / por defecto
     public HashSet<string> UnlockedLevelIDs = new HashSet<string>();
 
     private LevelSelectEventSystemHandler _eventSystemHandler;
@@ -26,13 +26,13 @@ public class LevelSelectManager : MonoBehaviour
     public Vector2 PlayerPositionOffsetPerLevel = new Vector2(0f, 0f);
 
     [Header("Paths")]
-    [SerializeField] private Image pathPrefab;            // prefab de la l�nea
-    [SerializeField] private RectTransform pathParent;    // contenedor donde van las l�neas
-    [SerializeField] private float pathThickness = 10f;   // grosor de la l�nea
+    [SerializeField] private Image pathPrefab;            // prefab de la línea
+    [SerializeField] private RectTransform pathParent;    // contenedor donde van las líneas
+    [SerializeField] private float pathThickness = 10f;   // grosor de la línea
 
     private List<GameObject> _buttonObjects = new List<GameObject>();
 
-    // posiciones de cada bot�n por levelId (mundo)
+    // posiciones de cada botón por levelId (mundo)
     private Dictionary<string, Vector3> _buttonLocationsById = new Dictionary<string, Vector3>();
 
     // paths ya creados, indexados por "toLevelId"
@@ -46,7 +46,7 @@ public class LevelSelectManager : MonoBehaviour
 
     private const string UnlockedPrefix = "UnlockedLevel_";
 
-    // guardamos el pending para aplicarlo cuando ya est�n las posiciones
+    // guardamos el pending para aplicarlo cuando ya estén las posiciones
     private string _pendingLevelId = "";
 
     private void Awake()
@@ -70,20 +70,13 @@ public class LevelSelectManager : MonoBehaviour
     {
         LoadUnlockedLevels();
         CreateLevelButtons();
-        
-        // puente: si venimos de un nivel que dej� un desbloqueo pendiente
-        string pending = PlayerPrefs.GetString("PendingLevelUnlock", "");
-        if (!string.IsNullOrEmpty(pending))
-        {
-            UnlockLevelFromBridge(pending);
-            PlayerPrefs.DeleteKey("PendingLevelUnlock");
-        }
-        
-        MusicManager.Instance?.PlayLevelSelectMusic();
+
         // leer pending
         _pendingLevelId = PlayerPrefs.GetString("PendingLevelUnlock", "");
 
         StartCoroutine(InitAfterFrames());
+        
+        MusicManager.Instance.PlayLevelSelectMusic();
     }
 
     private IEnumerator InitAfterFrames()
@@ -97,7 +90,7 @@ public class LevelSelectManager : MonoBehaviour
         // ya podemos mostrar paths de los que estaban desbloqueados
         ShowPathsForAlreadyUnlocked();
 
-        // y ahora s� aplicar el pending
+        // y ahora sí aplicar el pending
         if (!string.IsNullOrEmpty(_pendingLevelId))
         {
             UnlockLevelFromBridge(_pendingLevelId);
@@ -109,7 +102,6 @@ public class LevelSelectManager : MonoBehaviour
 
     private void LoadUnlockedLevels()
     {
-        // aqu� usamos SOLO tu arquitectura: los que vienen en el AreaData
         foreach (var level in CurrentArea.levels)
         {
             bool isDefault = level.ISUnlockedByDefault;
@@ -141,10 +133,10 @@ public class LevelSelectManager : MonoBehaviour
             Selectable selectable = buttonGo.GetComponent<Selectable>();
             _eventSystemHandler.AddSelectable(selectable);
 
-            // guardamos su posici�n un frame despu�s
+            // guardamos su posición un frame después
             StartCoroutine(AddLocationAfterDelay(CurrentArea.levels[i].LevelID, buttonRect));
 
-            // spawn del player en el primer bot�n
+            // spawn del player en el primer botón
             if (!_playerSpawned)
             {
                 StartCoroutine(SpawnInPlayerAfterDelay(buttonRect, WorldSpaceCanvasRect));
@@ -159,7 +151,7 @@ public class LevelSelectManager : MonoBehaviour
 
     private IEnumerator AddLocationAfterDelay(string levelId, RectTransform buttonRect)
     {
-        // esperamos 1 frame para que la UI est� colocada
+        // esperamos 1 frame para que la UI esté colocada
         yield return null;
 
         Vector2 buttonScreenPoint = RectTransformUtility.WorldToScreenPoint(_camera, buttonRect.position);
@@ -216,7 +208,7 @@ public class LevelSelectManager : MonoBehaviour
         {
             if (!TryCreatePathForLevelIndex(idx, animate: true))
             {
-                // si a�n no estaban las posiciones, lo intentamos al siguiente frame
+                // si aún no estaban las posiciones, lo intentamos al siguiente frame
                 StartCoroutine(PlacePathNextFrame(idx));
             }
         }
@@ -224,16 +216,6 @@ public class LevelSelectManager : MonoBehaviour
 
     private IEnumerator PlacePathNextFrame(int levelIndex)
     {
-        if (_buttonObjects.Count > 1)
-        {
-            LevelButton levelButton = _buttonObjects[1].GetComponent<LevelButton>();
-            string levelToUnlock = levelButton.levelData.LevelID;
-            UnlockLevel(levelToUnlock, levelButton);
-        }
-        else
-        {
-            Debug.LogWarning("No hay suficiente botones creados a�n para hacer el test de desbloqueo.");
-        }
         yield return null;
         TryCreatePathForLevelIndex(levelIndex, animate: true);
     }
@@ -249,7 +231,7 @@ public class LevelSelectManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Intenta crear (o recolocar) el path entre el nivel anterior y este �ndice.
+    /// Intenta crear (o recolocar) el path entre el nivel anterior y este índice.
     /// Devuelve true si pudo.
     /// </summary>
     private bool TryCreatePathForLevelIndex(int idx, bool animate)
@@ -260,7 +242,7 @@ public class LevelSelectManager : MonoBehaviour
         string prevLevelId = CurrentArea.levels[idx - 1].LevelID;
         string currLevelId = CurrentArea.levels[idx].LevelID;
 
-        // necesitamos que ambos botones tengan su posici�n ya registrada
+        // necesitamos que ambos botones tengan su posición ya registrada
         if (!_buttonLocationsById.TryGetValue(prevLevelId, out Vector3 prevPos)) return false;
         if (!_buttonLocationsById.TryGetValue(currLevelId, out Vector3 currPos)) return false;
 
@@ -298,7 +280,7 @@ public class LevelSelectManager : MonoBehaviour
 
         PositionPathSegment(rt, prevPos, currPos);
 
-        // a�adir / configurar el LevelPathSegment
+        // añadir / configurar el LevelPathSegment
         LevelPathSegment seg = path.GetComponent<LevelPathSegment>();
         if (seg == null)
             seg = path.gameObject.AddComponent<LevelPathSegment>();
@@ -345,7 +327,7 @@ public class LevelSelectManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        // esto es tu l�gica original
+        // esto es tu lógica original
         foreach (var level in CurrentArea.levels)
         {
             PlayerPrefs.DeleteKey(UnlockedPrefix + level.LevelID);
@@ -375,7 +357,7 @@ public class LevelSelectManager : MonoBehaviour
             playerRect.anchoredPosition = localPoint + PlayerPositionOffsetPerLevel;
         }
 
-        // mirar hacia el segundo bot�n, si hay
+        // mirar hacia el segundo botón, si hay
         if (_buttonObjects.Count > 1)
         {
             Vector2 secondScreenPoint = RectTransformUtility.WorldToScreenPoint(_camera, _buttonObjects[1].GetComponent<RectTransform>().position);
@@ -435,3 +417,4 @@ public class LevelSelectManager : MonoBehaviour
 
     #endregion
 }
+

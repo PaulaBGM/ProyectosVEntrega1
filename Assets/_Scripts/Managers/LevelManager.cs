@@ -12,15 +12,17 @@ namespace _Scripts.Managers
 
         [SerializeField]
         private int maxTurns = 5;
-        
+
         [Header("Level Flow")]
         [SerializeField] private string currentLevelId;
         [SerializeField] private string nextLevelId;
         [SerializeField] private string levelSelectSceneName = "LevelSelectScene";
 
+        [Header("Game Over")]
+        [SerializeField] private bool loadLevelSelectOnLose = false;
+
         private int _actionsLeft;
         private int _turnsLeft;
-
         private bool isGameWon = false;
         [SerializeField] private bool hasTutorial = false;
 
@@ -43,9 +45,7 @@ namespace _Scripts.Managers
             EventBus<OnGameFinished>.Subscribe(HandleOnGameFinished);
 
             if (hasTutorial)
-            {
                 EventBus<OnTutorialClossed>.Subscribe(TutorialClossed);
-            }
         }
 
         private void TutorialClossed(OnTutorialClossed obj)
@@ -63,7 +63,7 @@ namespace _Scripts.Managers
                 TurnsLeft = _turnsLeft
             });
 
-            if (!hasTutorial) 
+            if (!hasTutorial)
                 MusicManager.Instance?.PlayLevelMusic();
         }
 
@@ -72,9 +72,7 @@ namespace _Scripts.Managers
             _actionsLeft--;
 
             if (_actionsLeft <= 0)
-            {
                 ChangeState(LevelState.AITurn);
-            }
         }
 
         private void HandleAITurnCompleted(OnAITurnCompleted _)
@@ -132,13 +130,9 @@ namespace _Scripts.Managers
                 case LevelState.EndGame:
                     if (isGameWon)
                     {
-                        // marcamos este nivel como desbloqueado en esta sesión
                         if (!string.IsNullOrEmpty(currentLevelId))
-                        {
                             PlayerPrefs.SetInt(UnlockedPrefix + currentLevelId, 1);
-                        }
 
-                        // si hay siguiente, lo marcamos también y lo dejamos en el puente
                         if (!string.IsNullOrEmpty(nextLevelId))
                         {
                             PlayerPrefs.SetInt(UnlockedPrefix + nextLevelId, 1);
@@ -148,16 +142,18 @@ namespace _Scripts.Managers
                         PlayerPrefs.Save();
 
                         if (!string.IsNullOrEmpty(levelSelectSceneName))
-                        {
                             SceneManager.LoadScene(levelSelectSceneName);
-                        }
                     }
                     else
                     {
                         Debug.Log("EndGame - Derrota");
-                        if (!string.IsNullOrEmpty(levelSelectSceneName))
+
+                        if (loadLevelSelectOnLose)
                         {
-                            SceneManager.LoadScene(levelSelectSceneName);
+                            if (!string.IsNullOrEmpty(levelSelectSceneName))
+                                SceneManager.LoadScene(levelSelectSceneName);
+                            else
+                                SceneManager.LoadScene(0);
                         }
                     }
                     break;
@@ -172,12 +168,9 @@ namespace _Scripts.Managers
             EventBus<OnPlayerAction>.Unsubscribe(HandlePlayerAction);
             EventBus<OnAITurnCompleted>.Unsubscribe(HandleAITurnCompleted);
             EventBus<OnGameFinished>.Unsubscribe(HandleOnGameFinished);
-            
+
             if (hasTutorial)
-            {
                 EventBus<OnTutorialClossed>.Unsubscribe(TutorialClossed);
-            }
-            
         }
     }
 }

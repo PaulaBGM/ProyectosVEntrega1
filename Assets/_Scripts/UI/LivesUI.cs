@@ -1,27 +1,30 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class LivesUI : MonoBehaviour
 {
-    public LivesSystem lives;          // referencia al sistema de vidas
-    public Image[] hearts;             // arrastra las imágenes de corazones
-    public GameObject cooldownPanel;   // panel que muestra cuenta atrás
-    public TMPro.TMP_Text cooldownText;
+    public LivesSystem lives;
+    public Image[] hearts;
+    public GameObject cooldownPanel;
+    public TMP_Text cooldownText;
 
-    void OnEnable()
+    private void OnEnable()
     {
+        if (lives == null)
+            lives = LivesSystem.Instance;
+
         if (lives == null)
             return;
 
         lives.OnLivesChanged += UpdateHearts;
         lives.OnCooldownChanged += UpdateCooldown;
 
-        // inicializamos con el estado actual
         UpdateHearts(lives.CurrentLives, lives.maxLives);
         UpdateCooldown(lives.InCooldown, lives.CooldownRemaining);
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         if (lives == null)
             return;
@@ -30,23 +33,21 @@ public class LivesUI : MonoBehaviour
         lives.OnCooldownChanged -= UpdateCooldown;
     }
 
-    void UpdateHearts(int current, int max)
+    private void UpdateHearts(int current, int max)
     {
         if (hearts == null) return;
 
-        // mostramos solo tantos corazones como vidas actuales
         for (int i = 0; i < hearts.Length; i++)
         {
             if (hearts[i] == null)
                 continue;
 
-            bool shouldShow = i < current;
-            if (hearts[i].gameObject.activeSelf != shouldShow)
-                hearts[i].gameObject.SetActive(shouldShow);
+            bool show = i < current;
+            hearts[i].gameObject.SetActive(show);
         }
     }
 
-    void UpdateCooldown(bool inCooldown, double remaining)
+    private void UpdateCooldown(bool inCooldown, double remaining)
     {
         if (cooldownPanel != null)
             cooldownPanel.SetActive(inCooldown);

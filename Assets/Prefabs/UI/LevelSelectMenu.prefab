@@ -1020,6 +1020,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7816625692762876527}
   - component: {fileID: 4650710868714826694}
+  - component: {fileID: 4821430334907166720}
   m_Layer: 0
   m_Name: levelSelect
   m_TagString: Untagged
@@ -1069,6 +1070,20 @@ MonoBehaviour:
   WorldSpaceCanvasRect: {fileID: 0}
   PlayerPositionOffsetPerLevel: {x: 0.02, y: -0.5}
   _playerIsFacingRight: 0
+--- !u!114 &4821430334907166720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6184953356518597798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6085f8e1892b12e409b96f358e30c5a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelSelectManager: {fileID: 4650710868714826694}
+  cooldownPanel: {fileID: 2327477038837543805}
 --- !u!1 &6999260872658857364
 GameObject:
   m_ObjectHideFlags: 0
@@ -1917,6 +1932,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1caf35ad9b3715c49ae0cd479e203756, type: 3}
+--- !u!1 &2327477038837543805 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2685366733233933607, guid: 1caf35ad9b3715c49ae0cd479e203756, type: 3}
+  m_PrefabInstance: {fileID: 362692438789553754}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &4914172448010318310 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4700120940710711228, guid: 1caf35ad9b3715c49ae0cd479e203756, type: 3}

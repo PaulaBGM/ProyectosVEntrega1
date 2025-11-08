@@ -7,8 +7,11 @@ namespace _Scripts.Managers
 {
     public class LevelManager : MonoBehaviour
     {
-        [SerializeField] private int playerActionsPerTurn = 3;
-        [SerializeField] private int maxTurns = 5;
+        [SerializeField]
+        private int playerActionsPerTurn = 3;
+
+        [SerializeField]
+        private int maxTurns = 5;
 
         [Header("Level Flow")]
         [SerializeField] private string currentLevelId;
@@ -18,8 +21,7 @@ namespace _Scripts.Managers
         private int _actionsLeft;
         private int _turnsLeft;
 
-        private bool _isGameWon = false;
-        private bool _hasEnded = false;    
+        private bool isGameWon = false;
 
         public enum LevelState
         {
@@ -42,6 +44,11 @@ namespace _Scripts.Managers
         {
             _actionsLeft = playerActionsPerTurn;
             _turnsLeft = maxTurns;
+
+            EventBus<OnTurnsChanged>.Publish(new OnTurnsChanged
+            {
+                TurnsLeft = _turnsLeft
+            });
         }
 
         private void HandlePlayerAction(OnPlayerAction _)
@@ -61,8 +68,7 @@ namespace _Scripts.Managers
 
         private void HandleOnGameFinished(OnGameFinished eventData)
         {
-            if (_hasEnded) return;  
-            _isGameWon = eventData.IsWin;
+            isGameWon = eventData.IsWin;
             ChangeState(LevelState.EndGame);
         }
 
@@ -92,27 +98,32 @@ namespace _Scripts.Managers
                 case LevelState.AITurn:
                     _turnsLeft--;
 
+                    EventBus<OnTurnsChanged>.Publish(new OnTurnsChanged
+                    {
+                        TurnsLeft = _turnsLeft
+                    });
+
                     if (_turnsLeft <= 0)
                     {
-                        if (!_hasEnded)
+                        ChangeState(LevelState.EndGame);
+                        EventBus<OnGameFinished>.Publish(new OnGameFinished
                         {
-                            EventBus<OnGameFinished>.Publish(new OnGameFinished { IsWin = false });
-                            ChangeState(LevelState.EndGame);
-                        }
+                            IsWin = false
+                        });
                     }
                     break;
 
                 case LevelState.EndGame:
-                    _hasEnded = true;   
-
-                    if (_isGameWon)
+                    if (isGameWon)
                     {
+                        // si hay un siguiente nivel, lo dejamos "pendiente de desbloqueo"
                         if (!string.IsNullOrEmpty(nextLevelId))
                         {
-                            LevelProgress.Unlock(nextLevelId);
                             PlayerPrefs.SetString("PendingLevelUnlock", nextLevelId);
+                            PlayerPrefs.Save();
                         }
 
+                        // volvemos al selector
                         if (!string.IsNullOrEmpty(levelSelectSceneName))
                         {
                             SceneManager.LoadScene(levelSelectSceneName);
@@ -121,6 +132,10 @@ namespace _Scripts.Managers
                     else
                     {
                         Debug.Log("EndGame - Derrota");
+                        if (!string.IsNullOrEmpty(levelSelectSceneName))
+                        {
+                            SceneManager.LoadScene(levelSelectSceneName);
+                        }
                     }
                     break;
 

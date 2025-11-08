@@ -44,6 +44,7 @@ public class LevelSelectManager : MonoBehaviour
         CreateLevelButtons();
         StartCoroutine(ShowPathsAfterFrame());
 
+        // puente: si venimos de un nivel que dejó un desbloqueo pendiente
         string pending = PlayerPrefs.GetString("PendingLevelUnlock", "");
         if (!string.IsNullOrEmpty(pending))
         {
@@ -76,12 +77,10 @@ public class LevelSelectManager : MonoBehaviour
 
     private void LoadUnlockedLevels()
     {
+        // aquí usamos SOLO tu arquitectura: los que vienen en el AreaData
         foreach (var level in CurrentArea.levels)
         {
             if (level.ISUnlockedByDefault)
-                UnlockedLevelIDs.Add(level.LevelID);
-            
-            if (LevelProgress.IsUnlocked(level.LevelID))
                 UnlockedLevelIDs.Add(level.LevelID);
         }
     }
@@ -130,6 +129,7 @@ public class LevelSelectManager : MonoBehaviour
     }
 
     #region HelperMethods
+
     private void UnlockLevelFromBridge(string levelId)
     {
         for (int i = 0; i < CurrentArea.levels.Count; i++)
@@ -240,7 +240,6 @@ public class LevelSelectManager : MonoBehaviour
             CheckForRightOrLeftTurn(PlayerObj, ref _playerIsFacingRight, secondWorldPoint);
         }
     }
-
 
     private void CheckForRightOrLeftTurn(GameObject player, ref bool isFacingRight, Vector3 targetWorldPosition)
     {

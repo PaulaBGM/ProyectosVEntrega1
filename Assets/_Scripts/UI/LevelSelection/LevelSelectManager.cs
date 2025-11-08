@@ -80,6 +80,9 @@ public class LevelSelectManager : MonoBehaviour
         {
             if (level.ISUnlockedByDefault)
                 UnlockedLevelIDs.Add(level.LevelID);
+            
+            if (LevelProgress.IsUnlocked(level.LevelID))
+                UnlockedLevelIDs.Add(level.LevelID);
         }
     }
 

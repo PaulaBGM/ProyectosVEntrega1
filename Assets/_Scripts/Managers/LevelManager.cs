@@ -1,22 +1,25 @@
 using System;
 using _Scripts.Events;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 namespace _Scripts.Managers
 {
     public class LevelManager : MonoBehaviour
     {
-        [SerializeField]
-        private int playerActionsPerTurn;
+        [SerializeField] private int playerActionsPerTurn = 3;
+        [SerializeField] private int maxTurns = 5;
 
-        [SerializeField]
-        private int maxTurns;
+        [Header("Level Flow")]
+        [SerializeField] private string currentLevelId;
+        [SerializeField] private string nextLevelId;
+        [SerializeField] private string levelSelectSceneName = "LevelSelectScene";
 
         private int _actionsLeft;
         private int _turnsLeft;
 
-        private bool isGameWon = false;
+        private bool _isGameWon = false;
+        private bool _hasEnded = false;    
 
         public enum LevelState
         {
@@ -58,7 +61,8 @@ namespace _Scripts.Managers
 
         private void HandleOnGameFinished(OnGameFinished eventData)
         {
-            isGameWon = eventData.IsWin;
+            if (_hasEnded) return;  
+            _isGameWon = eventData.IsWin;
             ChangeState(LevelState.EndGame);
         }
 
@@ -84,22 +88,42 @@ namespace _Scripts.Managers
                 case LevelState.PlayerTurn:
                     _actionsLeft = playerActionsPerTurn;
                     break;
+
                 case LevelState.AITurn:
                     _turnsLeft--;
 
                     if (_turnsLeft <= 0)
                     {
-                        ChangeState(LevelState.EndGame);
-                        EventBus<OnGameFinished>.Publish(new OnGameFinished
+                        if (!_hasEnded)
                         {
-                            IsWin = false
-                        });
+                            EventBus<OnGameFinished>.Publish(new OnGameFinished { IsWin = false });
+                            ChangeState(LevelState.EndGame);
+                        }
                     }
                     break;
+
                 case LevelState.EndGame:
-                    // Handle End logic here (Show Win UI)
-                    Debug.Log("EndGame");
+                    _hasEnded = true;   
+
+                    if (_isGameWon)
+                    {
+                        if (!string.IsNullOrEmpty(nextLevelId))
+                        {
+                            LevelProgress.Unlock(nextLevelId);
+                            PlayerPrefs.SetString("PendingLevelUnlock", nextLevelId);
+                        }
+
+                        if (!string.IsNullOrEmpty(levelSelectSceneName))
+                        {
+                            SceneManager.LoadScene(levelSelectSceneName);
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("EndGame - Derrota");
+                    }
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
             }
@@ -108,6 +132,8 @@ namespace _Scripts.Managers
         private void OnDisable()
         {
             EventBus<OnPlayerAction>.Unsubscribe(HandlePlayerAction);
+            EventBus<OnAITurnCompleted>.Unsubscribe(HandleAITurnCompleted);
+            EventBus<OnGameFinished>.Unsubscribe(HandleOnGameFinished);
         }
     }
 }

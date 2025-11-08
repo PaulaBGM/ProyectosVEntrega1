@@ -1233,6 +1233,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 8406035441509420827, guid: d108bbb5f491abb42a1550ace59c6567, type: 3}
+      propertyPath: maxTurns
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8406035441509420827, guid: d108bbb5f491abb42a1550ace59c6567, type: 3}
+      propertyPath: nextLevelId
+      value: 1-3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8406035441509420827, guid: d108bbb5f491abb42a1550ace59c6567, type: 3}
+      propertyPath: currentLevelId
+      value: 1-2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8406035441509420827, guid: d108bbb5f491abb42a1550ace59c6567, type: 3}
+      propertyPath: playerActionsPerTurn
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8406035441509420827, guid: d108bbb5f491abb42a1550ace59c6567, type: 3}
+      propertyPath: playerMovementsPerTurn
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1427,10 +1447,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7027915563536069274, guid: b6a0d06a2288fbf48a26519c377b8cac, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8178740462524484438, guid: b6a0d06a2288fbf48a26519c377b8cac, type: 3}
-      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8933425665175024068, guid: b6a0d06a2288fbf48a26519c377b8cac, type: 3}

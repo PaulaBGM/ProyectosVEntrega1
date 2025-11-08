@@ -127,58 +127,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1658517445630432118, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1658517445630432118, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1658517445630432118, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1658517445630432118, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1658517445630432118, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1658517445630432118, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2319313919873655204, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
-    - target: {fileID: 2616646498193885046, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2616646498193885046, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2616646498193885046, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2616646498193885046, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2616646498193885046, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2616646498193885046, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3748736615577315000, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
       propertyPath: m_Name
       value: LevelSelectMenu
@@ -227,34 +179,7 @@ PrefabInstance:
       propertyPath: WorldSpaceCanvasRect
       value: 
       objectReference: {fileID: 450295734}
-    - target: {fileID: 7639812159056743006, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7639812159056743006, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7639812159056743006, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7639812159056743006, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7639812159056743006, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7639812159056743006, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4821430334907166720, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
-    - {fileID: 8687398229197386255, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
-    - {fileID: 9136179248511792619, guid: fa0b9f4bd766941429bd3dd6f8bb64cb, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

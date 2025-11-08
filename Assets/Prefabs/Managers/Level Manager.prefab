@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5f3a6e3bfae81f4c8069f36f9ef0558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerActionsPerTurn: 3
+  playerActionsPerTurn: 2
   maxTurns: 5
-  currentLevelId: 1-2
-  nextLevelId: 1-3
+  currentLevelId: 1-1
+  nextLevelId: 1-2
   levelSelectSceneName: LevelSelectScene

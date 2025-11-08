@@ -13,8 +13,6 @@ namespace _Scripts.Tiles.TileGrid
     {
         [SerializeField]
         private GameObject actionMarkerPrefab;
-        
-        private IEnumerable<LevelTile> _tilesHighlighted = new List<LevelTile>();
 
         private ObjectPool<GameObject> _actionTileMarkerPool;
 
@@ -57,7 +55,6 @@ namespace _Scripts.Tiles.TileGrid
         {
             HideHighlightTiles();
             var tilesHighlighted = movementTiles as LevelTile[] ?? movementTiles.ToArray();
-            _tilesHighlighted = tilesHighlighted;
             
             foreach (var tile in tilesHighlighted)
             {

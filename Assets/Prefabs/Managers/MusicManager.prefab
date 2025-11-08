@@ -49,10 +49,16 @@ MonoBehaviour:
   masterMixer: {fileID: 24100000, guid: 1a1123458501858449bbc0b6bbe3ea30, type: 2}
   musicGroup: {fileID: 1164274552269504976, guid: 1a1123458501858449bbc0b6bbe3ea30, type: 2}
   sfxGroup: {fileID: -7402906970113698265, guid: 1a1123458501858449bbc0b6bbe3ea30, type: 2}
-  uiHover: {fileID: 8300000, guid: 7cec6afcc2b4a5242a730ce9a0231ec4, type: 3}
-  uiClick: {fileID: 8300000, guid: 3561daf6b8bdd3f41a9a0f5ad515f123, type: 3}
+  uiHover: {fileID: 8300000, guid: c0b6401b814c0c34cbd9a952cc3eecd1, type: 3}
+  uiClick: {fileID: 8300000, guid: c0b6401b814c0c34cbd9a952cc3eecd1, type: 3}
   uiVolume: 1
   uiPitchRange: {x: 1, y: 1}
+  catSounds:
+  - {fileID: 8300000, guid: 06fe1154cd1bee340834e01edcf08abd, type: 3}
+  - {fileID: 8300000, guid: 6b9cb811775d5524f953516f407dc2d7, type: 3}
+  - {fileID: 8300000, guid: 09ced05bcb1490541ad48f42e71fee1f, type: 3}
+  playerStickSound: {fileID: 8300000, guid: 1f0edafbcc3bf3a4f9927d13465feb3d, type: 3}
+  playerUnstickSound: {fileID: 8300000, guid: 23108a0509bad1d4e9a6959a013b331e, type: 3}
   defaultFade: 0.25
 --- !u!82 &8991095111871068214
 AudioSource:

@@ -18,6 +18,8 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private AudioClip[] catSounds;
     [SerializeField] private AudioClip playerStickSound;
     [SerializeField] private AudioClip playerUnstickSound;
+    [SerializeField] private AudioClip catchCatSound;
+    [SerializeField] private AudioClip launchpadSound;
     
     [Header("Fade")]
     [SerializeField, Min(0f)] float defaultFade = 0.25f;
@@ -80,10 +82,13 @@ public class MusicManager : MonoBehaviour
         PlaySFX(catSounds[Random.Range(0, catSounds.Length - 1)], uiVolume, RandPitch(uiPitchRange));
     public void PlayStickPlayer() => PlaySFX(playerStickSound, uiVolume, RandPitch(uiPitchRange));
     public void PlayUnstickPlayer() => PlaySFX(playerUnstickSound, uiVolume, RandPitch(uiPitchRange));
+    public void PlayCatchCat() => PlaySFX(catchCatSound, uiVolume, RandPitch(uiPitchRange));
+    public void PlayLaunchPad() => PlaySFX(launchpadSound,  uiVolume, RandPitch(uiPitchRange));
     
     private void PlaySFX(AudioClip clip, float vol = 1f, float pitch = 1f)
     {
-        if (!clip) return; sfx.pitch = Mathf.Clamp(pitch, .1f, 3f); sfx.PlayOneShot(clip, Mathf.Clamp01(vol));
+        if (!clip) return; sfx.pitch = Mathf.Clamp(
+            pitch, .1f, 3f); sfx.PlayOneShot(clip, Mathf.Clamp01(vol));
     }
 
     float RandPitch(Vector2 r) => (r.x == r.y) ? r.x : Random.Range(Mathf.Min(r.x, r.y), Mathf.Max(r.x, r.y));

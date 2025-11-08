@@ -1,4 +1,5 @@
 using System;
+using _Scripts.TileInteractor;
 using UnityEngine;
 
 namespace _Scripts.Occupants
@@ -21,7 +22,15 @@ namespace _Scripts.Occupants
         {
             IsUnstick = false;
             Animator.SetTrigger(Move);
-            MusicManager.Instance.PlayStickPlayer();
+
+            if (TileAssigned.TileInteractor is LaunchPadInteractor)
+            {
+                MusicManager.Instance.PlayLaunchPad();
+            }
+            else
+            { 
+                MusicManager.Instance.PlayStickPlayer();
+            }
         }
 
         public void TriggerUnstick()

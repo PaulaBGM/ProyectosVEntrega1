@@ -62,13 +62,14 @@ namespace _Scripts.Tiles.TileGrid
             if (occupantOnTile is IAIOccupant catOccupant && CanCatchCat(catOccupant, playerOccupant))
             {
                 catOccupant.Catch();
+                MusicManager.Instance.PlayCatchCat();
 
                 foreach (var occupant in _occupants)
                 {
-                    if (occupant.TryGetComponent<IAIOccupant>(out _))
+                    if (occupant.TryGetComponent<IAIOccupant>(out _) && occupant.gameObject.activeSelf)
                     {
                         EventBus<OnPlayerAction>.Publish(new OnPlayerAction());
-                        break;
+                        return;
                     }
                 }
                 

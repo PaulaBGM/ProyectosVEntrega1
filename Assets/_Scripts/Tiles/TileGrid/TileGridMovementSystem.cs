@@ -94,6 +94,12 @@ namespace _Scripts.Tiles.TileGrid
             
             var tileToMove = GetAiMovementTile(aiOccupant);
 
+            if (tileToMove is null)
+            {
+                aiOccupant.IsAIActionFinished = true;
+                return;
+            }
+
             var enumerablePath = GeneratePath(aiOccupant.TileAssigned, tileToMove);
             var path = enumerablePath.ToArray();
             
@@ -110,6 +116,9 @@ namespace _Scripts.Tiles.TileGrid
                     tile.GetNeighbours().Where(neighbour => neighbour is not null)
                         .All(neighbour => neighbour.Occupant is not IPlayerOccupant))
                 .ToArray();
+            
+            if (availableTiles.Length <= 0)
+                return null;
             
             int randomIndex = UnityEngine.Random.Range(0, availableTiles.Count());
             return availableTiles[randomIndex];

@@ -43,12 +43,13 @@ namespace _Scripts.Managers
                 if (aiOccupant.IsCaught)
                     continue;
                 
+                aiOccupant.IsAIActionFinished = false;
+                
                 EventBus<OnPerformAIAction>.Publish(new OnPerformAIAction
                 {
                     AiOccupant = aiOccupant
                 });
                 
-                aiOccupant.IsAIActionFinished = false;
                 yield return new WaitUntil(() => aiOccupant.IsAIActionFinished);
             }
 

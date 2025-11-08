@@ -15,6 +15,10 @@ public class MusicManager : MonoBehaviour
     [SerializeField, Range(0f, 1f)] float uiVolume = 1f;
     [SerializeField] Vector2 uiPitchRange = new(1f, 1f);
 
+    [SerializeField] private AudioClip[] catSounds;
+    [SerializeField] private AudioClip playerStickSound;
+    [SerializeField] private AudioClip playerUnstickSound;
+    
     [Header("Fade")]
     [SerializeField, Min(0f)] float defaultFade = 0.25f;
 
@@ -35,7 +39,7 @@ public class MusicManager : MonoBehaviour
         var a = go.AddComponent<AudioSource>(); a.playOnAwake = false; a.loop = loop; a.spatialBlend = 0f; a.outputAudioMixerGroup = g; return a;
     }
 
-    // -------- Música --------
+    // -------- Mï¿½sica --------
     public void PlayMusic(AudioClip clip, float fade = -1f, bool loop = true, float startTime = 0f)
     {
         if (!clip) return;
@@ -72,7 +76,12 @@ public class MusicManager : MonoBehaviour
     // -------- SFX --------
     public void PlayUIHover() => PlaySFX(uiHover, uiVolume, RandPitch(uiPitchRange));
     public void PlayUIClick() => PlaySFX(uiClick, uiVolume, RandPitch(uiPitchRange));
-    public void PlaySFX(AudioClip clip, float vol = 1f, float pitch = 1f)
+    public void PlayCat() => 
+        PlaySFX(catSounds[Random.Range(0, catSounds.Length - 1)], uiVolume, RandPitch(uiPitchRange));
+    public void PlayStickPlayer() => PlaySFX(playerStickSound, uiVolume, RandPitch(uiPitchRange));
+    public void PlayUnstickPlayer() => PlaySFX(playerUnstickSound, uiVolume, RandPitch(uiPitchRange));
+    
+    private void PlaySFX(AudioClip clip, float vol = 1f, float pitch = 1f)
     {
         if (!clip) return; sfx.pitch = Mathf.Clamp(pitch, .1f, 3f); sfx.PlayOneShot(clip, Mathf.Clamp01(vol));
     }

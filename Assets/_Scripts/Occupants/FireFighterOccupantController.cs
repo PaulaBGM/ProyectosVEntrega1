@@ -21,11 +21,13 @@ namespace _Scripts.Occupants
         {
             IsUnstick = false;
             Animator.SetTrigger(Move);
+            MusicManager.Instance.PlayStickPlayer();
         }
 
         public void TriggerUnstick()
         {
             Animator.SetTrigger(Unstick);
+            MusicManager.Instance.PlayUnstickPlayer();
         }
         
         private void UnstickFinished()

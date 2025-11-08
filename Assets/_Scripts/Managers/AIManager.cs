@@ -44,6 +44,7 @@ namespace _Scripts.Managers
                     continue;
                 
                 aiOccupant.IsAIActionFinished = false;
+                MusicManager.Instance.PlayCat();
                 
                 EventBus<OnPerformAIAction>.Publish(new OnPerformAIAction
                 {

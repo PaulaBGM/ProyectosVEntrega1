@@ -18,28 +18,27 @@ namespace _Scripts.Input
 
         private void Awake()
         {
-            if (Instance == null)
+            if (Instance != null && Instance != this)
             {
-                Instance = this;
-                _playerInput = GetComponent<PlayerInput>();
-                
-                DontDestroyOnLoad(this);
+                Destroy(this);
+                return;
             }
-            else
-            {
-                Destroy(gameObject);
-            }
+            
+            Instance = this;
+            _playerInput = GetComponent<PlayerInput>();
         }
 
         private void OnEnable()
         {
-            EventBus<OnLevelStateChanged>.Subscribe(evt => HandleLevelStateChanged(evt.NewState));
+            EventBus<OnLevelStateChanged>.Subscribe(HandleLevelStateChanged);
             
             _playerInput.actions["Select"].started += Select;
         }
 
-        private void HandleLevelStateChanged(LevelManager.LevelState state)
+        private void HandleLevelStateChanged(OnLevelStateChanged evt)
         {
+            var state = evt.NewState;
+            
             switch (state)
             {
                 case LevelManager.LevelState.PlayerTurn:
@@ -70,7 +69,7 @@ namespace _Scripts.Input
         
         private void OnDisable()
         {
-            EventBus<OnLevelStateChanged>.Unsubscribe(evt => HandleLevelStateChanged(evt.NewState));
+            EventBus<OnLevelStateChanged>.Unsubscribe(HandleLevelStateChanged);
             
             _playerInput.actions["Select"].started -= Select;
         }

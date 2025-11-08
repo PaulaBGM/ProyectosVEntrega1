@@ -10,6 +10,12 @@ public class MusicManager : MonoBehaviour
     [SerializeField] AudioMixer masterMixer;
     [SerializeField] AudioMixerGroup musicGroup, sfxGroup;
 
+    [Header("UI Music")]
+    [SerializeField] AudioClip menuMusic;
+    [SerializeField] AudioClip levelMusic;
+    [SerializeField] AudioClip levelSelectorMusic;
+    [SerializeField] AudioClip tutorialMusic;
+    
     [Header("UI SFX")]
     [SerializeField] AudioClip uiHover, uiClick;
     [SerializeField, Range(0f, 1f)] float uiVolume = 1f;
@@ -42,6 +48,12 @@ public class MusicManager : MonoBehaviour
     }
 
     // -------- M�sica --------
+
+    public void PlayMenuMusic() => PlayMusic(menuMusic);
+    public void PlayLevelMusic() => PlayMusic(levelMusic);
+    public void PlayLevelSelectMusic() => PlayMusic(levelSelectorMusic);
+    public void PlayTutorialMusic() => PlayMusic(tutorialMusic);
+    
     public void PlayMusic(AudioClip clip, float fade = -1f, bool loop = true, float startTime = 0f)
     {
         if (!clip) return;

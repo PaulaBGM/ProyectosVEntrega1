@@ -32,6 +32,8 @@ namespace _Scripts.Events
     {
         public bool IsWin { get; set; }
     }
+    
+    public struct OnTutorialClossed : IEvent {}
 
     #endregion
 }

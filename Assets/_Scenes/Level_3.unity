@@ -623,6 +623,10 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8406035441509420827, guid: d108bbb5f491abb42a1550ace59c6567, type: 3}
+      propertyPath: hasTutorial
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8406035441509420827, guid: d108bbb5f491abb42a1550ace59c6567, type: 3}
       propertyPath: nextLevelId
       value: 1-4
       objectReference: {fileID: 0}

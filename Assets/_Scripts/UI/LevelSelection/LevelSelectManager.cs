@@ -44,13 +44,15 @@ public class LevelSelectManager : MonoBehaviour
         CreateLevelButtons();
         StartCoroutine(ShowPathsAfterFrame());
 
-        // puente: si venimos de un nivel que dejó un desbloqueo pendiente
+        // puente: si venimos de un nivel que dejï¿½ un desbloqueo pendiente
         string pending = PlayerPrefs.GetString("PendingLevelUnlock", "");
         if (!string.IsNullOrEmpty(pending))
         {
             UnlockLevelFromBridge(pending);
             PlayerPrefs.DeleteKey("PendingLevelUnlock");
         }
+        
+        MusicManager.Instance?.PlayLevelSelectMusic();
     }
 
     private IEnumerator ShowPathsAfterFrame()
@@ -77,7 +79,7 @@ public class LevelSelectManager : MonoBehaviour
 
     private void LoadUnlockedLevels()
     {
-        // aquí usamos SOLO tu arquitectura: los que vienen en el AreaData
+        // aquï¿½ usamos SOLO tu arquitectura: los que vienen en el AreaData
         foreach (var level in CurrentArea.levels)
         {
             if (level.ISUnlockedByDefault)
@@ -176,7 +178,7 @@ public class LevelSelectManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No hay suficiente botones creados aún para hacer el test de desbloqueo.");
+            Debug.LogWarning("No hay suficiente botones creados aï¿½n para hacer el test de desbloqueo.");
         }
     }
 

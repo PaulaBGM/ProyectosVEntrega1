@@ -12,7 +12,7 @@ namespace _Scripts.Managers
 
         [SerializeField]
         private int maxTurns = 5;
-
+        
         [Header("Level Flow")]
         [SerializeField] private string currentLevelId;
         [SerializeField] private string nextLevelId;
@@ -22,6 +22,7 @@ namespace _Scripts.Managers
         private int _turnsLeft;
 
         private bool isGameWon = false;
+        [SerializeField] private bool hasTutorial = false;
 
         public enum LevelState
         {
@@ -38,6 +39,16 @@ namespace _Scripts.Managers
             EventBus<OnPlayerAction>.Subscribe(HandlePlayerAction);
             EventBus<OnAITurnCompleted>.Subscribe(HandleAITurnCompleted);
             EventBus<OnGameFinished>.Subscribe(HandleOnGameFinished);
+
+            if (hasTutorial)
+            {
+                EventBus<OnTutorialClossed>.Subscribe(TutorialClossed);
+            }
+        }
+
+        private void TutorialClossed(OnTutorialClossed obj)
+        {
+            MusicManager.Instance?.PlayLevelMusic();
         }
 
         private void Start()
@@ -49,6 +60,9 @@ namespace _Scripts.Managers
             {
                 TurnsLeft = _turnsLeft
             });
+
+            if (!hasTutorial) 
+                MusicManager.Instance?.PlayLevelMusic();
         }
 
         private void HandlePlayerAction(OnPlayerAction _)
@@ -148,6 +162,12 @@ namespace _Scripts.Managers
             EventBus<OnPlayerAction>.Unsubscribe(HandlePlayerAction);
             EventBus<OnAITurnCompleted>.Unsubscribe(HandleAITurnCompleted);
             EventBus<OnGameFinished>.Unsubscribe(HandleOnGameFinished);
+            
+            if (hasTutorial)
+            {
+                EventBus<OnTutorialClossed>.Unsubscribe(TutorialClossed);
+            }
+            
         }
     }
 }

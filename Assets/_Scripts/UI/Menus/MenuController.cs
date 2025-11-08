@@ -1,4 +1,4 @@
-// MenuController.cs (versión escena 0)
+// MenuController.cs (versiï¿½n escena 0)
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -22,17 +22,19 @@ public class MenuController : MonoBehaviour
         if (playButton) playButton.onClick.AddListener(OnPlay);
         if (optionsButton) optionsButton.onClick.AddListener(OnOpenOptions);
         if (quitButton) quitButton.onClick.AddListener(OnQuit);
+        
+        MusicManager.Instance?.PlayMenuMusic();
     }
 
     private void OnPlay()
     {
-        // si tu escena de selección es la 1:
+        // si tu escena de selecciï¿½n es la 1:
         SceneManager.LoadScene(1);
     }
 
     private void OnOpenOptions()
     {
-        // no pausamos porque estamos en el menú
+        // no pausamos porque estamos en el menï¿½
         UIEvents.RequestOpenOptions(false, "MainMenu");
         // ocultar nuestro canvas si quieres
         if (mainMenuCanvas) mainMenuCanvas.SetActive(false);

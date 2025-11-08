@@ -34,6 +34,8 @@ namespace _Scripts.Managers
         private LevelState _currentState = LevelState.PlayerTurn;
         public LevelState CurrentState => _currentState;
 
+        private const string UnlockedPrefix = "UnlockedLevel_";
+
         private void OnEnable()
         {
             EventBus<OnPlayerAction>.Subscribe(HandlePlayerAction);
@@ -128,32 +130,40 @@ namespace _Scripts.Managers
                     break;
 
                 case LevelState.EndGame:
-                    HandleEndGame();
+                    if (isGameWon)
+                    {
+                        // marcamos este nivel como desbloqueado en esta sesión
+                        if (!string.IsNullOrEmpty(currentLevelId))
+                        {
+                            PlayerPrefs.SetInt(UnlockedPrefix + currentLevelId, 1);
+                        }
+
+                        // si hay siguiente, lo marcamos también y lo dejamos en el puente
+                        if (!string.IsNullOrEmpty(nextLevelId))
+                        {
+                            PlayerPrefs.SetInt(UnlockedPrefix + nextLevelId, 1);
+                            PlayerPrefs.SetString("PendingLevelUnlock", nextLevelId);
+                        }
+
+                        PlayerPrefs.Save();
+
+                        if (!string.IsNullOrEmpty(levelSelectSceneName))
+                        {
+                            SceneManager.LoadScene(levelSelectSceneName);
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("EndGame - Derrota");
+                        if (!string.IsNullOrEmpty(levelSelectSceneName))
+                        {
+                            SceneManager.LoadScene(levelSelectSceneName);
+                        }
+                    }
                     break;
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
-            }
-        }
-
-        private void HandleEndGame()
-        {
-            if (isGameWon)
-            {
-                if (!string.IsNullOrEmpty(nextLevelId))
-                {
-                    PlayerPrefs.SetString("PendingLevelUnlock", nextLevelId);
-                    PlayerPrefs.Save();
-                }
-
-                if (!string.IsNullOrEmpty(levelSelectSceneName))
-                {
-                    SceneManager.LoadScene(levelSelectSceneName);
-                }
-            }
-            else
-            {
-                Debug.Log("EndGame - Derrota");
             }
         }
 

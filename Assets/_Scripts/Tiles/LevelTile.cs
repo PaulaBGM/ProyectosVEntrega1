@@ -31,6 +31,8 @@ namespace _Scripts.Tiles
 
         public readonly int HeightLayer;
 
+        public Vector3 WorldPositionCenter => WorldPosition + new Vector3(0.5f * WidthSize, 0.5f * HeightSize, 0);
+
         //Others
 
         public IOccupant Occupant { get; set; } = null;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using _Scripts.Occupants;
 using _Scripts.Tiles;
 using UnityEngine;
+using Random = System.Random;
 
 namespace _Scripts.TileInteractor
 {
@@ -15,8 +16,27 @@ namespace _Scripts.TileInteractor
 
         public void Interact(IOccupant occupant)
         {
-            occupant.AssignTile(_destinationTile);
-            occupant.Transform.position = _desiredDestinationTilePosition.position;
+            if (_destinationTile.Occupant == null)
+            {
+                occupant.AssignTile(_destinationTile);
+                occupant.Transform.position = _desiredDestinationTilePosition.position;
+            }
+            else
+            {
+                var random = new Random();
+
+                var neighbours = new List<LevelTile>();
+                foreach (var neighbour in _destinationTile.GetNeighbours())
+                {
+                    if (neighbour is not null)
+                        neighbours.Add(neighbour);
+                }
+                    
+                var newDestinationTile =  neighbours[random.Next(neighbours.Count)];
+                
+                occupant.AssignTile(newDestinationTile);
+                occupant.Transform.position = newDestinationTile.WorldPositionCenter;
+            }
         }
 
         public void SetTileInteractor(Dictionary<Vector3, LevelTile> tiles)

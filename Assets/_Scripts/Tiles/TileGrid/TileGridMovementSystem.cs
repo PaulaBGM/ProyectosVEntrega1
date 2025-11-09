@@ -84,8 +84,8 @@ namespace _Scripts.Tiles.TileGrid
             
             playerOccupant.TriggerMove();
             
-            EventBus<OnPlayerAction>.Publish(new OnPlayerAction());
             TryExecuteTileInteractor(tileToMove, playerOccupant);
+            EventBus<OnPlayerAction>.Publish(new OnPlayerAction());
         }
         
         private void MoveAIOccupantToTile(OnPerformAIAction eventData)

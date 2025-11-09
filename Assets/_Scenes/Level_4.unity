@@ -1049,6 +1049,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LivesCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6203648381794134300, guid: cdbae94c3e131d24bb7d12262e8ba4ce, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7503488976991208104, guid: cdbae94c3e131d24bb7d12262e8ba4ce, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

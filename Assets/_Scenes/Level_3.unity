@@ -6845,6 +6845,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LivesCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 3692467081253077276, guid: cdbae94c3e131d24bb7d12262e8ba4ce, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -100
+      objectReference: {fileID: 0}
     - target: {fileID: 6203648381794134300, guid: cdbae94c3e131d24bb7d12262e8ba4ce, type: 3}
       propertyPath: m_IsActive
       value: 0

@@ -62,7 +62,7 @@ namespace _Scripts.Tiles.TileGrid
                 marker.transform.position = new Vector3(
                     tile.WorldPosition.x + tile.TilemapMember.cellSize.x * 0.5f,
                     tile.WorldPosition.y +tile.TilemapMember.cellSize.y * 0.5f,
-                    transform.position.z);
+                    0);
                 
                 HighlightOptions(marker, tile);
             }
@@ -93,27 +93,6 @@ namespace _Scripts.Tiles.TileGrid
                 DefaultColor;
         }
         
-        // private void HighlightMovementTiles(IEnumerable<LevelTile> movementTiles)
-        // {
-        //     var tilesHighlighted = movementTiles as LevelTile[] ?? movementTiles.ToArray();
-        //     _tilesHighlighted = tilesHighlighted;
-        //     
-        //     foreach (var tile in tilesHighlighted)
-        //     {
-        //         tile.TilemapMember.SetTileFlags(tile.LocalPosition, TileFlags.LockTransform);
-        //         tile.TilemapMember.SetColor(tile.LocalPosition, Color.blue);
-        //     }
-        // }
-        //
-        // private void HideHighlightMovementTiles(Vector3 _)
-        // {
-        //     foreach (var tile in _tilesHighlighted)
-        //     {
-        //         tile.TilemapMember.SetTileFlags(tile.LocalPosition, TileFlags.LockTransform);
-        //         tile.TilemapMember.SetColor(tile.LocalPosition, Color.white);
-        //     }
-        // }
-
         private void OnDisable()
         {
             mediator.OnMovementTilesSet -= HighlightMovementTiles;

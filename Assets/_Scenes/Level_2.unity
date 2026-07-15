@@ -243,6 +243,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2708695204504706717, guid: 4fd707de0d272834aa416349d52e53a7, type: 3}
   m_PrefabInstance: {fileID: 152118611}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &161339968 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4448355616753589275, guid: cdbae94c3e131d24bb7d12262e8ba4ce, type: 3}
+  m_PrefabInstance: {fileID: 234076102}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01f73190ea7d2b34c97a888be3c1d06d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &166177954
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,6 +498,10 @@ PrefabInstance:
     - target: {fileID: 8596140201241224078, guid: cdbae94c3e131d24bb7d12262e8ba4ce, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8952572203721160479, guid: cdbae94c3e131d24bb7d12262e8ba4ce, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -828,7 +843,7 @@ TilemapRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
@@ -1586,6 +1601,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6685499562472928423, guid: b6a0d06a2288fbf48a26519c377b8cac, type: 3}
+      propertyPath: lives
+      value: 
+      objectReference: {fileID: 161339968}
     - target: {fileID: 7027915563536069274, guid: b6a0d06a2288fbf48a26519c377b8cac, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -6752,7 +6771,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5447574509755087242, guid: 1de3d12ee65f5c641a827771bf10d011, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 5447574509755087242, guid: 1de3d12ee65f5c641a827771bf10d011, type: 3}
       propertyPath: m_LocalRotation.w
